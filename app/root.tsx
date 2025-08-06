@@ -9,6 +9,8 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { Toaster } from "sonner";
+import SplashScreen from "./components/skeletons/splash-screen";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -36,6 +38,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <Toaster
+          richColors
+          closeButton
+          position="top-right"
+          toastOptions={{
+            classNames: {
+              actionButton: '!px-2 !rounded-full !text-white',
+            },
+          }}
+        />
       </body>
     </html>
   );
@@ -43,6 +55,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
+}
+
+export function HydrateFallback() {
+  return <SplashScreen />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
