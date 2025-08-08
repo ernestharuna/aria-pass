@@ -1,35 +1,51 @@
 import { Facebook, Instagram, Twitter } from 'lucide-react'
+import { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 
 export default function DefaultLayout() {
+    const [scrolled, setScrolled] = useState<boolean>(false);
+
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 70);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+
     return (
         <>
-            <nav className='sticky top-0 z-10 bg-white py-4 px-18 border-b border-[#F3F3F4] flex items-center justify-between'>
-                <Link to="/" className='text-xl'>
-                    <span className=" text-gray-400 font-medium">Aria</span>
-                    <span className="text-black font-medium">Pass</span>
+            <nav className={`sticky top-0 z-10 bg-white py-4 px-18 flex items-center justify-between transition-all ${scrolled && 'shadow-lg'}`}>
+                <Link to="/" className='flex items-center'>
+                    <div className="h-8 w-8 rounded-full bg-[#F6A700] me-3" />
+                    <div className='text-xl '>
+                        <span className=" text-gray-400 font-medium">Aria</span>
+                        <span className="text-black font-medium">Pass</span>
+                    </div>
                 </Link>
 
-                <ul className='flex gap-8 text-xs'>
+                <ul className='flex gap-8 text-sm'>
                     {['Explore', 'Organisers', 'Programs', 'Courses'].map((item) => (
-                        <li className='hover:text-sky-600 hover:underline hover:underline-4 underline-offset-2 transition-all'>
+                        <li className='hover:text-gray-400 transition-all'>
                             <Link to={item.toLowerCase()}>{item}</Link>
                         </li>
                     ))}
                 </ul>
 
-                <div>
-                    <Button size={'sm'} className='px-6'>
-                        Sign in
+                <div className='flex items-center gap-2'>
+                    <Button size={'sm'} variant={'ghost'} className='px-6 py-6 rounded-full'>
+                        Register
+                    </Button>
+                    <Button size={'sm'} className='px-6 py-6 bg-[#3A3546] rounded-full'>
+                        Log in
                     </Button>
                 </div>
             </nav>
 
             <Outlet />
 
-            <footer className="border bg-white text-muted-foreground px-6 pt-14">
+            <footer className="bg-white text-muted-foreground px-6 pt-20">
                 <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
                         <h2 className="text-lg font-semibold text-foreground">

@@ -1,13 +1,13 @@
-import { BrMd } from "~/components/utility/line-break";
-import type { Route } from "../+types/layout";
-import { TypographyH1 } from "~/components/typography/typography-h1";
-import { TypographyH2 } from "~/components/typography/typography-h2";
-import EventCard from "~/components/cards/event-card";
-import { TypographyLead } from "~/components/typography/typography-lead";
-import { Button } from "~/components/ui/button";
-import { BookCheck, ChevronRight, Piano, UsersRound } from "lucide-react";
 import { Link } from "react-router";
+import type { Route } from "../+types/layout";
+import AnnouncementBanner from "./announcement-banner";
+import { BrMd } from "~/components/utility/line-break";
+import { ChevronRight, LibraryBig, Piano, UsersRound } from "lucide-react";
 import CustomAvatar from "~/components/custom/custom-avatar";
+import SearchBar from "./search-bar";
+import { FeedFilter } from "./feed-filter";
+import EventCard from "~/components/cards/event-card";
+import { Button } from "~/components/ui/button";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -16,149 +16,108 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-const tracks = [
-  {
-    image_path: "/images/event-flyer.jpg",
-    title: "Mobile application developer",
-    avgSalary: "400,000",
-    openRoles: "500+",
-    rating: 4.8,
-    ratingCount: 97,
-    hours: 50,
-  },
-  {
-    image_path: "/images/event-flyer.jpg",
-    title: "Fullstack Web developer",
-    avgSalary: "400,000",
-    openRoles: "500+",
-    rating: 5.0,
-    ratingCount: 97,
-    hours: 40,
-  },
-  {
-    image_path: "/images/event-flyer.jpg",
-    title: "Tech project manager",
-    avgSalary: "450,000",
-    openRoles: "580+",
-    rating: 4.9,
-    ratingCount: 43,
-    hours: 60,
-  },
-  {
-    image_path: "/images/event-flyer.jpg",
-    title: "Frontend Engineer",
-    avgSalary: "250,000",
-    openRoles: "820+",
-    rating: 5.0,
-    ratingCount: 99,
-    hours: 60,
-  },
-  {
-    image_path: "/images/event-flyer.jpg",
-    title: "Frontend Engineer",
-    avgSalary: "250,000",
-    openRoles: "820+",
-    rating: 5.0,
-    ratingCount: 99,
-    hours: 60,
-  },
-];
-
 export default function Home() {
   return (
-    <div className="fadeIn animated bg-gray-50">
-      <header className="py-20">
-        <div className="container text-center justify-center flex flex-col gap-10">
-          <TypographyH1>Experience the Community <BrMd /> Behind the Concerts.</TypographyH1>
+    <div className="fadeIn animated">
+      <header className="flex flex-col gap-5 min-h-[65vh]">
+        <AnnouncementBanner />
 
-          <div className="flex justify-center gap-3 py-3 px-7 shadow rounded-full border border-[#F3F3F4] w-max mx-auto bg-white">
-            <p className="">Tickets.</p>
-            <p className="">Concerts.</p>
-            <p className="">Recitals.</p>
-            <p className="">Exams.</p>
-            <p className="">Courses.</p>
-          </div>
-        </div>
-      </header>
+        <section className="container flex justify-between gap-40 items-center mt-5">
+          <div className="flex-1">
+            <h1 className="text-5xl font-semibold leading-13 text-[#0D0C22] -tracking-normal first:mt-0">Experience the Community <BrMd /> Behind the Concerts</h1>
+            <p className="text-[#0D0C22] text-sm mt-5">
+              Explore work from the most talented and accomplished <BrMd /> designers ready to take on your next project.
+            </p>
 
-      <main className="mt-6">
-        <section className="container pb-10">
-          <TypographyH2>
-            Upcoming Concerts
-          </TypographyH2>
+            <div className="mt-10 flex flex-col items-start gap-3">
+              <div className="flex gap-4 items-stretch">
+                <Link to="" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full bg-[#3A3546] text-white ">
+                  <Piano size={16} /> <span>Events</span>
+                </Link>
+                <Link to="" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
+                  <LibraryBig size={16} /> <span>Theory & Exams</span>
+                </Link>
+                <Link to="" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
+                  <UsersRound size={16} /> <span>Organisers</span>
+                </Link>
+              </div>
 
-          <div className="mt-5 flex justify-between max-h-98">
-            <div className="snap-x snap-mandatory flex overflow-x-auto gap-5 pb-5">
-              {tracks.map((track, index) => (
-                <EventCard key={index} track={track} index={index} />
-              ))}
-            </div>
-
-            <div className="relative -top-50">
-              <div className="bg-white rounded-lg border w-[450px] h-[700px] overflow-y-auto shadow-lg">
-                <div className="p-3 flex gap-4 sticky top-0 bg-white z-10">
-                  <Link to="#" className="rounded bg-sky-50 text-center text-xs text-sky-500 flex-1 py-2.5 px-4 flex items-center justify-center gap-2">
-                    <Piano size={15} /> <span>Concerts</span>
-                  </Link>
-                  <Link to="#" className="rounded text-center text-xs text-gray-400 hover:bg-gray-50 flex-1 py-2.5 px-4 flex items-center justify-center gap-2">
-                    <UsersRound size={15} /> <span>Organisers</span>
-                  </Link>
-                  <Link to="#" className="rounded text-center text-xs text-gray-400 hover:bg-gray-50 flex-1 py-2.5 px-4 flex items-center justify-center gap-2">
-                    <BookCheck size={15} /> <span>Exams</span>
-                  </Link>
+              <div className="w-full">
+                <div className="mb-4">
+                  <SearchBar />
                 </div>
-
-                <section>
-                  {Array.from({ length: 8 }).map((_, index) => (
-                    <div className="p-5 border-b">
-                      <div className="flex gap-1.5 items-start mb-2">
-                        <CustomAvatar styles="h-10 w-10 text-xs" />
-                        <div>
-                          <div className="font-semibold tracking-tight text-sm">Fire Keys Ensemble</div>
-                          <div className="text-xs text-gray-400">Coming up on March 14, 2025</div>
-
-                          <div className="text-xs tracking-tight my-3">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum repellat sequi aliquam ipsum aut, nihil accusantium enim est, maiores nostrum laboriosam ad dignissimos, facilis esse quis impedit quae aliquid soluta.
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="bg-slate-100 rounded-lg w-full group-hover:opacity-75 aspect-square lg:h-50 overflow-hidden">
-                        <img
-                          src="/images/event-flyer.jpg"
-                          alt="Event Banner"
-                          className="h-full w-full object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-
-                    </div>
+                <div className="flex items-center gap-3">
+                  <span className="font-semibold text-xs">Popular:</span>
+                  {["Free ticket", "Christmas Carol", "Concert", "Classical"].map((item) => (
+                    <Link to={'?' + item.toLowerCase()} className="px-4 py-1.5 border border-gray-200 text-xs font-light rounded-full hover:bg-gray-50">
+                      {item.toLowerCase()}
+                    </Link>
                   ))}
-                </section>
+                </div>
               </div>
             </div>
           </div>
-        </section>
 
-        <section className="bg-gray-800">
-          <div className="container py-20">
-            <div className="text-white flex flex-col gap-4 items-start">
-              <h2 className="scroll-m-20 pb-2 text-5xl font-semibold tracking-tight first:mt-0">
-                Publish Events.
-                Sell Tickets
-              </h2>
-
-              <TypographyLead>
-                Sell Tickets with less than 2% commission.
-              </TypographyLead>
-
-              <Button className="flex gap-2 items-center bg-white text-black py-5 px-10! mt-5">
-                <span>Become a Member</span><ChevronRight />
-              </Button>
+          <div className="hidden lg:inline-block w-[650px] h-[450px]">
+            <div className="bg-gray-200 rounded-3xl relative w-[650px] h-[450px]">
+              <span className="absolute bottom-5 right-5 shadow-md rounded-full flex items-center bg-white pe-3">
+                <CustomAvatar styles="h-10 w-10 text-xs" /> <span className="font-semibold text-xs">John Ode Choral</span>
+              </span>
             </div>
           </div>
         </section>
+      </header>
+
+      <main>
+        <div className="container flex items-center justify-between mb-8">
+          <FeedFilter />
+
+          <div className="flex gap-4 items-center">
+            {["Choral", "Ensemble", "Church Music", "Recitals", "Classical Band", "Chamber"].map((item) => (
+              <Link to={""} className="rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-medium tracking-tight">{item}</Link>
+            ))}
+          </div>
+          <Button variant={"secondary"} className="rounded-full flex justify-between gap-2 px-5">
+            <span>Create Event</span>
+            <ChevronRight />
+          </Button>
+
+        </div>
+
+        <div className="container grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-5">
+          {Array.from({ length: 4 }).map((track, index) => (
+            <EventCard key={index} track={track} index={index} />
+          ))}
+        </div>
+
+        <div
+          className="container rounded-3xl py-6 px-8 my-10"
+          style={{
+            backgroundImage: `linear-gradient(90deg, #FAF9FB, #FAF9FB00),
+            url('/images/ensemble-banner.png')`,
+            backgroundSize: 'cover, cover',
+            backgroundPosition: 'center, center',
+          }}
+        >
+          <div>
+            <div className="h-10 w-10 rounded-full bg-[#F6A700] mb-3" />
+            <h2 className="text-xl font-bold mb-2">Get more leads, pay no fees</h2>
+            <p className="font-light text-xs mb-3">Rank higher, skip the fees, and level up your profile — all <br /> for $8/month.</p>
+
+            <Button className="rounded-full px-10">
+              Become an Organiser
+            </Button>
+          </div>
+        </div>
+
+        <div className="container grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-5">
+          {Array.from({ length: 4 }).map((track, index) => (
+            <EventCard key={index} track={track} index={index} />
+          ))}
+        </div>
       </main>
+
     </div>
   );
 }
+
