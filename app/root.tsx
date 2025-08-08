@@ -8,8 +8,12 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+<<<<<<< HEAD
 import "./styles/app.css";
 import "./styles/global.css";
+=======
+import "./app.css";
+>>>>>>> aae48be37fd47abec2ae73fbcf8ff8f4ac5e0349
 import { Toaster } from "sonner";
 import SplashScreen from "./components/skeletons/splash-screen";
 
