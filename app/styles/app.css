@@ -15,6 +15,38 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    /* border: 2px solid black; */
+    margin: 0 auto;
+    padding: 0 1.5rem;
+
+    @media (width >=40rem) {
+      max-width: 40rem !important;
+    }
+
+    @media (width >=48rem) {
+      max-width: 48rem !important;
+    }
+
+    @media (width >=64rem) {
+      max-width: 64rem !important;
+    }
+
+    @media (width >=80rem) {
+      max-width: 80rem !important;
+    }
+
+    @media (width >=96rem) {
+      max-width: 112rem !important;
+    }
+  }
 }
 
 @theme inline {
@@ -128,6 +160,7 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
