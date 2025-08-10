@@ -1,6 +1,6 @@
-import client from "~/lib/interceptor";
 import Cookies from "js-cookie";
-import { storageKeys } from "~/lib/config";
+import { storageKeys } from "~/config/keys";
+import client from "~/http/client";
 
 export default function useSession() {
     async function validateSession() {

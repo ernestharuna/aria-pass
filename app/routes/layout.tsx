@@ -1,11 +1,16 @@
-import { Facebook, Instagram, Twitter } from 'lucide-react'
-import { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router'
+import { ChevronRight, Facebook, Instagram, Menu, Twitter, X } from 'lucide-react'
+import { Suspense, useEffect, useState } from 'react';
+import { Await, Link, NavLink, Outlet } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
+import AnnouncementBanner from './feed/announcement-banner';
+import type { Route } from './+types/layout';
 
-export default function DefaultLayout() {
+export default function DefaultLayout({ loaderData }: Route.ComponentProps) {
+    const [menu, setMenu] = useState<boolean>(false);
     const [scrolled, setScrolled] = useState<boolean>(false);
+
+    const NAV = ['Explore', 'Organisers', 'Programs', 'Courses']
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 70);
@@ -13,35 +18,106 @@ export default function DefaultLayout() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const { session, user }: { session: boolean, user: User } = loaderData ?? { session: false, user: { name: "" } as User };
 
     return (
         <>
-            <nav className={`sticky top-0 z-10 bg-white py-4 px-18 flex items-center justify-between transition-all ${scrolled && 'shadow-lg'}`}>
-                <Link to="/" className='flex items-center'>
-                    <div className="h-8 w-8 rounded-full bg-[#F6A700] me-3" />
-                    <div className='text-xl '>
-                        <span className=" text-gray-400 font-medium">Aria</span>
-                        <span className="text-black font-medium">Pass</span>
+            <div className={`sticky top-0 z-10 ${scrolled && 'shadow'}`}>
+                <nav className={` bg-white py-4 container flex items-center justify-between transition-all `}>
+                    <Link to="/" className='flex items-center'>
+                        <div className="h-6 w-6 rounded-full bg-primary-theme me-2" />
+                        <div className='text-xl font-bold font-mono tracking-tighter font-stretch-90% '>
+                            <span className="text-black">Aria</span>
+                            <span className="text-black">Pass</span>
+                        </div>
+                    </Link>
+
+                    <ul className='hidden md:flex gap-8 text-sm'>
+                        {NAV.map((item) => (
+                            <li className='hover:text-gray-400 transition-all'>
+                                <Link to={item.toLowerCase()}>{item}</Link>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div className='hidden md:flex items-center gap-2'>
+                        <Button size={'sm'} variant={'ghost'} className='px-6 py-6 rounded-full'>
+                            Register
+                        </Button>
+                        <Link to={"/login"}>
+                            <Button size={'sm'} className='px-6 py-6 bg-[#3A3546] rounded-full cursor-pointer'>
+                                Log in
+                            </Button>
+                        </Link>
                     </div>
-                </Link>
 
-                <ul className='flex gap-8 text-sm'>
-                    {['Explore', 'Organisers', 'Programs', 'Courses'].map((item) => (
-                        <li className='hover:text-gray-400 transition-all'>
-                            <Link to={item.toLowerCase()}>{item}</Link>
-                        </li>
-                    ))}
-                </ul>
-
-                <div className='flex items-center gap-2'>
-                    <Button size={'sm'} variant={'ghost'} className='px-6 py-6 rounded-full'>
-                        Register
-                    </Button>
-                    <Button size={'sm'} className='px-6 py-6 bg-[#3A3546] rounded-full'>
-                        Log in
-                    </Button>
-                </div>
-            </nav>
+                    <button aria-label="Menu" className="block md:hidden" type="button" onClick={() => setMenu(!menu)}>
+                        {!menu
+                            ? <Menu />
+                            : <X />
+                        }
+                    </button>
+                </nav>
+                {menu && (
+                    <div className="bg-white animated fadeIn rounded-lg block md:hidden mx-auto px-4 py-4 z-50">
+                        <div>
+                            <div className="mb-3">
+                                {NAV.map((link) => (
+                                    <div key={link} className="border-b py-4">
+                                        <NavLink
+                                            onClick={() => setMenu(!menu)}
+                                            to={link}
+                                            className={({ isActive }) => isActive ? "text-primary font-bold" : "text-gray-500"}
+                                        >
+                                            {link}
+                                        </NavLink>
+                                    </div>
+                                ))}
+                                <div className="py-4">
+                                    <a href="tel:+2348026658956" className="flex text-foreground text-sm font-light gap-2 items-center">
+                                        <span>Contact support</span> <ChevronRight size={12} />
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="flex flex-col gap-4">
+                                <Suspense fallback={<div className="h-10 w-full rounded bg-gray-100 animate-pulse" />}>
+                                    <Await resolve={session}>
+                                        {(session: boolean) =>
+                                            session ? (
+                                                <Link
+                                                    onClick={() => setMenu(!menu)}
+                                                    to="/dashboard"
+                                                    className="bg-secondary rounded-[6px] text-secondary-foreground text-xs font-medium hover:shadow-lg py-3 text-center uppercase"
+                                                >
+                                                    Dashboard
+                                                </Link>
+                                            ) : (
+                                                <>
+                                                    <Link
+                                                        onClick={() => setMenu(!menu)}
+                                                        to="/login"
+                                                        className="bg-white border border-gray-100 rounded-full text-center text-gray-600 text-sm w-full block font-bold hover:shadow-lg py-3"
+                                                    >
+                                                        Log in
+                                                    </Link>
+                                                    <Link
+                                                        onClick={() => setMenu(!menu)}
+                                                        to="/register"
+                                                        className="rounded-full text-white text-center text-sm w-full block font-bold bg-[#3A3546] py-3"
+                                                    >
+                                                        Sign up
+                                                    </Link>
+                                                </>
+                                            )
+                                        }
+                                    </Await>
+                                </Suspense>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <AnnouncementBanner />
+            </div>
 
             <Outlet />
 
@@ -54,7 +130,7 @@ export default function DefaultLayout() {
                                 <span className="text-black font-medium">Pass</span>
                             </Link>
                         </h2>
-                        <p className="mt-2 mb-6 text-xs w-sm">
+                        <p className="mt-2 mb-6 text-xs max-w-sm">
                             A space for classical musicians to connect, share, and explore the world of music.
                         </p>
 

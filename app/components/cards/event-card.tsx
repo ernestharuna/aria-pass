@@ -5,7 +5,7 @@ export default function EventCard({ track, index }: { track: any, index: number 
         <div>
             <div key={index} className="bg-white border border-gray-100 snap-center  flex flex-col gap-2 hover:shadow-lg rounded-lg group relative transition">
                 {/* event banner */}
-                <div className="bg-slate-100 rounded-t w-full group-hover:opacity-75 aspect-square lg:h-50 overflow-hidden">
+                <div className="bg-slate-100 rounded-t w-full group-hover:opacity-75 aspect-square h-28 lg:h-50 overflow-hidden">
                     <img
                         src="/images/event-flyer.jp"
                         alt={"..."}
@@ -25,10 +25,10 @@ export default function EventCard({ track, index }: { track: any, index: number 
 
                     <div className='flex flex-col pb-1 w-full'>
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1 mb-1">
-                                <MapPin strokeWidth={1.5} size={14} /> <span className='font-light text-xs'>Nigeria</span>
+                            <div className="flex items-center gap-1">
+                                <MapPin strokeWidth={1.5} size={14} /> <span className='font-light text-base'>Nigeria</span>
                             </div>
-                            <div className="flex items-center gap-1 mb-1 text-gray-400">
+                            <div className="flex items-center gap-1 mb-1 text-gray-600">
                                 <Eye strokeWidth={1.5} size={14} /> <span className='font-light text-xs'>1,242</span>
                             </div>
                         </div>

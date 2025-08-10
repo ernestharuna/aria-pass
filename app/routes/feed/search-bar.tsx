@@ -31,7 +31,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             />
             <button
                 type="submit"
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-[#F6A700] hover:bg-[#f68b00] text-BLACK mr-2 transition-colors"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-primary-theme hover:bg-primary text-white mr-2 transition-colors"
             >
                 <Search size={20} strokeWidth={2.5}/><span className="hidden">"</span>
             </button>
