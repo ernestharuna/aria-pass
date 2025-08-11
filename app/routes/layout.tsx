@@ -34,7 +34,7 @@ export default function DefaultLayout({ loaderData }: Route.ComponentProps) {
 
                     <ul className='hidden md:flex gap-8 text-sm'>
                         {NAV.map((item) => (
-                            <li className='hover:text-gray-400 transition-all'>
+                            <li key={item} className='hover:text-gray-400 transition-all'>
                                 <Link to={item.toLowerCase()}>{item}</Link>
                             </li>
                         ))}

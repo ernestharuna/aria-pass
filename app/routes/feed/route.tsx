@@ -7,6 +7,7 @@ import SearchBar from "./search-bar";
 import { FeedFilter } from "./feed-filter";
 import EventCard from "~/components/cards/event-card";
 import { Button } from "~/components/ui/button";
+import StackedSwipeDeck from "~/components/cards/stacked-swipe-deck";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -14,6 +15,13 @@ export function meta({ }: Route.MetaArgs) {
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
+
+const sample = [
+  { id: 1, title: "Beethoven: Symphony No.5", subtitle: "Royal Hall • London", image: "/images/event-flyer.jpg" },
+  { id: 2, title: "Verdi: Requiem", subtitle: "Opera House • Milan", image: "/images/event-flyer.jpg" },
+  { id: 3, title: "Mozart: Piano Recital", subtitle: "Concert Hall • Berlin", image: "/images/event-flyer.jpg" },
+  { id: 4, title: "Brahms: Chamber Night", subtitle: "Studio • New York", image: "/images/event-flyer.jpg" },
+];
 
 export default function Home() {
   return (
@@ -47,8 +55,8 @@ export default function Home() {
 
                 <div className="flex items-center gap-3">
                   <span className="font-semibold text-xs">Popular:</span>
-                  {["Free ticket", "Christmas Carol", "Concert", "Classical"].map((item) => (
-                    <Link to={'?' + item.toLowerCase()} className="text-nowrap px-4 py-1.5 border border-gray-200 text-xs font-light rounded-full hover:bg-gray-50">
+                  {["Free ticket", "Christmas Carol", "Concert", "Classical"].map((item, index) => (
+                    <Link to={'?' + item.toLowerCase()} key={item + index} className="text-nowrap px-4 py-1.5 border border-gray-200 text-xs font-light rounded-full hover:bg-gray-50">
                       {item.toLowerCase()}
                     </Link>
                   ))}
@@ -72,7 +80,7 @@ export default function Home() {
           <FeedFilter />
           <div className="flex gap-4 items-center">
             {["Choral", "Ensemble", "Church Music", "Recitals", "Classical Band", "Chamber"].map((item) => (
-              <Link to={""} className="rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-medium tracking-tight">{item}</Link>
+              <Link to={""} key={item} className="rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-medium tracking-tight">{item}</Link>
             ))}
           </div>
           <Button variant={"secondary"} className="rounded-full flex justify-between gap-2 px-5">
@@ -95,18 +103,30 @@ export default function Home() {
 
           <div className="container flex gap-4 items-center overflow-x-auto">
             {["Choral", "Ensemble", "Church Music", "Recitals", "Classical Band", "Chamber"].map((item) => (
-              <Link to={""} className="text-nowrap rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-medium tracking-tight">{item}</Link>
+              <Link to={`?`} key={item} className="text-nowrap rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-medium tracking-tight">{item}</Link>
             ))}
           </div>
         </div>
 
-        <div className="container grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-5">
+        {/* Events ---------------------------------------------- */}
+        <div className="hidden container md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-5">
           {Array.from({ length: 4 }).map((track, index) => (
             <EventCard key={index} track={track} index={index} />
           ))}
         </div>
-        <div className="container">
 
+        <div className="flex items-center justify-center pt-10 pb-18">
+          <StackedSwipeDeck
+            initialCards={sample}
+            width={350}
+            height={520}
+            onSwipe={(card, dir) => console.log("swiped", card.title, dir > 0 ? "right" : "left")}
+          />
+        </div>
+        {/* Events End ---------------------------------------------- */}
+
+
+        <div className="container">
           <div
             className=" rounded-3xl py-6 px-8 my-10"
             style={{

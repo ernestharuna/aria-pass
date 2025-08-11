@@ -1,5 +1,4 @@
 import { Form, Link, redirect, type MetaFunction } from "react-router";
-import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Eye, EyeClosed } from "lucide-react";
@@ -34,6 +33,8 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     });
     return redirect(route);
   } catch ({ response }: any) {
+    console.log(response);
+    
     const error: any = response?.data?.errors;
     return error;
   }
@@ -41,10 +42,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
 export default function Login({ actionData }: Route.ComponentProps) {
   const errors = actionData;
-  const handleGoogleSignIn = () => {
-    window.location.href = `${API_URL}/api/auth/google/redirect`;
-  };
-
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -80,11 +77,11 @@ export default function Login({ actionData }: Route.ComponentProps) {
               <div className="mb-5">
                 <Label className="text-xs pb-1">Email address</Label>
                 <Input
-                  className="py-5 rounded-full border border-gray-400"
+                  className="bg-white/10 backdrop-blur-3xl py-5 rounded-full border border-gray-200"
                   id="email"
                   type="email"
                   name="email"
-                  placeholder="m@example.com"
+                  placeholder="mozart@email.com"
                   required
                 />
                 <InputError for="email" error={errors} />
@@ -98,7 +95,7 @@ export default function Login({ actionData }: Route.ComponentProps) {
                 </div>
                 <div className="relative">
                   <Input
-                    className="py-5 rounded-full border border-gray-400 pr-12"
+                    className="bg-white/10 backdrop-blur-3xl py-5 rounded-full border border-gray-200 pr-12"
                     id="password"
                     type={showPassword ? "text" : "password"}
                     name="password"
