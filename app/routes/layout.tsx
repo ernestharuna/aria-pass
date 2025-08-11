@@ -41,9 +41,11 @@ export default function DefaultLayout({ loaderData }: Route.ComponentProps) {
                     </ul>
 
                     <div className='hidden md:flex items-center gap-2'>
-                        <Button size={'sm'} variant={'ghost'} className='px-6 py-6 rounded-full'>
-                            Register
-                        </Button>
+                        <Link to={"register"}>
+                            <Button size={'sm'} variant={'ghost'} className='px-6 py-6 rounded-full cursor-pointer'>
+                                Register
+                            </Button>
+                        </Link>
                         <Link to={"/login"}>
                             <Button size={'sm'} className='px-6 py-6 bg-[#3A3546] rounded-full cursor-pointer'>
                                 Log in

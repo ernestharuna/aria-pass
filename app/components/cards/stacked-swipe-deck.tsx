@@ -75,8 +75,8 @@ export default function StackedSwipeDeck({
                 const posFromTop = topIndex - i;
 
                 // Visual stacking offsets for the **outer** wrapper (static)
-                const translateY = posFromTop * 10; // px downward per layer
-                const translateX = posFromTop * 8; // px right per layer
+                const translateY = posFromTop * 12; // px downward per layer
+                const translateX = posFromTop * 10; // px right per layer
                 const scale = 1 - posFromTop * 0.03;
                 const rotate = posFromTop % 2 === 0 ? -3 : 3;
                 const zIndex = i; // bottom: low, top: high
@@ -100,7 +100,7 @@ export default function StackedSwipeDeck({
                             dragElastic={0.2}
                             whileTap={{ scale: 1.02 }}
                             onDragEnd={(e, info) => isTop && handleDragEnd(card, e, info)}
-                            className="w-full h-full rounded-2xl overflow-hidden bg-white"
+                            className={`w-full h-full rounded-3xl overflow-hidden bg-white border-1 ${!isTop && 'opacity-30!'}`}
                             style={{ touchAction: "pan-y" }}
                             // if this card is currently being removed, animate it off-screen
                             animate={

@@ -2,7 +2,6 @@ import { Link } from "react-router";
 import type { Route } from "../+types/layout";
 import { BrMd } from "~/components/utility/line-break";
 import { ChevronRight, LibraryBig, Piano, UsersRound } from "lucide-react";
-import CustomAvatar from "~/components/custom/custom-avatar";
 import SearchBar from "./search-bar";
 import { FeedFilter } from "./feed-filter";
 import EventCard from "~/components/cards/event-card";
@@ -65,15 +64,23 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hidden lg:inline-block w-[650px] h-[450px]">
+          {/* <div className="hidden lg:inline-block w-[650px] h-[450px]">
             <div className="bg-gray-200 rounded-3xl relative w-[650px] h-[450px]">
               <span className="absolute bottom-5 right-5 shadow-md rounded-full flex items-center bg-white pe-3">
                 <CustomAvatar styles="h-10 w-10 text-xs" /> <span className="font-semibold text-xs">John Ode Choral</span>
               </span>
             </div>
+          </div> */}
+          <div className="hidden lg:flex items-center justify-center">
+            <StackedSwipeDeck
+              initialCards={sample}
+              width={650}
+              height={450}
+              onSwipe={(card, dir) => console.log("swiped", card.title, dir > 0 ? "right" : "left")}
+            />
           </div>
         </section>
-      </header>
+      </header >
 
       <main>
         <div className="hidden container md:flex items-center justify-between mb-8">
@@ -87,7 +94,6 @@ export default function Home() {
             <span>Create Event</span>
             <ChevronRight />
           </Button>
-
         </div>
 
         <div className="md:hidden mb-4">
@@ -103,7 +109,7 @@ export default function Home() {
 
           <div className="container flex gap-4 items-center overflow-x-auto">
             {["Choral", "Ensemble", "Church Music", "Recitals", "Classical Band", "Chamber"].map((item) => (
-              <Link to={`?`} key={item} className="text-nowrap rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-medium tracking-tight">{item}</Link>
+              <Link to={`?`} key={item} className="text-nowrap rounded-full py-2 px-4 hover:bg-stone-100 text-sm tracking-tight">{item}</Link>
             ))}
           </div>
         </div>
@@ -115,7 +121,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="flex items-center justify-center pt-10 pb-18">
+        <div className="md:hidden flex items-center justify-center py-10">
           <StackedSwipeDeck
             initialCards={sample}
             width={350}
@@ -124,7 +130,6 @@ export default function Home() {
           />
         </div>
         {/* Events End ---------------------------------------------- */}
-
 
         <div className="container">
           <div
@@ -147,14 +152,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="container grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-5">
+        <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-5">
           {Array.from({ length: 4 }).map((track, index) => (
             <EventCard key={index} track={track} index={index} />
           ))}
         </div>
       </main>
 
-    </div>
+    </div >
   );
 }
 

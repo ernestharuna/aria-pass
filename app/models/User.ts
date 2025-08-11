@@ -5,5 +5,6 @@ interface User extends Model {
     profilePicture: string;
     biography: string;
     emailVerifiedAt: string;
-    accountType: 'user' | 'admin'
+    accountType: 'user' | 'admin';
+    avatarUrl: string
 }
