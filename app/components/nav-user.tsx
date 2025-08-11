@@ -6,6 +6,7 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react"
+import { Form, Link } from "react-router"
 
 import {
   Avatar,
@@ -27,9 +28,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "~/components/ui/sidebar"
+import { Button } from "./ui/button"
 
 export function NavUser({ user }: { user: User }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -69,14 +71,20 @@ export function NavUser({ user }: { user: User }) {
                 </div>
               </div>
             </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
+              <Link to={"/organiser-request"}>
+                <DropdownMenuItem  className="cursor-pointer hover:bg-gray-100">
+                  <Sparkles className="fill-amber-400" strokeWidth={0} />
+                  Upgrade Membership
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheck />
@@ -91,11 +99,19 @@ export function NavUser({ user }: { user: User }) {
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
+
+            <Form
+              method="POST"
+              action="logout"
+              title="Logout out your account"
+            >
+              <Button className="w-full text-start flex justify-start" variant={"ghost"}>
+                <LogOut />
+                Log out
+              </Button>
+            </Form>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

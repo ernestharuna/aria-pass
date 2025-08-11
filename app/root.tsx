@@ -12,6 +12,7 @@ import "./styles/global.css";
 import { Toaster } from "sonner";
 import SplashScreen from "./components/skeletons/splash-screen";
 import DefaultError from "./components/errors/default-error";
+import ProgressBar from "./components/navigation/progress-bar";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,6 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <ScrollRestoration />
+        <ProgressBar />
         <Scripts />
         <Toaster
           richColors

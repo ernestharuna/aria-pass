@@ -6,5 +6,6 @@ interface User extends Model {
     biography: string;
     emailVerifiedAt: string;
     accountType: 'user' | 'admin';
+    organiserProfile?: OrganiseProfile;
     avatarUrl: string
 }

@@ -6,6 +6,7 @@ export default function useSession() {
     async function validateSession() {
         try {
             const response = await client.get(`api/user`);
+            console.log(response?.data);
             storeUser(response?.data);
             return response?.data;
         } catch (error) {
