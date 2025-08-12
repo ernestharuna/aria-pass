@@ -15,7 +15,7 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "~/components/ui/sidebar"
-import type { Route } from "./+types/layout";
+import type { Route } from "../_user/+types/route";
 
 export async function clientLoader() {
     const { validateSession } = useSession();

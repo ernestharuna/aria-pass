@@ -68,7 +68,6 @@ export function HydrateFallback() {
   return <SplashScreen />;
 }
 
-
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   return <DefaultError error={error} />
 }

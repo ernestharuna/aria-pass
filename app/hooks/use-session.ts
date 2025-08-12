@@ -3,7 +3,7 @@ import { storageKeys } from "~/config/keys";
 import client from "~/http/client";
 
 export default function useSession() {
-    async function validateSession() {
+    async function validateSession(): Promise<User> {
         try {
             const response = await client.get(`api/user`);
             console.log(response?.data);

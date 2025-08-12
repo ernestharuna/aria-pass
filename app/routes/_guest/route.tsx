@@ -3,10 +3,10 @@ import { Suspense, useEffect, useState } from 'react';
 import { Await, Link, NavLink, Outlet } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
-import AnnouncementBanner from './feed/announcement-banner';
-import type { Route } from './+types/layout';
+import AnnouncementBanner from '~/components/cards/announcement-banner';
+import type { Route } from '../_guest/+types/route';
 
-export default function DefaultLayout({ loaderData }: Route.ComponentProps) {
+export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     const [menu, setMenu] = useState<boolean>(false);
     const [scrolled, setScrolled] = useState<boolean>(false);
 

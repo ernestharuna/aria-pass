@@ -6,7 +6,7 @@ import { useState } from "react";
 import GoogleAuthButton from "~/components/buttons/google-auth-button";
 import HrWithText from "~/components/utility/hr-with-text";
 import InputError from "~/components/utility/input-error";
-import type { Route } from "../register/+types/route";
+import type { Route } from "./register/+types/route";
 import authRequest from "~/http/auth.request";
 import { parseForm } from "~/lib/utils";
 import DefaultButton from "~/components/buttons/default-button";

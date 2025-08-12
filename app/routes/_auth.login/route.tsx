@@ -4,14 +4,13 @@ import { Label } from "~/components/ui/label";
 import { Eye, EyeClosed } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
-import { API_URL } from "~/config/defaults";
-import type { Route } from "../+types/layout";
 import InputError from "~/components/utility/input-error";
 import useRoute from "~/hooks/use-route";
 import authRequest from "~/http/auth.request";
 import { parseForm } from "~/lib/utils";
 import DefaultButton from "~/components/buttons/default-button";
 import GoogleAuthButton from "~/components/buttons/google-auth-button";
+import type { Route } from "../_auth.login/+types/route";
 
 export const meta: MetaFunction = () => {
   return [

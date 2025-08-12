@@ -3,7 +3,7 @@ import { Eye, MapPin, Ticket } from 'lucide-react'
 export default function EventCard({ track, index }: { track: any, index: number }) {
     return (
         <div>
-            <div key={index} className="bg-white border border-gray-100 snap-center flex flex-col gap-2 hover:shadow-lg rounded-lg group relative transition">
+            <div key={index} className="bg-white border border-gray-100 flex flex-col gap-2 hover:shadow-lg rounded-lg group relative transition">
                 {/* event banner */}
                 <div className="bg-slate-100 rounded-t w-full group-hover:opacity-75 aspect-square h-38 lg:h-50 overflow-hidden">
                     <img
