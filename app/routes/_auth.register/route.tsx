@@ -45,14 +45,14 @@ export default function Register({ actionData }: Route.ComponentProps) {
                     <div style={{
                         clipPath:
                             'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-                    }} className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary-bg to-primary-theme opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                    }} className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-purple-300 to-purple-700 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
                     />
                 </div>
             </div>
 
             <div className="justify-center gap-18 items-start max-w-fit flex mx-auto py-10">
                 <div className="flex-1 hidden md:block z-10">
-                    <h1 className="text-2xl text-primary font-bold my-5 pb-5">
+                    <h1 className="text-2xl text-primary font-semibold tracking-tight my-5 pb-5">
                         Sign up for free, <br className="hidden md:block" />
                         Join the <span className="text-primary-theme px-1.5 rounded-md bg-primary-bg border border-primary-theme">communtiy!</span>
                     </h1>
@@ -61,7 +61,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             <div className="bg-transparent">
                                 <CheckCheck size="25" strokeWidth={"2"} className="text-primary-theme" />
                             </div>
-                            <p className="text-sm">
+                            <p className="text-sm text-gray-600">
                                 Unlimited access to free courses
                             </p>
                         </div>
@@ -69,7 +69,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             <div className="bg-transparent">
                                 <CheckCheck size="25" strokeWidth={"2"} className="text-primary-theme" />
                             </div>
-                            <p className="text-sm">
+                            <p className="text-sm text-gray-600">
                                 Instant feedback on assignments
                             </p>
                         </div>
@@ -77,7 +77,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             <div className="bg-transparent">
                                 <CheckCheck size="25" strokeWidth={"2"} className="text-primary-theme" />
                             </div>
-                            <p className="text-sm">
+                            <p className="text-sm text-gray-600">
                                 Expert tips to help you succeed
                             </p>
                         </div>
@@ -87,7 +87,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                 <div className="flex-1 !z-10">
                     <div className="h-full rounded-xl py-6">
                         <div className="text-center block md:hidden pb-8 z-10">
-                            <p className="text-2xl text-primary font-bold">
+                            <p className="text-2xl text-primary font-medium tracking-tighter">
                                 Create an account
                             </p>
                             <p className="text-muted-foreground text-sm">to access your free acount</p>
@@ -100,7 +100,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                         <Form method="POST" className="mt-5">
                             <div className="mb-5">
                                 <Input
-                                    className="bg-white/10 backdrop-blur-3xl py-5 rounded-full border border-gray-200"
+                                    className="bg-white/10 backdrop-blur-3xl py-6 rounded-full border border-gray-200"
                                     type="text"
                                     name="name"
                                     placeholder="Full name"
@@ -110,7 +110,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             </div>
                             <div className="mb-5">
                                 <Input
-                                    className="bg-white/10 backdrop-blur-3xl py-5 rounded-full border border-gray-200"
+                                    className="bg-white/10 backdrop-blur-3xl py-6 rounded-full border border-gray-200"
                                     type="email"
                                     name="email"
                                     placeholder="Email address"
@@ -121,7 +121,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             <div className="mb-5">
                                 <div className="relative">
                                     <Input
-                                        className="bg-white/10 backdrop-blur-3xl py-5 rounded-full border border-gray-200 pr-12"
+                                        className="bg-white/10 backdrop-blur-3xl py-6 rounded-full border border-gray-200 pr-12"
                                         id="password"
                                         type={showPassword ? "text" : "password"}
                                         name="password"
@@ -146,7 +146,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             <div className="mb-5">
                                 <div className="relative">
                                     <Input
-                                        className="bg-white/10 backdrop-blur-3xl py-5 rounded-full border border-gray-200"
+                                        className="bg-white/10 backdrop-blur-3xl py-6 rounded-full border border-gray-200"
                                         id="password_confirmation"
                                         type={showPassword ? "text" : "password"}
                                         name="password_confirmation"

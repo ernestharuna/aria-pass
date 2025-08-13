@@ -72,16 +72,20 @@ export function NavUser({ user }: { user: User }) {
               </div>
             </DropdownMenuLabel>
 
-            <DropdownMenuSeparator />
+            {user.organiserProfile?.status !== 'active' && (
+              <>
+                <DropdownMenuSeparator />
 
-            <DropdownMenuGroup>
-              <Link to={"/organiser-request"}>
-                <DropdownMenuItem className="cursor-pointer hover:bg-gray-100">
-                  <Sparkles />
-                  Upgrade Membership
-                </DropdownMenuItem>
-              </Link>
-            </DropdownMenuGroup>
+                <DropdownMenuGroup>
+                  <Link to={"/organiser-request"}>
+                    <DropdownMenuItem className="cursor-pointer hover:bg-gray-100">
+                      <Sparkles />
+                      Upgrade Membership
+                    </DropdownMenuItem>
+                  </Link>
+                </DropdownMenuGroup>
+              </>
+            )}
 
             <DropdownMenuSeparator />
 

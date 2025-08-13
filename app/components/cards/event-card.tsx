@@ -32,7 +32,7 @@ export default function EventCard({ track, index }: { track: any, index: number 
                                 <Eye strokeWidth={1.5} size={14} /> <span className='font-light text-xs'>1,242</span>
                             </div>
                         </div>
-                        <div className="text-lg font-semibold">Red Jazz Live</div>
+                        <div className="text-lg font-medium tracking-tighter">Red Jazz Live</div>
                         <div className="text-xs font-light">Going hard this December with your favorite artises</div>
                         <div className="text-[10px] flex items-center gap-2 mt-2">
                             <Ticket strokeWidth={1.5} size={14} />

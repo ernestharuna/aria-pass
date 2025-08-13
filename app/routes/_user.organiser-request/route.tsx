@@ -38,11 +38,11 @@ export default function OrganiserRequest() {
                         <div className="flex items-stretch justify-between mb-8">
                             <Button onClick={() => setStep((i) => i - 1)} variant={"outline"} size={"sm"} className="rounded-full shadow-none px-6">
                                 <ArrowLeft size={14} />
-                                <span>Back</span>
+                                <span className="font-light text-sm">Back</span>
                             </Button>
 
                             <Button variant={"secondary"} size={"sm"} className="cursor-pointer rounded-full shadow-none px-6">
-                                <span>Save as Draft</span>
+                                <span className="font-light text-sm">Save as Draft</span>
                                 <Save size={14} />
                             </Button>
                         </div>

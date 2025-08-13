@@ -3,12 +3,7 @@ import { toast } from "sonner";
 import useRoute from "~/hooks/use-route";
 import useSession from "~/hooks/use-session";
 import { AppSidebar } from "~/components/app-sidebar"
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbList,
-    BreadcrumbPage,
-} from "~/components/ui/breadcrumb"
+
 import { Separator } from "~/components/ui/separator"
 import {
     SidebarInset,
@@ -16,6 +11,7 @@ import {
     SidebarTrigger,
 } from "~/components/ui/sidebar"
 import type { Route } from "../_user/+types/route";
+import Breadcrumb from "~/components/navigation/breadcrumb";
 
 export async function clientLoader() {
     const { validateSession } = useSession();
@@ -56,13 +52,8 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                         orientation="vertical"
                         className="mr-2 data-[orientation=vertical]:h-4"
                     />
-                    <Breadcrumb>
-                        <BreadcrumbList>
-                            <BreadcrumbItem>
-                                <BreadcrumbPage>October 2024</BreadcrumbPage>
-                            </BreadcrumbItem>
-                        </BreadcrumbList>
-                    </Breadcrumb>
+                    <Breadcrumb />
+                   
                 </header>
                 <div className="flex flex-1 flex-col gap-4 p-4">
                     <Outlet context={user} />

@@ -1,13 +1,12 @@
 import { Switch } from '@radix-ui/react-switch'
 import { BellRing, ChevronDown, Globe, HandCoins, Languages } from 'lucide-react'
-import React from 'react'
 import { Form } from 'react-router'
 
 export default function Preferences() {
     return (
         <div>
             <Form className="mt-4 w-full flex flex-col gap-5">
-                <div className="flex bg-gray-100 items-start rounded-md p-4">
+                <div className="flex bg-gray-50 items-start rounded-md p-4">
                     <BellRing />
                     <div className="flex-1 space-y-1 mx-4 ">
                         <p className="text-sm font-medium leading-none">
@@ -21,7 +20,7 @@ export default function Preferences() {
                 </div>
 
                 <section className="flex flex-col md:flex-row items-stretch gap-5">
-                    <div className="flex-1 flex bg-gray-100 items-start space-x-4 rounded-md p-4">
+                    <div className="flex-1 flex bg-gray-50 items-start space-x-4 rounded-md p-4">
                         <Languages />
                         <div className="flex-1 space-y-1">
                             <p className="text-sm font-medium leading-none">
@@ -35,7 +34,7 @@ export default function Preferences() {
                             <ChevronDown />
                         </div>
                     </div>
-                    <div className="flex-1  flex bg-gray-100 items-start space-x-4 rounded-md p-4">
+                    <div className="flex-1  flex bg-gray-50 items-start space-x-4 rounded-md p-4">
                         <Globe />
                         <div className="flex-1 space-y-1">
                             <p className="text-sm font-medium leading-none">
@@ -51,7 +50,7 @@ export default function Preferences() {
                     </div>
                 </section>
                 <section className="flex flex-col md:flex-row items-stretch gap-5">
-                    <div className="flex-1 flex bg-gray-100 items-start space-x-4 rounded-md p-4">
+                    <div className="flex-1 flex bg-gray-50 items-start space-x-4 rounded-md p-4">
                         <HandCoins />
                         <div className="flex-1 space-y-1">
                             <p className="text-sm font-medium leading-none">

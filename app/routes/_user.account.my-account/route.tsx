@@ -30,11 +30,11 @@ export default function MyAccount() {
 
             <div className="flex items-center space-x-2 mb-10">
                 <Switch id="airplane-mode" checked disabled />
-                <Label htmlFor="airplane-mode">Enable promotional emails</Label>
+                <Label htmlFor="airplane-mode text-xs">Enable promotional emails</Label>
             </div>
 
             <div className='mb-14 max-w-xl flex items-center gap-4'>
-                <Button className='rounded-full bg-primary-theme text-white'>
+                <Button className='rounded-full bg-primary text-white'>
                     Save
                 </Button>
                 <Button variant={'outline'} className='rounded-full shadow-none'>

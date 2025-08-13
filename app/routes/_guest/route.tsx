@@ -5,6 +5,26 @@ import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import AnnouncementBanner from '~/components/cards/announcement-banner';
 import type { Route } from '../_guest/+types/route';
+import useSession from '~/hooks/use-session';
+import CustomAvatar from '~/components/custom/custom-avatar';
+
+export async function clientLoader(_: Route.ClientLoaderArgs) {
+    const { getUser } = useSession();
+
+    try {
+        const user: User = await getUser();
+        let session: boolean;
+
+        if (user.name)
+            session = true;
+        else
+            session = false;
+
+        return { session, user };
+    } catch ({ response }: any) {
+        console.error(response)
+    }
+}
 
 export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     const [menu, setMenu] = useState<boolean>(false);
@@ -26,7 +46,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                 <nav className={` bg-white py-4 container flex items-center justify-between transition-all `}>
                     <Link to="/" className='flex items-center'>
                         <div className="h-6 w-6 rounded-full bg-primary-theme me-2" />
-                        <div className='text-xl font-bold font-mono tracking-tighter font-stretch-90% '>
+                        <div className='text-xl font-medium tracking-tighter font-stretch-90% '>
                             <span className="text-black">Aria</span>
                             <span className="text-black">Pass</span>
                         </div>
@@ -39,19 +59,37 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                             </li>
                         ))}
                     </ul>
+                    {(user && user.name)
+                        ? (
+                            <div className='hidden md:flex gap-5 items-center'>
+                                <Link to={"/"} className='bg-primary rounded-full px-6 py-3 text-xs text-white font-semibold'>
+                                    Post an Event
+                                </Link>
 
-                    <div className='hidden md:flex items-center gap-2'>
-                        <Link to={"register"}>
-                            <Button size={'sm'} variant={'ghost'} className='px-6 py-6 rounded-full cursor-pointer'>
-                                Register
-                            </Button>
-                        </Link>
-                        <Link to={"/login"}>
-                            <Button size={'sm'} className='px-6 py-6 bg-[#3A3546] rounded-full cursor-pointer'>
-                                Log in
-                            </Button>
-                        </Link>
-                    </div>
+                                <Link to={'dashboard'} className='hover:text-gray-400'>
+                                    <Menu />
+                                </Link>
+
+                                <CustomAvatar name={user.name} styles='h-12 w-12 text-xs' />
+                            </div>
+                        )
+                        : (
+                            <div className='hidden md:flex items-center gap-2'>
+                                <Link to={"register"}>
+                                    <Button size={'sm'} variant={'ghost'} className='px-6 py-6 rounded-full cursor-pointer'>
+                                        Register
+                                    </Button>
+                                </Link>
+                                <Link to={"/login"}>
+                                    <Button size={'sm'} className='px-6 py-6 bg-[#3A3546] rounded-full cursor-pointer'>
+                                        Log in
+                                    </Button>
+                                </Link>
+                            </div>
+                        )
+
+                    }
+
 
                     <button aria-label="Menu" className="block md:hidden" type="button" onClick={() => setMenu(!menu)}>
                         {!menu

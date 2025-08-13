@@ -1,0 +1,53 @@
+import { ArrowLeft } from 'lucide-react'
+import { useNavigate } from 'react-router'
+import { Link } from 'react-router'
+
+export default function Breadcrumb({ to = "back", href }: { to?: string, href?: string }) {
+    const navigate = useNavigate();
+
+    return (
+        <section className='p-1 pe-3 max-w-max rounded-full flex items-center gap-3 border border-gray-200'>
+            <Link
+                to={href ? href : ""}
+                onClick={href ? undefined : () => navigate(-1)}
+                aria-label='Go back'
+                className='flex items-center gap-2 text-xs cursor-pointer tranisition hover:text-primary bg-white border  border-b-2 px-2 py-1 text-gray-500 rounded-full capitalize relative focus:top-[1px] focus:border-b'
+            >
+                <ArrowLeft className='inline-block' size={14} />
+                <span className='text-nowrap'>{href ? (to) : ("Back")}</span>
+            </Link>
+
+            <nav aria-label="Breadcrumb" className='overflow-x-hidden'>
+                <ol className="flex items-center space-x-2 text-xs">
+                    {window.location.pathname
+                        .split('/')
+                        .filter(Boolean)
+                        .map((segment, idx, arr) => {
+                            const path = '/' + arr.slice(0, idx + 1).join('/');
+                            const isLast = idx === arr.length - 1;
+
+                            return (
+                                <li key={path} className="flex items-center text-nowrap">
+                                    {!isLast ? (
+                                        <>
+                                            <Link
+                                                to={path}
+                                                className="text-gray-500 hover:text-primary transition animated fadeIn"
+                                            >
+                                                {decodeURIComponent(segment.replace(/-/g, ' '))}
+                                            </Link>
+                                            <span className="ms-2 text-gray-400">/</span>
+                                        </>
+                                    ) : (
+                                        <span className="text-gray-700 font-semibold">
+                                            {decodeURIComponent(segment.replace(/-/g, ' '))}
+                                        </span>
+                                    )}
+                                </li>
+                            );
+                        })}
+                </ol>
+            </nav>
+        </section>
+    )
+}

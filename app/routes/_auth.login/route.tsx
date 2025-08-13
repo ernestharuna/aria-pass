@@ -59,7 +59,7 @@ export default function Login({ actionData }: Route.ComponentProps) {
         <div className="flex-1">
           <div className="z-10 h-full rounded-xl md:px-8 px-5 py-6">
             <div className="text-center pb-8">
-              <p className="text-2xl text-primary font-bold">
+              <p className="text-2xl text-primary font-medium tracking-tighter">
                 Login to your account
               </p>
             </div>
