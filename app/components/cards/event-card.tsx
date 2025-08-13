@@ -26,7 +26,7 @@ export default function EventCard({ track, index }: { track: any, index: number 
                     <div className='flex flex-col pb-1 w-full'>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-1">
-                                <MapPin strokeWidth={1.5} size={14} /> <span className='font-light text-base'>Nigeria</span>
+                                <MapPin strokeWidth={1.5} size={14} /> <span className='font-light text-sm'>Nigeria</span>
                             </div>
                             <div className="flex items-center gap-1 mb-1 text-gray-600">
                                 <Eye strokeWidth={1.5} size={14} /> <span className='font-light text-xs'>1,242</span>

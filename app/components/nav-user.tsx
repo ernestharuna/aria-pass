@@ -76,8 +76,8 @@ export function NavUser({ user }: { user: User }) {
 
             <DropdownMenuGroup>
               <Link to={"/organiser-request"}>
-                <DropdownMenuItem  className="cursor-pointer hover:bg-gray-100">
-                  <Sparkles className="fill-amber-400" strokeWidth={0} />
+                <DropdownMenuItem className="cursor-pointer hover:bg-gray-100">
+                  <Sparkles />
                   Upgrade Membership
                 </DropdownMenuItem>
               </Link>
@@ -86,10 +86,12 @@ export function NavUser({ user }: { user: User }) {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
+              <Link to={"/account"} >
+                <DropdownMenuItem className="cursor-pointer">
+                  <BadgeCheck />
+                  Account
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 <CreditCard />
                 Billing
@@ -108,7 +110,7 @@ export function NavUser({ user }: { user: User }) {
               title="Logout out your account"
             >
               <Button className="w-full text-start flex justify-start" variant={"ghost"}>
-                <LogOut />
+                <LogOut className="text-gray-500" />
                 Log out
               </Button>
             </Form>

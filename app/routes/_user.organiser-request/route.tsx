@@ -29,29 +29,26 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
 export default function OrganiserRequest() {
     const [step, setStep] = useState(1);
-    const STEPS = []
 
     return (
-        <section className="mx-auto max-w-4xl lg:min-w-4xl py-16">
-            <div className="flex gap-10 items-start justify-between">
-                <div>
-                    <div className="flex items-stretch justify-between">
-                        {step > 1 &&
+        <section className=" py-16">
+            <div className="flex gap-18 items-stretch justify-around">
+                <div className="">
+                    {step > 1 &&
+                        <div className="flex items-stretch justify-between mb-8">
                             <Button onClick={() => setStep((i) => i - 1)} variant={"outline"} size={"sm"} className="rounded-full shadow-none px-6">
                                 <ArrowLeft size={14} />
                                 <span>Back</span>
                             </Button>
-                        }
 
-                        {step > 1 &&
                             <Button variant={"secondary"} size={"sm"} className="cursor-pointer rounded-full shadow-none px-6">
                                 <span>Save as Draft</span>
                                 <Save size={14} />
                             </Button>
-                        }
-                    </div>
+                        </div>
+                    }
 
-                    <Form className="pt-8 min-h-[30vh] max-h-[30vh]" method="POST">
+                    <Form className="min-h-[25vh] lg:max-w-3xl lg:min-w-xl max-h-[25vh]" method="POST">
                         <div className={step === 1 ? "block animated fadeIn" : "hidden"}>
                             <OpeningPage />
                         </div>
@@ -75,11 +72,11 @@ export default function OrganiserRequest() {
                         </Button>
                     </div>
                 </div>
-                <div className="flex flex-col gap-5 text-sm">
-                    <Link to={""}>Getting started</Link>
-                    <Link to={""}>1. Company name</Link>
-                    <Link to={""}>2. Company Biography</Link>
-                    <Link to={""}>3. Company Information</Link>
+                <div className="hidden lg:flex flex-col gap-4 text-sm">
+                    <Link to={""} className={`${step === 1 ? 'font-bold bg-gray-100 rounded-lg' : ''} px-4 py-2`}>Getting started</Link>
+                    <Link to={""} className={`${step === 2 ? 'font-bold bg-gray-100 rounded-lg' : ''} px-4 py-2`}>1. Company name</Link>
+                    <Link to={""} className={`${step === 3 ? 'font-bold bg-gray-100 rounded-lg' : ''} px-4 py-2`}>2. Company Biography</Link>
+                    <Link to={""} className={`${step === 4 ? 'font-bold bg-gray-100 rounded-lg' : ''} px-4 py-2`}>3. Company Information</Link>
                 </div>
             </div>
         </section>

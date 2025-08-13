@@ -29,7 +29,7 @@ export default function Home() {
                 <section className="container flex justify-between gap-40 items-center my-16">
                     {/* Overflow hidden is here to prevent mobile horizontal scrolling */}
                     <div className="md:flex-1 text-center md:text-start overflow-hidden">
-                        <h1 className="text-3xl md:text-5xl font-semibold md:leading-13 text-primary -tracking-normal">Experience the Community <BrMd /> Behind the Concerts</h1>
+                        <h1 className="text-3xl md:text-5xl font-semibold md:leading-13 text-primary tracking-tight">Experience the <BrMd /> Community Behind the Concerts</h1>
                         <p className="text-primary text-base mt-5 leading-5">
                             Explore work from the most talented and accomplished <BrMd /> designers ready to take on your next project.
                         </p>
@@ -87,7 +87,7 @@ export default function Home() {
                     <FeedFilter />
                     <div className="flex gap-4 items-center">
                         {["Choral", "Ensemble", "Church Music", "Recitals", "Classical Band", "Chamber"].map((item) => (
-                            <Link to={""} key={item} className="rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-medium tracking-tight">{item}</Link>
+                            <Link to={""} key={item} className="rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-semibold tracking-tight">{item}</Link>
                         ))}
                     </div>
                     <Button variant={"secondary"} className="rounded-full flex justify-between gap-2 px-5">

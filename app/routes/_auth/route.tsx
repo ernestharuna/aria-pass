@@ -20,7 +20,7 @@ export default function AuthLayout() {
                 <Link to="/" className="z-10 flex gap-2 items-center cursor-pointer">
                     {/* <img width="30" className="inline-block" src="/images/logos/logo.png" title="OwenaHub" /> */}
                     <div className="text-popover-foreground">
-                        <span className="font-extrabold mr-2">AriaPass </span>
+                        <span className="font-semibold mr-2">AriaPass </span>
                         <span className="font-light text-sm">For Musicians</span>
                     </div>
                 </Link>

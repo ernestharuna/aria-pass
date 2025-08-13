@@ -100,7 +100,7 @@ export default function StackedSwipeDeck({
                             dragElastic={0.2}
                             whileTap={{ scale: 1.02 }}
                             onDragEnd={(e, info) => isTop && handleDragEnd(card, e, info)}
-                            className={`w-full h-full rounded-3xl overflow-hidden bg-white border-1 ${!isTop && 'opacity-30!'}`}
+                            className={`w-full h-full rounded-3xl overflow-hidden bg-white border-1`}
                             style={{ touchAction: "pan-y" }}
                             // if this card is currently being removed, animate it off-screen
                             animate={
