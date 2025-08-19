@@ -1,7 +1,7 @@
 import client from "./client";
 
 export default async function authRequest(
-    credentials: { [k: string]: FormDataEntryValue },
+    credentials: Record<string, FormDataEntryValue>,
     url: 'login' | 'register'
 ) {
     await client.get('sanctum/csrf-cookie');

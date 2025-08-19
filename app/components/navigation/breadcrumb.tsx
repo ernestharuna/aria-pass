@@ -6,7 +6,7 @@ export default function Breadcrumb({ to = "back", href }: { to?: string, href?: 
     const navigate = useNavigate();
 
     return (
-        <section className='p-1 pe-3 max-w-max rounded-full flex items-center gap-3 border border-gray-200'>
+        <section className='p-1 pe-3 max-w-max rounded-full flex items-center gap-3 border border-gray-200 overflow-x-auto'>
             <Link
                 to={href ? href : ""}
                 onClick={href ? undefined : () => navigate(-1)}
@@ -27,7 +27,7 @@ export default function Breadcrumb({ to = "back", href }: { to?: string, href?: 
                             const isLast = idx === arr.length - 1;
 
                             return (
-                                <li key={path} className="flex items-center text-nowrap">
+                                <li key={path} className="flex items-center text-nowrap capitalize">
                                     {!isLast ? (
                                         <>
                                             <Link

@@ -1,18 +1,35 @@
-import { Link } from "react-router";
+import { Await, Link, redirect } from "react-router";
 import { BrMd } from "~/components/utility/line-break";
 import { ChevronRight, LibraryBig, Piano, UsersRound } from "lucide-react";
 import SearchBar from "~/components/utility/search-bar";
 import { FeedFilter } from "~/components/utility/feed-filter";
-import EventCard from "~/components/cards/event-card";
 import { Button } from "~/components/ui/button";
 import StackedSwipeDeck from "~/components/cards/stacked-swipe-deck";
 import type { Route } from "../_guest._index/+types/route";
+import { Suspense } from "react";
+import EventCardSkeleton from "~/components/skeletons/events-card-skeleton";
+import client from "~/http/client";
+import EventsMapper from "~/components/mappers/event-mapper";
 
 export function meta({ }: Route.MetaArgs) {
     return [
         { title: "Aria Pass | Concerts, Exams, Courses, Tickets" },
         { name: "description", content: "Welcome to React Router!" },
     ];
+}
+
+export async function clientLoader(_: Route.ClientLoaderArgs) {
+    try {
+        const getEvents = async (): Promise<OrganiserEvent[]> => {
+            const response = await client.get('/api/events');
+            return response.data
+        }
+
+        const events = getEvents();
+        return { events }
+    } catch ({ response }: any) {
+        return redirect('/');
+    }
 }
 
 const sample = [
@@ -22,7 +39,9 @@ const sample = [
     { id: 4, title: "Brahms: Chamber Night", subtitle: "Studio • New York", image: "/images/event-flyer.jpg" },
 ];
 
-export default function Home() {
+export default function Home({ loaderData }: Route.ComponentProps) {
+    const { events }: { events: Promise<OrganiserEvent[]> } = loaderData;
+
     return (
         <div className="fadeIn animated">
             <header className="flex flex-col gap-5 md:min-h-[65vh]">
@@ -64,13 +83,6 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* <div className="hidden lg:inline-block w-[650px] h-[450px]">
-            <div className="bg-gray-200 rounded-3xl relative w-[650px] h-[450px]">
-              <span className="absolute bottom-5 right-5 shadow-md rounded-full flex items-center bg-white pe-3">
-                <CustomAvatar styles="h-10 w-10 text-xs" /> <span className="font-semibold text-xs">John Ode Choral</span>
-              </span>
-            </div>
-          </div> */}
                     <div className="hidden lg:flex items-center justify-center">
                         <StackedSwipeDeck
                             initialCards={sample}
@@ -115,10 +127,12 @@ export default function Home() {
                 </div>
 
                 {/* Events ---------------------------------------------- */}
-                <div className="hidden container md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-5">
-                    {Array.from({ length: 4 }).map((track, index) => (
-                        <EventCard key={index} track={track} index={index} />
-                    ))}
+                <div className="hidden container md:block">
+                    <Suspense fallback={<EventCardSkeleton type='user' />}>
+                        <Await resolve={events}>
+                            {(events) => <EventsMapper events={events} />}
+                        </Await>
+                    </Suspense>
                 </div>
 
                 <div className="md:hidden flex items-center justify-center py-10">
@@ -131,31 +145,28 @@ export default function Home() {
                 </div>
                 {/* Events End ---------------------------------------------- */}
 
-                <div className="container">
+                <hr className="mt-10"/>
+
+
+                <div className="container mt-20">
                     <div
-                        className=" rounded-3xl py-6 px-8 my-10"
+                        className="h-80 rounded py-6 px-8 my-10 flex flex-col justify-center"
                         style={{
-                            backgroundImage: `linear-gradient(90deg, #FAF9FB, #FAF9FB00),
-            url('/images/ensemble-banner.png')`,
+                            backgroundImage: `linear-gradient(90deg, #FAF9FB, #FAF9FB00), url('/images/ensemble-banner.png')`,
                             backgroundSize: 'cover, cover',
                             backgroundPosition: 'center, center',
                         }}
                     >
-                        <div>
+                        <div className="">
                             <div className="h-10 w-10 rounded-full bg-[#F6A700] mb-3" />
                             <h2 className="text-xl font-bold mb-2">Get more leads, pay no fees</h2>
-                            <p className="font-light text-xs mb-3">Rank higher, skip the fees, and level up your profile — all <br /> for $8/month.</p>
+                            <p className="font-light text-xs mb-10">Rank higher, skip the fees, and level up your profile — all <br /> for $8/month.</p>
 
                             <Button className="rounded-full px-10">
                                 Become an Organiser
                             </Button>
                         </div>
                     </div>
-                </div>
-                <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-5">
-                    {Array.from({ length: 4 }).map((track, index) => (
-                        <EventCard key={index} track={track} index={index} />
-                    ))}
                 </div>
             </main>
 

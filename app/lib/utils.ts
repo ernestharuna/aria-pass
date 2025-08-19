@@ -5,9 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export async function parseForm(request: Request): Promise<{
-  [k: string]: FormDataEntryValue;
-}> {
+export async function parseForm(request: Request): Promise<
+  Record<string, FormDataEntryValue>
+> {
   const formData = await request.formData();
   const credentials = Object.fromEntries(formData);
 

@@ -118,6 +118,8 @@ export default function StackedSwipeDeck({
                                     className="w-full h-full object-cover"
                                 />
 
+                                <div className='absolute top-0 left-0 w-full min-h-full bg-gradient-to-t from-black/50 to-black/10' />
+
                                 {/* small overlay content — location/title/CTA */}
                                 <div className="absolute left-4 top-4 bg-black/60 text-white text-xs rounded-md px-3 py-1 backdrop-blur-sm">
                                     {card.subtitle ?? "Location"}

@@ -3,7 +3,8 @@ import client from "./client";
 type RequestType = 'POST' | 'PATCH' | 'PUT' | 'DELETE' | 'GET';
 
 export default async function formRequest(
-    credentials: { [k: string]: FormDataEntryValue },
+    // credentials: { [k: string]: FormDataEntryValue },
+    credentials: Record<string, FormDataEntryValue>,
     url: string,
     method: RequestType = 'POST'
 ) {

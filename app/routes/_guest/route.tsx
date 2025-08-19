@@ -22,7 +22,7 @@ export async function clientLoader(_: Route.ClientLoaderArgs) {
 
         return { session, user };
     } catch ({ response }: any) {
-        console.error(response)
+        // console.error(response)
     }
 }
 

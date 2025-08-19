@@ -46,7 +46,7 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
         <SidebarProvider>
             <AppSidebar user={user} />
             <SidebarInset>
-                <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                <header className="z-50 bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
                     <SidebarTrigger className="-ml-1" />
                     <Separator
                         orientation="vertical"
@@ -55,7 +55,7 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                     <Breadcrumb />
                    
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4">
+                <div className="flex flex-1 flex-col gap-4 px-5 py-10 max-w-[94rem] w-full mx-auto">
                     <Outlet context={user} />
                 </div>
             </SidebarInset>
