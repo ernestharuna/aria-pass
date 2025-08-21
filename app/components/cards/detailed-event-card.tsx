@@ -8,12 +8,28 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu"
-import { EllipsisVertical } from 'lucide-react';
-import { Link } from 'react-router';
+import { EllipsisVertical, LoaderCircle } from 'lucide-react';
+import { Form, Link, useNavigation } from 'react-router';
 import EventStatus from '../utility/event-status';
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "~/components/ui/dialog"
+import { Input } from "~/components/ui/input"
+import { Label } from "~/components/ui/label"
+import { useState } from 'react';
 
 export default function DetailedEventCard({ event }: { event: OrganiserEvent }) {
     const formattedDate = dayjs(event.date).format('MMMM D, YYYY');
+    const TOTAL_TICKETS: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
+        return sum + ticket.quantityAvailable;
+    }, 0);
 
     return (
         <div className="flex items-center justify-between py-5 border-b">
@@ -35,7 +51,7 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
                         {formattedDate} at {event.startTime.split(":")[0]}:{event.startTime.split(":")[1]} ∙ {event.venueName}, <span className="capitalize">{event.city}, {event.country}</span>
                     </p>
                     <p className='font-light text-gray-500 text-[12px]'>
-                        100/300 tickets sold
+                        0/{TOTAL_TICKETS} tickets sold
                     </p>
                 </div>
             </div>
@@ -50,6 +66,11 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
 }
 
 function Actions({ event }: { event: OrganiserEvent }) {
+    const [input, setInput] = useState('');
+
+    const { state } = useNavigation();
+    const busy: boolean = state === "submitting" || state === "loading";
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -66,10 +87,53 @@ function Actions({ event }: { event: OrganiserEvent }) {
                 <DropdownMenuItem>
                     Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                    Delete
-                </DropdownMenuItem>
+
+                <Dialog>
+                    <form>
+                        <DialogTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                className='rounded-sm w-full h-8 py-0 px-2 border-0 text-start block text-destructive hover:bg-red-100 hover:text-destructive'
+                            >
+                                Delete
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <Form method='POST'>
+                                <input type="hidden" name="event_slug" value={event.slug} />
+                                <DialogHeader>
+                                    <DialogTitle className="text-destructive">Delete Event ?</DialogTitle>
+                                    <DialogDescription>
+                                        This will delete all related tickets, and payment records associated with this event.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="grid gap-4 my-5">
+                                    <div className="grid gap-3">
+                                        <Label htmlFor="name-1">Write "Delete {event.title}" to continue</Label>
+                                        <Input
+                                            className="rounded-full py-5 text-sm"
+                                            autoComplete="off"
+                                            id="name-1"
+                                            onChange={(e) => setInput(e.target.value)}
+                                            placeholder="Enter text"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button
+                                        type="submit"
+                                        className="w-full py-5 bg-destructive rounded-full"
+                                        disabled={(input !== `Delete ${event.title}`) || busy}
+                                    >
+                                        {busy ? (<LoaderCircle className="animate-spin" />) : " Delete Ticket"}
+                                    </Button>
+                                </DialogFooter>
+                            </Form>
+                        </DialogContent>
+                    </form>
+                </Dialog>
             </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu >
     )
 }

@@ -34,18 +34,26 @@ import { Switch } from "~/components/ui/switch";
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);
 
-    try {
-        const { data }: { data: OrganiserEvent } = await formRequest(credentials, 'organiser/events', "POST");
-        toast.success("Event Created", {
-            description: "You can now add tickets to this events"
-        });
+    return await formRequest(credentials, 'organiser/events', "POST")
+        .then((res) => {
 
-        return redirect(`/my-events/${data.slug}`)
-    } catch ({ response }: any) {
-        console.log(response);
-        const error: any = response?.data?.errors;
-        return error;
-    }
+            console.log(res);
+
+            toast.success("Event Created", {
+                description: "You can now add tickets to this event"
+            });
+
+            return redirect(`/my-events/${res.slug}`);
+        })
+        .catch(({ response }) => {
+            toast.error("Something went wrong", {
+                description: `Status code ${response.status}`
+            });
+            console.log(response);
+
+            return response.data.errors
+        })
+
 }
 
 interface FormProps {
@@ -202,47 +210,51 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
                     </div>
 
                     <div className="flex flex-row gap-4">
-                        <Select
-                            name='city'
-                            onValueChange={(value) =>
-                                setForm((prev) => ({
-                                    ...prev,
-                                    city: value
-                                }))
-                            }
-                        >
-                            <SelectTrigger className="flex-1 rounded-full py-5">
-                                <SelectValue placeholder="Select City" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Cities we support</SelectLabel>
-                                    <SelectItem value="abuja">Abuja</SelectItem>
-                                    <SelectItem value="lagos">Lagos</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
+                        <div className="flex-1">
+                            <Select
+                                name='city'
+                                onValueChange={(value) =>
+                                    setForm((prev) => ({
+                                        ...prev,
+                                        city: value
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-full rounded-full py-5">
+                                    <SelectValue placeholder="Select City" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Cities we support</SelectLabel>
+                                        <SelectItem value="abuja">Abuja</SelectItem>
+                                        <SelectItem value="lagos">Lagos</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                             <InputError for="city" error={errors} />
-                        </Select>
+                        </div>
 
-                        <Select
-                            name='country'
-                            onValueChange={(value) =>
-                                setForm((prev) => ({
-                                    ...prev,
-                                    country: value
-                                }))
-                            }
-                        >
-                            <SelectTrigger className="flex-1 rounded-full py-5">
-                                <SelectValue placeholder="Select Country" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectItem value="nigeria">Nigeria</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
+                        <div className="flex-1">
+                            <Select
+                                name='country'
+                                onValueChange={(value) =>
+                                    setForm((prev) => ({
+                                        ...prev,
+                                        country: value
+                                    }))
+                                }
+                            >
+                                <SelectTrigger className="w-full rounded-full py-5">
+                                    <SelectValue placeholder="Select Country" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="nigeria">Nigeria</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                             <InputError for="country" error={errors} />
-                        </Select>
+                        </div>
                     </div>
 
                     <div className="flex gap-4">

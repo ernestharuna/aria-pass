@@ -44,7 +44,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
     return (
         <div className="fadeIn animated">
-            <header className="flex flex-col gap-5 md:min-h-[65vh]">
+            <header className="flex flex-col gap-5 lg:min-h-[65vh]">
                 <section className="container flex justify-between gap-40 items-center my-16">
                     {/* Overflow hidden is here to prevent mobile horizontal scrolling */}
                     <div className="md:flex-1 text-center md:text-start overflow-hidden">
@@ -86,8 +86,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     <div className="hidden lg:flex items-center justify-center">
                         <StackedSwipeDeck
                             initialCards={sample}
-                            width={650}
-                            height={450}
+                            width={600}
+                            height={400}
                             onSwipe={(card, dir) => console.log("swiped", card.title, dir > 0 ? "right" : "left")}
                         />
                     </div>
@@ -95,7 +95,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </header >
 
             <main>
-                <div className="hidden container md:flex items-center justify-between mb-8">
+                <div className="hidden container lg:flex items-center justify-between mb-8">
                     <FeedFilter />
                     <div className="flex gap-4 items-center">
                         {["Choral", "Ensemble", "Church Music", "Recitals", "Classical Band", "Chamber"].map((item) => (
@@ -108,7 +108,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     </Button>
                 </div>
 
-                <div className="md:hidden mb-4">
+                <div className="lg:hidden mb-4">
                     <div className="container flex justify-between items-center">
                         <FeedFilter />
                         <Button variant={"secondary"} className="rounded-full flex justify-between gap-2 h-10">
@@ -127,7 +127,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 </div>
 
                 {/* Events ---------------------------------------------- */}
-                <div className="hidden container md:block">
+                <div className=" container block">
                     <Suspense fallback={<EventCardSkeleton type='user' />}>
                         <Await resolve={events}>
                             {(events) => <EventsMapper events={events} />}
@@ -146,7 +146,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 {/* Events End ---------------------------------------------- */}
 
                 <hr className="mt-10"/>
-
 
                 <div className="container mt-20">
                     <div

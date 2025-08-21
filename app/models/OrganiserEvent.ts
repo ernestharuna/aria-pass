@@ -9,15 +9,15 @@ interface OrganiserEvent extends Model {
 
     startTime: string;
     endTime: string | null;
-
     date: Date;
 
     status: 'draft' | 'suspended' | 'cancelled' | 'completed' | 'published',
-
     tickets: Ticket[];
+    views: any[] | number;
 
     title: string;
     venueAddress: string;
     venueName: string;
-    views: any[];
+
+    organiser: Pick<OrganiseProfile, "id" | "organiserName">
 }

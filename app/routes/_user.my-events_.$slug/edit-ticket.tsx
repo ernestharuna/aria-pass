@@ -26,26 +26,39 @@ import { useMediaQuery } from "~/hooks/user-media-query"
 import { Textarea } from "~/components/ui/textarea"
 import DefaultButton from "~/components/buttons/default-button"
 import { Check, PencilLine } from "lucide-react"
-import { Form } from "react-router";
+import { Form, useNavigation } from "react-router";
 
 export default function EditTicket({ ticket }: { ticket: Ticket }) {
     const [open, setOpen] = React.useState(false)
-    const isDesktop = useMediaQuery("(min-width: 768px)")
+    const isDesktop = useMediaQuery("(min-width: 768px)");
+
+    const navigation = useNavigation();
+    const formRef = React.useRef<HTMLFormElement>(null);
+
+    React.useEffect(() => {
+        // We only want to close the dialog if the form submission is successful
+        // and the state is returning to "idle" from a "submitting" state.]
+        if (navigation.state === "idle") {
+            setOpen(false);
+
+            formRef.current?.reset();
+        }
+    }, [navigation.state, navigation.formData]);
 
     if (isDesktop) {
         return (
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <PencilLine size={20} />
+                    <PencilLine size={20} strokeWidth={1} />
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Add ticket to event</DialogTitle>
+                        <DialogTitle>Edit {ticket.name} ticket</DialogTitle>
                         <DialogDescription>
                             {/*  */}
                         </DialogDescription>
                     </DialogHeader>
-                    <ProfileForm ticket={ticket} />
+                    <ProfileForm ticket={ticket} ref={formRef} />
                 </DialogContent>
             </Dialog>
         )
@@ -54,16 +67,16 @@ export default function EditTicket({ ticket }: { ticket: Ticket }) {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <PencilLine size={20} />
+                <PencilLine size={20} strokeWidth={1} />
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader className="text-left">
-                    <DrawerTitle>Add ticket to event</DrawerTitle>
+                    <DrawerTitle>Edit {ticket.name} ticket</DrawerTitle>
                     <DrawerDescription>
                         {/*  */}
                     </DrawerDescription>
                 </DrawerHeader>
-                <ProfileForm className="px-4" ticket={ticket} />
+                <ProfileForm className="px-4" ticket={ticket} ref={formRef} />
                 <DrawerFooter className="pt-2">
                     <DrawerClose asChild>
                         <Button
@@ -83,89 +96,93 @@ type ProfileFormProps = {
     ticket: Ticket;
 } & React.ComponentProps<"form">;
 
-function ProfileForm({ className, ticket }: ProfileFormProps) {
-    const THEMES = ["#6B7280", "#10B981", "#F59E0B", "#4F46E5",]
-    const [theme, setTheme] = React.useState(ticket.theme);
+const ProfileForm = React.forwardRef<HTMLFormElement, ProfileFormProps>(
+    function ProfileForm({ className, ticket }, ref) {
+        const THEMES = ["#6B7280", "#10B981", "#F59E0B", "#4F46E5"];
+        const [theme, setTheme] = React.useState(ticket.theme);
 
-    return (
-        <Form className={cn("grid items-start gap-6", className)} method="POST">
-            <input type="hidden" name="type" value={'ticket.edit'} required />
-            <input type="hidden" name="ticketId" value={ticket.id} required />
+        return (
+            <Form ref={ref} className={cn("grid items-start gap-6", className)} method="POST">
+                <input type="hidden" name="type" value={'ticket.edit'} required />
+                <input type="hidden" name="ticket_id" value={ticket.id} required />
 
-            <div className="grid gap-2">
-                <Label htmlFor="theme">Select theme</Label>
-                <div className="flex items-stretch gap-3">
-                    {THEMES.map(color => (
-                        <div className="relative h-14 w-14" key={color}>
-                            <button
-                                title={`Select ${color}`}
-                                onClick={() => setTheme(color)}
-                                type="button"
-                                style={{ backgroundColor: color }}
-                                className="inline-block h-14 w-14 rounded-xl"
-                            />
-                            {theme === color && (
-                                <Check
-                                    strokeWidth={5}
-                                    className="animated fadeIn absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
+                <div className="grid gap-2">
+                    <Label htmlFor="theme">Select theme</Label>
+                    <div className="flex items-stretch gap-3">
+                        {THEMES.map(color => (
+                            <div className="relative h-14 w-14" key={color}>
+                                <button
+                                    title={`Select ${color}`}
+                                    onClick={() => setTheme(color)}
+                                    type="button"
+                                    style={{ backgroundColor: color }}
+                                    className="inline-block h-14 w-14 rounded-xl"
                                 />
-                            )}
-                        </div>
-                    ))}
+                                {theme === color && (
+                                    <Check
+                                        strokeWidth={5}
+                                        className="animated fadeIn absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
+                                    />
+                                )}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
-            <input type="hidden" name="theme" value={theme} required />
+                <input type="hidden" name="theme" value={theme} required />
 
-
-            <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                    className="py-5 rounded-full placeholder:text-gray-300"
-                    type="text"
-                    id="name"
-                    name="name"
-                    defaultValue={ticket.name}
-                    required
-                />
-            </div>
-            <div className="grid gap-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                    className="placeholder:text-gray-300 rounded-xl"
-                    id="description"
-                    defaultValue={ticket.description}
-                    name="description"
-                />
-            </div>
-
-            <div className="flex items-stretch gap-5">
-                <div className="grid gap-2 flex-1">
-                    <Label htmlFor="price">Price</Label>
+                <div className="grid gap-2">
+                    <Label htmlFor="name">Name</Label>
                     <Input
                         className="py-5 rounded-full placeholder:text-gray-300"
-                        type="number"
-                        id="price"
-                        name="price"
-                        placeholder="5,000"
-                        defaultValue={ticket.price}
+                        type="text"
+                        id="name"
+                        name="name"
+                        defaultValue={ticket.name}
                         required
                     />
                 </div>
-                <div className="grid gap-2 flex-1">
-                    <Label htmlFor="quantity_available">Available units</Label>
-                    <Input
-                        className="py-5 rounded-full placeholder:text-gray-300"
-                        type="number"
-                        id="quantity_available"
-                        name="quantity_available"
-                        defaultValue={ticket.quantityAvailable}
-                        placeholder="50"
-                        required
+                <div className="grid gap-2">
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                        className="placeholder:text-gray-300 rounded-xl"
+                        id="description"
+                        defaultValue={ticket.description}
+                        name="description"
                     />
                 </div>
-            </div>
 
-            <DefaultButton text="Edit ticket" allowed={!!theme} />
-        </Form>
-    )
-}
+                <div className="flex items-stretch gap-5">
+                    <div className="grid gap-2 flex-1">
+                        <Label htmlFor="price">Price</Label>
+                        <Input
+                            className="py-5 rounded-full placeholder:text-gray-300"
+                            type="number"
+                            id="price"
+                            name="price"
+                            placeholder="5,000"
+                            defaultValue={ticket.price}
+                            required
+                        />
+                    </div>
+                    <div className="grid gap-2 flex-1">
+                        <Label htmlFor="quantity_available">Available units</Label>
+                        <Input
+                            className="py-5 rounded-full placeholder:text-gray-300"
+                            type="number"
+                            id="quantity_available"
+                            name="quantity_available"
+                            defaultValue={ticket.quantityAvailable}
+                            placeholder="50"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <DefaultButton text="Edit ticket" allowed={!!theme} />
+            </Form>
+        );
+    }
+);
+
+// Set the displayName for clarity in DevTools
+ProfileForm.displayName = "ProfileForm";

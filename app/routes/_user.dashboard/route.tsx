@@ -60,24 +60,11 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                         <p className="text-light text-sm text-muted-foreground text-center">
                             Nothing coming up at the moment
                         </p>
-                        {user.organiserProfile?.status === 'active' ? (
-                            <Link to={"/my-events/new"}>
-                                <Button size={'sm'} className='rounded-full bg-primary text-xs'>
-                                    Create an Event
-                                </Button>
-                            </Link>
-                        ) : (
-                            <Link to={"/organiser-request"}>
-                                <Button size={'sm'} className='rounded-full bg-primary-theme text-xs'>
-                                    Becoome an Organiser <ArrowRight />
-                                </Button>
-                            </Link>
-                        )}
                     </div>
                 )}
             </section>
 
-            {user.organiserProfile && (
+            {true && (
                 <section>
                     <h1 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
                         <span>Your Events</span>
@@ -86,6 +73,10 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                         </Link>
                     </h1>
 
+                    <p className='text-sm text-muted-foreground mb-2'>
+                        Manage your events, tickets, and attendees.
+                    </p>
+
                     {(myEvents && myEvents.length) ? (
                         <div className="grid grid-cols-1 items-stretch justify-start">
                             {myEvents.map((event) => (
@@ -93,15 +84,23 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                             ))}
                         </div>
                     ) : (
-                        <div className='pt-10 flex flex-col items-start gap-5'>
-                            <p className="text-light text-sm text-muted-foreground text-center">
-                                Nothing coming up at the moment
+                        <div className='pt-18 flex flex-col items-center gap-5'>
+                            <p className="font-medium tracking-tight text-md text-primary">
+                                No Events
                             </p>
-                            <Link to={"/my-events/new"}>
-                                <Button size={'sm'} className='rounded-full bg-primary text-xs'>
-                                    Create an Event
-                                </Button>
-                            </Link>
+                            {user.organiserProfile ? (
+                                <Link to={"/my-events/new"}>
+                                    <Button size={'sm'} className='rounded-full bg-primary text-xs'>
+                                        Create an Event
+                                    </Button>
+                                </Link>
+                            ) : (
+                                <Link to={"/organiser-request"}>
+                                    <Button size={'sm'} className='rounded-full bg-primary-theme text-xs'>
+                                        Becoome an Organiser <ArrowRight />
+                                    </Button>
+                                </Link>
+                            )}
                         </div>
                     )}
                 </section>

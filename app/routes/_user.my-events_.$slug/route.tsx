@@ -9,7 +9,7 @@ import type { Route } from "../_user.my-events_.$slug/+types/route";
 import { Link, redirect } from "react-router";
 import { parseForm } from "~/lib/utils";
 import formRequest from "~/http/form.request";
-import { ArrowLeft, ChevronDown } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import TicketCard from "~/components/cards/ticket-card";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -28,14 +28,15 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export async function clientAction({ request, params }: Route.ClientActionArgs) {
     const credentials = await parseForm(request)
-    console.log(credentials);
+    // console.log(credentials);
     // return
+    
     try {
         switch (credentials.type) {
             case 'ticket.edit':
                 await formRequest(
                     credentials,
-                    `organiser/events/${params.slug}/tickets/${credentials.ticketId}`,
+                    `organiser/events/${params.slug}/tickets/${credentials.ticket_id}`,
                     'PATCH'
                 );
                 toast.success("Ticket edited!");
@@ -46,6 +47,12 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
                     description: 'Feel free to edit the content of your event ticket'
                 });
                 return;
+            case 'ticket.delete':
+                await client.delete(`/api/organiser/events/${params.slug}/tickets/${credentials.ticket_id}`)
+                toast.warning("Ticket Delete!", {
+                    description: 'Ticket has been deleted with its related records'
+                });
+                return;
             default:
                 toast.warning('No form action specified', {
                     description: 'Contact support concerning this'
@@ -53,7 +60,6 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
                 break;
         }
 
-        await formRequest(credentials, `organiser/events/${params.slug}/tickets`, 'POST');
         return redirect(`/my-events/${params.slug}`)
     } catch (error: any) {
         console.log(error)
@@ -134,15 +140,23 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                 </section>
             </div>
 
-            <div className="mt-10 text-sm ">
+            <div className="mt-10 text-sm relative">
                 <h3 className="font-semibold">Event Tickets</h3>
 
-                <div className="flex items-stretch gap-5 mt-5 overflow-x-auto pb-10 border-b">
+                <div className="flex items-stretch gap-7 mt-5 overflow-x-auto pb-10 border-b ">
                     {event.tickets.length
-                        ? event.tickets.map(ticket => <TicketCard ticket={ticket} user="organiser" key={ticket.id} />)
+                        ? event.tickets.map(ticket =>
+                            <TicketCard ticket={ticket} user="organiser" key={ticket.id} />
+                        )
                         : <span className="text-gray-400">No tickets yet</span>
                     }
+
                 </div>
+                {event.tickets.length > 2 && (
+                    <div className="rounded-full p-3 shadow-2xl absolute md:hidden top-1/2 -right-2 bg-gray-100">
+                        <ArrowRight />
+                    </div>
+                )}
             </div>
         </div>
     )
