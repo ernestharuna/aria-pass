@@ -1,5 +1,5 @@
 import { Eye, MapPinHouse, MapPlus, Save, Scroll } from "lucide-react";
-import { Form } from "react-router";
+import { Form, redirect } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -23,7 +23,7 @@ import {
     PopoverTrigger,
 } from "~/components/ui/popover"
 import DefaultButton from "~/components/buttons/default-button";
-import type { Route } from "../_user.events_.new-event/+types/route";
+import type { Route } from "../_user.my-events_.new/+types/route";
 import { parseForm } from "~/lib/utils";
 import PreviewCard from "./preview-card";
 import InputError from "~/components/utility/input-error";
@@ -33,18 +33,18 @@ import { Switch } from "~/components/ui/switch";
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);
-    console.log(credentials);
-    // return
+
     try {
-        await formRequest(credentials, 'organiser/events', "POST");
+        const { data }: { data: OrganiserEvent } = await formRequest(credentials, 'organiser/events', "POST");
         toast.success("Event Created", {
             description: "You can now add tickets to this events"
         });
 
+        return redirect(`/my-events/${data.slug}`)
     } catch ({ response }: any) {
         console.log(response);
         const error: any = response?.data?.errors;
-        return error
+        return error;
     }
 }
 
@@ -93,7 +93,7 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-2xl font-medium tracking-tighter ">New Event</h1>
                     <Button type="button" className="rounded-full font-normal" variant={"secondary"} size={"sm"}>
-                       <span className="text-xs"> Save as draft</span> <Save size={18} />
+                        <span className="text-xs"> Save as draft</span> <Save size={18} />
                     </Button>
                 </div>
 

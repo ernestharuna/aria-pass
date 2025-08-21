@@ -1,5 +1,5 @@
 import * as React from "react"
-import { LayoutGrid, Plus, Square, SquarePen } from "lucide-react"
+import { ChevronRight, LayoutGrid, Plus, Square, SquarePen } from "lucide-react"
 
 import { Calendars } from "~/components/calendars"
 import { DatePicker } from "~/components/date-picker"
@@ -40,14 +40,19 @@ const data = {
 
 const app_menu = [
   {
-    icon: <LayoutGrid size={16} strokeWidth={2.5} />,
+    icon: <ChevronRight size={16} strokeWidth={4} />,
     label: "Dashboard",
     href: "dashboard"
   },
   {
-    icon: <SquarePen size={16} strokeWidth={2.5} />,
-    label: "New event",
-    href: "events/new-event"
+    icon: <ChevronRight size={16} strokeWidth={4} />,
+    label: "My Events",
+    href: "my-events"
+  },
+  {
+    icon: <ChevronRight size={16} strokeWidth={4} />,
+    label: "Account",
+    href: "account"
   },
 ]
 

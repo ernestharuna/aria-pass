@@ -3,5 +3,6 @@ interface Ticket extends Model {
     name: string,
     description: string,
     price: string,
-    quantityAvailable: string,
+    theme: string,
+    quantityAvailable: number,
 }

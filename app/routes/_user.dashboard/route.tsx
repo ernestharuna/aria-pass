@@ -1,7 +1,7 @@
 import EventCard from '~/components/cards/event-card'
 import client from '~/http/client'
 import type { Route } from '../_user.dashboard/+types/route';
-import { ArrowRight, SquareDashedMousePointer } from 'lucide-react';
+import { ArrowRight, ChevronRight, SquareDashedMousePointer } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { Link, useOutletContext } from 'react-router';
 import DetailedEventCard from '~/components/cards/detailed-event-card';
@@ -37,6 +37,7 @@ export async function clientLoader() {
         throw new Error("Could not fetch event data.");
     }
 }
+
 export default function Dashboard({ loaderData }: Route.ComponentProps) {
     const { events, myEvents }: { events: OrganiserEvent[], myEvents: OrganiserEvent[] } = loaderData;
     const user: User = useOutletContext();
@@ -60,7 +61,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                             Nothing coming up at the moment
                         </p>
                         {user.organiserProfile?.status === 'active' ? (
-                            <Link to={"/events/new-event"}>
+                            <Link to={"/my-events/new"}>
                                 <Button size={'sm'} className='rounded-full bg-primary text-xs'>
                                     Create an Event
                                 </Button>
@@ -78,22 +79,25 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
 
             {user.organiserProfile && (
                 <section>
-                    <h1 className='text-primary text-lg font-medium tracking-tight'>Your Events</h1>
+                    <h1 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
+                        <span>Your Events</span>
+                        <Link to={"/my-events"} className='hover:bg-gray-100 rounded-lg p-2'>
+                            <ChevronRight size={16} />
+                        </Link>
+                    </h1>
 
                     {(myEvents && myEvents.length) ? (
-                        <div className="grid grid-cols-1 pt-4 items-stretch justify-start">
+                        <div className="grid grid-cols-1 items-stretch justify-start">
                             {myEvents.map((event) => (
                                 <DetailedEventCard key={event.id} event={event} />
                             ))}
                         </div>
                     ) : (
-                        <div className='pt-10 flex flex-col items-center gap-5'>
-                            <SquareDashedMousePointer strokeWidth={0.2} className='w-50 h-50 text-gray-500' />
-                            <h2 className='font-semibold text-lg tracking-tighter'>No Events</h2>
+                        <div className='pt-10 flex flex-col items-start gap-5'>
                             <p className="text-light text-sm text-muted-foreground text-center">
                                 Nothing coming up at the moment
                             </p>
-                            <Link to={"/events/new-event"}>
+                            <Link to={"/my-events/new"}>
                                 <Button size={'sm'} className='rounded-full bg-primary text-xs'>
                                     Create an Event
                                 </Button>

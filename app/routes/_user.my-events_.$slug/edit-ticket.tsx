@@ -25,10 +25,10 @@ import { Label } from "~/components/ui/label"
 import { useMediaQuery } from "~/hooks/user-media-query"
 import { Textarea } from "~/components/ui/textarea"
 import DefaultButton from "~/components/buttons/default-button"
-import { Check } from "lucide-react"
-import { Form } from "react-router"
+import { Check, PencilLine } from "lucide-react"
+import { Form } from "react-router";
 
-export default function AddTicket() {
+export default function EditTicket({ ticket }: { ticket: Ticket }) {
     const [open, setOpen] = React.useState(false)
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -36,7 +36,7 @@ export default function AddTicket() {
         return (
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button variant="secondary" size={"sm"}>Add Ticket</Button>
+                    <PencilLine size={20} />
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
@@ -45,7 +45,7 @@ export default function AddTicket() {
                             {/*  */}
                         </DialogDescription>
                     </DialogHeader>
-                    <ProfileForm />
+                    <ProfileForm ticket={ticket} />
                 </DialogContent>
             </Dialog>
         )
@@ -54,7 +54,7 @@ export default function AddTicket() {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <Button variant="secondary" size={"sm"}>Add Ticket</Button>
+                <PencilLine size={20} />
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader className="text-left">
@@ -63,7 +63,7 @@ export default function AddTicket() {
                         {/*  */}
                     </DrawerDescription>
                 </DrawerHeader>
-                <ProfileForm className="px-4" />
+                <ProfileForm className="px-4" ticket={ticket} />
                 <DrawerFooter className="pt-2">
                     <DrawerClose asChild>
                         <Button
@@ -79,18 +79,18 @@ export default function AddTicket() {
     )
 }
 
-function ProfileForm({ className }: React.ComponentProps<"form">) {
-    const [theme, setTheme] = React.useState('');
-    const THEMES = [
-        "#6B7280",
-        "#10B981",
-        "#F59E0B",
-        "#4F46E5",
-    ]
+type ProfileFormProps = {
+    ticket: Ticket;
+} & React.ComponentProps<"form">;
+
+function ProfileForm({ className, ticket }: ProfileFormProps) {
+    const THEMES = ["#6B7280", "#10B981", "#F59E0B", "#4F46E5",]
+    const [theme, setTheme] = React.useState(ticket.theme);
 
     return (
         <Form className={cn("grid items-start gap-6", className)} method="POST">
-            <input type="hidden" name="type" value={'ticket.create'} required />
+            <input type="hidden" name="type" value={'ticket.edit'} required />
+            <input type="hidden" name="ticketId" value={ticket.id} required />
 
             <div className="grid gap-2">
                 <Label htmlFor="theme">Select theme</Label>
@@ -114,8 +114,8 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                     ))}
                 </div>
             </div>
-
             <input type="hidden" name="theme" value={theme} required />
+
 
             <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
@@ -124,7 +124,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                     type="text"
                     id="name"
                     name="name"
-                    defaultValue="Regular"
+                    defaultValue={ticket.name}
                     required
                 />
             </div>
@@ -133,7 +133,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                 <Textarea
                     className="placeholder:text-gray-300 rounded-xl"
                     id="description"
-                    defaultValue="Tickets for regular members who will sit behind"
+                    defaultValue={ticket.description}
                     name="description"
                 />
             </div>
@@ -147,6 +147,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                         id="price"
                         name="price"
                         placeholder="5,000"
+                        defaultValue={ticket.price}
                         required
                     />
                 </div>
@@ -157,13 +158,14 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                         type="number"
                         id="quantity_available"
                         name="quantity_available"
+                        defaultValue={ticket.quantityAvailable}
                         placeholder="50"
                         required
                     />
                 </div>
             </div>
 
-            <DefaultButton text="Save ticket" allowed={!!theme} />
+            <DefaultButton text="Edit ticket" allowed={!!theme} />
         </Form>
     )
 }
