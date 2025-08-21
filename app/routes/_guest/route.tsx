@@ -42,8 +42,8 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
-            <div className={`sticky top-0 z-10 ${scrolled && 'shadow'}`}>
-                <nav className={` bg-white py-4 container flex items-center justify-between transition-all `}>
+            <div className={`sticky top-0 z-10 bg-white ${scrolled && 'shadow'}`}>
+                <nav className={`bg-white py-4 container flex items-center justify-between transition-all `}>
                     <Link to="/" className='flex items-center'>
                         <div className="h-6 w-6 rounded-full bg-primary-theme me-2" />
                         <div className='text-xl font-medium tracking-tighter font-stretch-90% '>
