@@ -23,7 +23,7 @@ export default function AboveTheFolds({ event }: { event: OrganiserEvent }) {
             >
                 <div className="container flex items-center mt-8 gap-10">
                     <div className="flex flex-1 flex-col gap-6 items-start text-white">
-                        <h1 className="text-xl md:text-5xl font-bold leading-14 font-serif tracking-tighter">
+                        <h1 className="text-xl md:text-6xl font-bold leading-14 tracking-tighter">
                             {event.title}
                         </h1>
                         <p className='text-xl'>{event.description}</p>
@@ -101,16 +101,16 @@ export default function AboveTheFolds({ event }: { event: OrganiserEvent }) {
                     />
                 </div>
 
-                <div className='container mt-7'>
+                <div className='container mt-5'>
                     <div className="flex flex-col gap-3 items-start mb-14">
-                        <h1 className="text-2xl md:text-3xl font-bold font-serif tracking-tighter">
+                        <h1 className="text-2xl md:text-3xl font-bold tracking-tighter">
                             {event.title}
                         </h1>
                         <p className='text-base'>
                             {event.description}
                         </p>
                         <div className="mt-3 flex text-sm items-center gap-2 font-semibold">
-                            <span className="text-primary-theme">5.0</span>
+                            <span className="text-primary">5.0</span>
                             <Rating />
                             <span>(20+ ratings) 25+ students</span>
                         </div>
@@ -132,11 +132,11 @@ export default function AboveTheFolds({ event }: { event: OrganiserEvent }) {
                                     <AvatarFallback>ER</AvatarFallback>
                                 </Avatar>
                             </div>
-                            <div className="text-white font-light text-xs">+200 Attending</div>
+                            <div className="text-primary font-medium text-xs">+200 Attending</div>
                         </div>
                         <div className='text-sm mb-4'>
-                            Created by {" "}
-                            <Link to="#creator" className="text-primary-theme underline underline-offset-2">
+                            Organised by {" "}
+                            <Link to="#creator" className="font-bold text-primary-theme underline underline-offset-2">
                                 {event.organiser.organiserName}
                             </Link>
                         </div>

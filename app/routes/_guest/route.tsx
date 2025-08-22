@@ -161,7 +161,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
 
             <Outlet />
 
-            <footer className="bg-white text-muted-foreground px-6 pt-20">
+            <footer className="bg-white text-muted-foreground pt-20">
                 <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
                         <h2 className="text-lg font-semibold text-foreground">

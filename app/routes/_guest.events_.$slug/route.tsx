@@ -19,8 +19,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function ViewEvent({ loaderData }: Route.ComponentProps) {
   const { event }: { event: OrganiserEvent } = loaderData;
-  console.log(event);
-
+  // console.log(event);
 
   return (
     <div>
