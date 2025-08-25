@@ -21,4 +21,5 @@ interface OrganiserEvent extends Model {
 
     organiser: Pick<OrganiseProfile, "id" | "organiserName">;
     liked?: boolean
+    likes?: number
 }

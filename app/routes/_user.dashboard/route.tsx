@@ -87,7 +87,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                     ) : (
                         <div className='pt-10 flex flex-col items-center gap-5'>
                             <p className="font-medium tracking-tight text-md text-primary">
-                                No Events
+                                You have no events yet.
                             </p>
                             {user.organiserProfile ? (
                                 <Link to={"/my-events/new"}>

@@ -23,7 +23,7 @@ export default function ViewEvent({ loaderData }: Route.ComponentProps) {
   console.log(event);
 
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-gray-50'>
       <div className="hidden lg:block">
         <DesktopView event={event} />
       </div>

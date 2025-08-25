@@ -9,7 +9,7 @@ export default function RedirectOrFetcher({ children, route, }:
     const fetcher = useFetcher();
 
     return (
-        <div className='z-20'>
+        <>
             {userSession
                 ? (
                     <fetcher.Form method='POST' action={route}>
@@ -18,6 +18,6 @@ export default function RedirectOrFetcher({ children, route, }:
                 )
                 : (<Link to={"/register"}>{children}</Link>)
             }
-        </div>
+        </>
     )
 }

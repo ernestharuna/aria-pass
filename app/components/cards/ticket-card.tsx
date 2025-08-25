@@ -6,13 +6,13 @@ export default function TicketCard({ ticket, user = 'user' }: { ticket: Ticket, 
     return (
         <div
             className="border-t-5 rounded-md px-4 py-7 text-black border min-w-55 max-w-55 w-55 h-70 hover:shadow-lg transition overflow-hidden relative"
-            style={{ borderTopColor: ticket.theme }}
+            style={{ borderTopColor: ticket.theme, background: ticket.theme + '17' }}
         >
             <p className="text-sm font-light">
                 <FormatPrice price={ticket.price} />
             </p>
 
-            <h5 className='font-semibold tracking-tight text-xl'>{ticket.name}</h5>
+            <h5 className='font-bold tracking-tighter text-xl' style={{ color: ticket.theme }}>{ticket.name}</h5>
             <p className='text-sm text-muted-foreground mt-1'>{ticket.quantityAvailable} units</p>
 
 

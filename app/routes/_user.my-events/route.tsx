@@ -60,7 +60,7 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
         <div>
             <section>
                 <div className="flex justify-between items-center">
-                    <h1 className='text-primary text-2xl font-medium tracking-tight'>Your Events</h1>
+                    <h1 className='text-primary text-2xl font-medium tracking-tight'>My Events</h1>
                     <Link to={'new'} >
                         <Button
                             variant={'default'}

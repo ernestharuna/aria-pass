@@ -24,9 +24,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
         <section>
             <div className="bg-slate-100 col-span-1 md:col-span-4 h-60 w-full aspect-video group-hover:opacity-75 lg:h-auto overflow-hidden">
                 <img
-                    src={event.bannerUrl
-                        ? `${STORAGE_URL}/${event.bannerUrl}`
-                        : "/images/banners/default-course-img.png"}
+                    src={banner}
                     alt={event.title}
                     className="h-60 w-full object-cover"
                 />
@@ -47,15 +45,21 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                     <div className="flex items-center gap-4 mb-3">
                         {/* /api/events/${params.slug}/interested */}
                         <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
-                            <div className="flex items-center gap-2 px-3 py-1.5 text-xs bg-indigo-50 text-primary-theme border border-primary-theme rounded-full hover:bg-gray-100 cursor-pointer transition">
+                            <button className="flex items-center gap-2 px-3 py-2 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
                                 <div>
-                                    <Heart size={16} className="text-destructive fill-destructive" />
+                                    <Heart
+                                        size={16}
+                                        className={`${event.liked && 'text-destructive fill-current'}`}
+                                    />
                                 </div>
-                                <span>Like Event</span>
-                            </div>
+                                {event.liked
+                                    ? (<span className="">Saved</span>)
+                                    : (<span className="">Save to favorites</span>)
+                                }
+                            </button>
                         </RedirectOrFetcher>
                         <SharePage>
-                            <div className="flex items-center gap-2 px-3 py-1.5 text-xs bg-indigo-50 text-primary-theme border border-primary-theme rounded-full hover:bg-gray-100 cursor-pointer transition">
+                            <div className="flex items-center gap-2 px-3 py-2 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
                                 <div>
                                     <Share2 size={16} />
                                 </div>

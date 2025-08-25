@@ -23,7 +23,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         })
         return redirect('/my-events')
     }
-
 }
 
 export async function clientAction({ request, params }: Route.ClientActionArgs) {
@@ -110,7 +109,11 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
 
                 {/* Right side */}
                 <div className="flex gap-3 items-center">
-                    <Button variant={"outline"} size={"sm"}>Edit</Button>
+                    <Link to={"edit"}>
+                        <Button variant={"outline"} size={"sm"}>
+                            Edit
+                        </Button>
+                    </Link>
                     <AddTicket />
                 </div>
             </div>

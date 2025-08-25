@@ -41,6 +41,7 @@ const sample = [
 
 export default function Home({ loaderData }: Route.ComponentProps) {
     const { events }: { events: Promise<OrganiserEvent[]> } = loaderData;
+    console.log(events);
 
     return (
         <div className="fadeIn animated">

@@ -1,58 +1,43 @@
-import { Eye, MapPinHouse, MapPlus, Save, Scroll } from "lucide-react";
-import { Form, redirect } from "react-router";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { Textarea } from "~/components/ui/textarea";
-import { useState } from "react";
+import { useState } from 'react'
+import type { Route } from '../_user.my-events_.$slug_.edit/+types/route';
+import client from '~/http/client';
+import { toast } from 'sonner';
+import { Form, redirect } from 'react-router';
+import { parseForm } from '~/lib/utils';
+import { Button } from '~/components/ui/button';
+import { Label } from '~/components/ui/label';
+import { Input } from '~/components/ui/input';
+import InputError from '~/components/utility/input-error';
+import { Textarea } from '~/components/ui/textarea';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '~/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover';
+import { ChevronDownIcon, Eye, MapPinHouse, MapPlus, Save, Scroll } from 'lucide-react';
+import { Calendar } from '~/components/ui/calendar';
+import PreviewCard from '../_user.my-events_.new/preview-card';
+import { Switch } from '~/components/ui/switch';
+import DefaultButton from '~/components/buttons/default-button';
 
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "~/components/ui/select";
-import { ChevronDownIcon } from "lucide-react"
-import { Calendar } from "~/components/ui/calendar"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "~/components/ui/popover"
-import DefaultButton from "~/components/buttons/default-button";
-import type { Route } from "../_user.my-events_.new/+types/route";
-import { parseForm } from "~/lib/utils";
-import PreviewCard from "./preview-card";
-import InputError from "~/components/utility/input-error";
-import formRequest from "~/http/form.request";
-import { toast } from "sonner";
-import { Switch } from "~/components/ui/switch";
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+    try {
+        const res = await client.get(`api/organiser/events/${params.slug}`);
+        return { event: res.data }
+    } catch ({ response }: any) {
+        console.log(response);
+        toast.warning("Something broke", {
+            description: response.data.message || ""
+        })
+        return redirect(`/my-events/${params.slug}`)
+    }
+}
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
-    const credentials = await parseForm(request);
+    const credentials = await parseForm(request)
 
-    return await formRequest(credentials, 'organiser/events', "POST")
-        .then((res) => {
+    try {
 
-            console.log(res);
+    } catch ({ response }: any) {
 
-            toast.success("Event Created", {
-                description: "You can now add tickets to this event"
-            });
-
-            return redirect(`/my-events/${res.slug}`);
-        })
-        .catch(({ response }) => {
-            toast.error("Something went wrong", {
-                description: `Status code ${response.status}`
-            });
-            console.log(response);
-
-            return response.data.errors
-        })
+    }
 }
 
 interface FormProps {
@@ -70,8 +55,9 @@ interface FormProps {
     start_time: Date | undefined,
 }
 
-export default function CreateEvent({ actionData }: Route.ComponentProps) {
+export default function EditEvent({ loaderData, actionData }: Route.ComponentProps) {
     const errors = actionData;
+    const event = loaderData;
 
     const [openDate, setOpenDate] = useState(false)
     const [date, setDate] = useState<Date | undefined>(undefined);
@@ -367,7 +353,7 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
                     </div>
                 </section>
 
-                <DefaultButton text="Publish" />
+                <DefaultButton text="Update Event" />
             </aside>
         </Form>
     )
