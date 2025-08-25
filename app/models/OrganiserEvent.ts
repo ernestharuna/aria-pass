@@ -6,7 +6,7 @@ interface OrganiserEvent extends Model {
     engagementVisible: boolean | number; // Could be treated as a boolean (1 for true, 0 for false)
     extraInfo: string;
     slug: string;
-
+    eventType: string;
     startTime: string;
     endTime: string | null;
     date: Date;
@@ -19,5 +19,6 @@ interface OrganiserEvent extends Model {
     venueAddress: string;
     venueName: string;
 
-    organiser: Pick<OrganiseProfile, "id" | "organiserName">
+    organiser: Pick<OrganiseProfile, "id" | "organiserName">;
+    liked?: boolean
 }

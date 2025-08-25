@@ -28,7 +28,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   try {
     await authRequest(credentials, 'login');
     toast("Welcome back!", {
-      description: "OwenaHub is ready for you! 🚀",
+      description: "AriaPass is ready for you! 🚀",
     });
     return redirect(route);
   } catch ({ response }: any) {

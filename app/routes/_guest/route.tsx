@@ -33,7 +33,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     const NAV = ['Explore', 'Organisers', 'Programs', 'Courses']
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 70);
+        const handleScroll = () => setScrolled(window.scrollY > 50);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -42,23 +42,25 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
-            <div className={`sticky top-0 z-10 bg-white ${scrolled && 'shadow'}`}>
-                <nav className={`bg-white py-4 container flex items-center justify-between transition-all `}>
-                    <Link to="/" className='flex items-center'>
-                        <div className="h-6 w-6 rounded-full bg-primary-theme me-2" />
-                        <div className='text-xl font-medium tracking-tighter font-stretch-90% '>
-                            <span className="text-black">Aria</span>
-                            <span className="text-black">Pass</span>
-                        </div>
-                    </Link>
+            <div className={`sticky top-0 z-10 bg-white  ${scrolled && 'border-b border-gray-50'}`}>
+                <nav className={`bg-white py-5 container flex items-center justify-between transition-all`}>
+                    <div className='flex items-center gap-20'>
+                        <Link to="/" className='flex items-center border rounded px-2 border-primary-theme bg-indigo-50'>
+                            <div className='text-xl font-medium tracking-tighter font-serif'>
+                                <span className="text-primary-theme">Aria</span>
+                                <span className="text-black">Pass</span>
+                            </div>
+                        </Link>
 
-                    <ul className='hidden md:flex gap-8 text-sm'>
-                        {NAV.map((item) => (
-                            <li key={item} className='hover:text-gray-400 transition-all'>
-                                <Link to={item.toLowerCase()}>{item}</Link>
-                            </li>
-                        ))}
-                    </ul>
+                        <ul className='hidden md:flex gap-8 text-sm'>
+                            {NAV.map((item) => (
+                                <li key={item} className='hover:text-gray-400 font-medium transition-all'>
+                                    <Link to={item.toLowerCase()}>{item}</Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                     {(user && user.name)
                         ? (
                             <div className='hidden md:flex gap-5 items-center'>
@@ -162,7 +164,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
             <Outlet />
 
             <footer className="bg-white text-muted-foreground pt-20">
-                <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="container grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
                         <h2 className="text-lg font-semibold text-foreground">
                             <Link to="/" className='text-xl'>

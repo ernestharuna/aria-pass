@@ -48,7 +48,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                 <h1 className='text-primary text-2xl font-medium tracking-tight'>Upcoming Events</h1>
 
                 {(events && events.length) ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-5 items-stretch justify-start">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-5 pt-5 items-stretch justify-start">
                         {events.map((event) => (
                             <EventCard key={event.id} event={event} />
                         ))}
@@ -65,7 +65,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
             </section>
 
             {true && (
-                <section>
+                <section className='mb-10'>
                     <h1 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
                         <span>Your Events</span>
                         <Link to={"/my-events"} className='hover:bg-gray-100 rounded-lg p-2'>
@@ -74,7 +74,8 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                     </h1>
 
                     <p className='text-sm text-muted-foreground mb-2'>
-                        Manage your events, tickets, and attendees.
+                        Manage your events, tickets, and attendees {" "}
+                        <Link to={"/my-events"} className='text-blue-500 underline underline-offset-2'>here</Link>
                     </p>
 
                     {(myEvents && myEvents.length) ? (
@@ -84,7 +85,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                             ))}
                         </div>
                     ) : (
-                        <div className='pt-18 flex flex-col items-center gap-5'>
+                        <div className='pt-10 flex flex-col items-center gap-5'>
                             <p className="font-medium tracking-tight text-md text-primary">
                                 No Events
                             </p>
@@ -96,7 +97,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                                 </Link>
                             ) : (
                                 <Link to={"/organiser-request"}>
-                                    <Button size={'sm'} className='rounded-full bg-primary-theme text-xs'>
+                                    <Button className='rounded-full bg-primary-theme text-xs'>
                                         Becoome an Organiser <ArrowRight />
                                     </Button>
                                 </Link>

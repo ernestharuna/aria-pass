@@ -23,29 +23,18 @@ body {
 @layer components {
   .container {
     width: 100%;
+    padding: 0 2rem;
     margin: 0 auto;
-    padding: 0 1rem;
 
-    @media (width >=40rem) {
-      max-width: 40rem !important;
+    @media (max-width: 700px) {
+      padding: 0 1rem;
     }
 
-    @media (width >=48rem) {
-      max-width: 48rem !important;
-    }
-
-    @media (width >=64rem) {
-      max-width: 64rem !important;
-    }
-
-    @media (width >=80rem) {
-      max-width: 80rem !important;
-    }
-
-    @media (width >=96rem) {
-      max-width: 112rem !important;
+    @media (min-width: 768px) {
+      max-width: 1800px !important
     }
   }
+
 }
 
 @theme inline {

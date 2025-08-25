@@ -27,6 +27,7 @@ import { useState } from 'react';
 
 export default function DetailedEventCard({ event }: { event: OrganiserEvent }) {
     const formattedDate = dayjs(event.date).format('MMMM D, YYYY');
+
     const TOTAL_TICKETS: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
         return sum + ticket.quantityAvailable;
     }, 0);
@@ -59,7 +60,9 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
             {/* Right side */}
             <div className="flex gap-3 items-center">
                 <EventStatus status={event.status} />
-                <Actions event={event} />
+                {window.location.pathname === '/my-events' && (
+                    <Actions event={event} />
+                )}
             </div>
         </div>
     )
@@ -93,7 +96,7 @@ function Actions({ event }: { event: OrganiserEvent }) {
                         <DialogTrigger asChild>
                             <Button
                                 variant="ghost"
-                                className='rounded-sm w-full h-8 py-0 px-2 border-0 text-start block text-destructive hover:bg-red-100 hover:text-destructive'
+                                className='rounded-sm w-full h-8 py-0 px-2 border-0 text-start block text-destructive hover:bg-red-50 hover:text-destructive'
                             >
                                 Delete
                             </Button>

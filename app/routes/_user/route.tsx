@@ -55,7 +55,7 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                     <Breadcrumb />
                    
                 </header>
-                <div className="flex flex-1 flex-col gap-4 px-5 py-10 max-w-[94rem] w-full mx-auto">
+                <div className="flex flex-1 flex-col gap-4 px-6 py-10 max-w-[94rem] w-full b mx-auto">
                     <Outlet context={user} />
                 </div>
             </SidebarInset>

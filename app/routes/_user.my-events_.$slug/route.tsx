@@ -136,7 +136,9 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                 </section>
                 <section className="flex flex-col gap-4 flex-1 border-t py-5">
                     <p className="text-sm">Page views</p>
-                    <p className="font-bold text-2xl">{typeof event.views === 'object' && (event.views.length)}</p>
+                    <p className="font-bold text-2xl">
+                        {typeof event.views === 'object' && (event.views.length)}
+                    </p>
                 </section>
             </div>
 

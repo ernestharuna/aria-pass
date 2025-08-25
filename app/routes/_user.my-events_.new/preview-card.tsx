@@ -1,8 +1,5 @@
 import { MapPin, Ticket } from 'lucide-react'
-
-function Placeholder({ text }: { text: string }) {
-    return <span className='text-gray-300'>{text}</span>
-}
+import Placeholder from '~/components/utility/placeholder'
 
 export default function PreviewCard({ event, bannerImage }: { event?: any, bannerImage: any }) {
     return (

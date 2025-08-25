@@ -7,6 +7,7 @@ import {
 } from "~/components/ui/avatar"
 import { STORAGE_URL } from '~/config/defaults';
 import { Link } from 'react-router';
+import RedirectOrFetcher from '../navigation/like-event';
 
 
 export default function EventCard({ event, index }: { event: OrganiserEvent, index?: number }) {
@@ -15,11 +16,11 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
     return (
         <div key={index} className="bg-white border border-gray-100 flex flex-col gap-2 hover:shadow-lg rounded-xl group">
             {/* event banner */}
-            <div className="relative bg-gray-100 rounded-xl w-full group-hover:opacity-85 aspect-video h-50 lg:h-70 overflow-hidden transition">
+            <div className="relative bg-gray-100 rounded-xl w-full group-hover:opacity-85 aspect-video h-60 lg:h-70 overflow-hidden transition">
                 <Link to={`/events/${event.slug}`}>
-                    <span aria-hidden="true" className="z-50 absolute inset-0" />
+                    <span aria-hidden="true" className="z-10 absolute inset-0" />
                 </Link>
-                
+
                 {event.bannerUrl && (
                     <img
                         src={event.bannerUrl && `${STORAGE_URL}/${event.bannerUrl}`}
@@ -40,9 +41,13 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                             <p className="-mt-1.5 tracking-tighter text-xs font-light uppercase">{formattedDate.split(' ')[0]}</p>
                         </div>
                     </div>
-                    <div className='bg-white top-2 left-2 w-max py-2 px-2 rounded-full'>
-                        <Heart strokeWidth={1} size={18} className='text-primary' />
-                    </div>
+                    <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
+                        <button title="Add to favourites" className='bg-white top-2 left-2 w-max py-2 px-2 rounded-full hover:bg-red-500'>
+                            <Heart
+                                className={`${event.liked && 'text-destructive fill-current'}`}
+                                strokeWidth={1.5} size={20} />
+                        </button>
+                    </RedirectOrFetcher>
 
                 </div>
 

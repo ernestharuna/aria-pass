@@ -49,7 +49,7 @@ export default function AddTicket() {
         return (
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button variant="secondary" size={"sm"}>Add Ticket</Button>
+                    <Button variant="outline" size={"sm"}>Add Ticket</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
@@ -67,7 +67,7 @@ export default function AddTicket() {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <Button variant="secondary" size={"sm"}>Add Ticket</Button>
+                <Button variant="outline" size={"sm"}>Add Ticket</Button>
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader className="text-left">

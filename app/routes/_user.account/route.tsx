@@ -7,14 +7,14 @@ export default function Account() {
     const NAVIGATION = [...tabs, ...(user.accountType === 'admin' ? ['Operations'] : [])]
 
     return (
-        <div>
-            <section className="max-w-7xl mx-auto mt-8">
+        <div className="container">
+            <section className=" mx-auto mt-8">
                 <p className="text-gray-500">{user.name}</p>
                 <h1 className="text-3xl">Account Setting</h1>
             </section>
 
             {/* Tabs */}
-            <section className="max-w-7xl mx-auto mt-5 flex gap-8 text-sm overflow-x-auto border-b">
+            <section className="mx-auto mt-5 flex gap-8 text-sm overflow-x-auto border-b">
                 {NAVIGATION.map((nav) => {
                     return (
                         <NavLink
@@ -34,7 +34,7 @@ export default function Account() {
             </section>
 
             {/* Tab Content */}
-            <section className="max-w-7xl mx-auto mt-8">
+            <section className=" mx-auto mt-8">
                 <Outlet context={user} />
             </section>
         </div>

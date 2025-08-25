@@ -2,7 +2,8 @@ import client from "~/http/client";
 import type { Route } from "../_guest.events_.$slug/+types/route";
 import { toast } from "sonner";
 import { redirect } from "react-router";
-import AboveTheFolds from "./above-the-folds";
+import DesktopView from "./desktop-atf";
+import MobileView from "./mobile-atf";
 
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -19,11 +20,17 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function ViewEvent({ loaderData }: Route.ComponentProps) {
   const { event }: { event: OrganiserEvent } = loaderData;
-  // console.log(event);
+  console.log(event);
 
   return (
-    <div>
-      <AboveTheFolds event={event} />
+    <div className='bg-gray-100'>
+      <div className="hidden lg:block">
+        <DesktopView event={event} />
+      </div>
+
+      <div className="block lg:hidden">
+        <MobileView event={event} />
+      </div>
     </div>
   )
 }

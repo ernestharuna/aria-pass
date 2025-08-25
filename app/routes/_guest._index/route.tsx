@@ -45,9 +45,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     return (
         <div className="fadeIn animated">
             <header className="flex flex-col gap-5 lg:min-h-[65vh]">
-                <section className="container flex justify-between gap-40 items-center my-16">
-                    {/* Overflow hidden is here to prevent mobile horizontal scrolling */}
-                    <div className="md:flex-1 text-center md:text-start overflow-hidden">
+                <section className="container flex justify-between gap-20 items-center my-16">
+                    <div className="lg:basis-7/12 text-center md:text-start overflow-hidden">
                         <h1 className="text-3xl md:text-5xl font-semibold md:leading-13 text-primary tracking-tight">Experience the <BrMd /> Community Behind the Concerts</h1>
                         <p className="text-primary text-base mt-5 leading-5">
                             Explore work from the most talented and accomplished <BrMd /> designers ready to take on your next project.
@@ -83,13 +82,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         </div>
                     </div>
 
-                    <div className="hidden lg:flex items-center justify-center">
-                        <StackedSwipeDeck
-                            initialCards={sample}
-                            width={600}
-                            height={400}
-                            onSwipe={(card, dir) => console.log("swiped", card.title, dir > 0 ? "right" : "left")}
-                        />
+                    <div className="hidden lg:block lg:basis-5/12">
+                        <div className="h-100 w-full bg-gray-200 rounded-3xl" />
                     </div>
                 </section>
             </header >
@@ -145,7 +139,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 </div>
                 {/* Events End ---------------------------------------------- */}
 
-                <hr className="mt-10"/>
+                <hr className="mt-10" />
 
                 <div className="container mt-20">
                     <div
