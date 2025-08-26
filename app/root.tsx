@@ -4,6 +4,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
@@ -48,7 +49,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Toaster
           richColors
           // closeButton
-          position="bottom-center"
+          position="bottom-right"
           toastOptions={{
             classNames: {
               actionButton: '!px-2 !rounded-full !text-white',
@@ -61,7 +62,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const { state } = useNavigation();
+  let busy: boolean = state === "submitting" || state === "loading";
+
+  return (
+    <div className={`${busy && "opacity-35"} transition overflow-x-hidden`}>
+      <Outlet />
+    </div>
+  )
+
 }
 
 export function HydrateFallback() {

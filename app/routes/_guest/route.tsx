@@ -42,10 +42,10 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
-            <div className={`sticky top-0 z-10 bg-white  ${scrolled && 'border-b border-gray-50'}`}>
-                <nav className={`bg-white py-5 container flex items-center justify-between transition-all`}>
+            <div className={`sticky top-0 z-10 bg-white/50 backdrop-blur-md ${scrolled && 'border-b border-gray-50'}`}>
+                <nav className={`bg-white/50 backdrop-blur-md py-5 container flex items-center justify-between transition-all`}>
                     <div className='flex items-center gap-20'>
-                        <Link to="/" className='flex items-center border rounded px-2 border-primary-theme bg-indigo-50'>
+                        <Link to="/" className='flex items-center'>
                             <div className='text-xl font-medium tracking-tighter font-serif'>
                                 <span className="text-primary-theme">Aria</span>
                                 <span className="text-black">Pass</span>

@@ -5,7 +5,10 @@ import NProgress from "nprogress"
 import "nprogress/nprogress.css";
 import { useNavigation } from "react-router";
 
-NProgress.configure({ showSpinner: false });
+NProgress.configure({
+    showSpinner: true,
+    easing: 'ease'
+});
 
 export default function ProgressBar() {
     const navigation = useNavigation();

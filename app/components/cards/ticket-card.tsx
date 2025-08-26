@@ -18,7 +18,7 @@ export default function TicketCard({ ticket, user = 'user' }: { ticket: Ticket, 
 
             {/* Absolute elements */}
             {user === 'organiser' && (
-                <div className="absolute left-1 bottom-1 rounded-full border">
+                <div className="absolute left-1 bottom-1 rounded-full border border-gray-100 bg-white">
                     <div className="flex flex-col items-start">
                         <div className='cursor-pointer hover:bg-gray-100 transition p-2 rounded-t-full' title='Edit Ticket'>
                             <EditTicket ticket={ticket} />

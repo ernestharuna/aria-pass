@@ -20,7 +20,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     return (
         <form
             onSubmit={handleSubmit}
-            className="flex items-center bg-gray-100 rounded-full overflow-hidden"
+            className="flex items-center bg-gray-200/50 backdrop-blur-3xl rounded-full overflow-hidden"
         >
             <input
                 type="text"
