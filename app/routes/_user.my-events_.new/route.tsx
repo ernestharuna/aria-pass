@@ -36,9 +36,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
     return await formRequest(credentials, 'organiser/events', "POST")
         .then((res) => {
-
-            console.log(res);
-
             toast.success("Event Created", {
                 description: "You can now add tickets to this event"
             });
@@ -49,8 +46,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
             toast.error("Something went wrong", {
                 description: `Status code ${response.status}`
             });
-            console.log(response);
-
             return response.data.errors
         })
 }
@@ -192,8 +187,7 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
                                                 setForm((i) => ({
                                                     ...i, banner_url: file
                                                 }));
-                                                setBannerPreview(URL.createObjectURL(file));
-                                                console.log(URL.createObjectURL(file))
+                                                setBannerPreview(URL.createObjectURL(file))
                                             }
                                         }
                                         }

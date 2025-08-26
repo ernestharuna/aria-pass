@@ -13,9 +13,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover';
 import { ChevronDownIcon, Eye, MapPinHouse, MapPlus, Save, Scroll } from 'lucide-react';
 import { Calendar } from '~/components/ui/calendar';
-import PreviewCard from '../_user.my-events_.new/preview-card';
 import { Switch } from '~/components/ui/switch';
 import DefaultButton from '~/components/buttons/default-button';
+import PreviewCard from './preview-card';
+import { STORAGE_URL } from '~/config/defaults';
+import formRequest from '~/http/form.request';
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     try {
@@ -30,14 +32,23 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     }
 }
 
-export async function clientAction({ request }: Route.ClientActionArgs) {
+export async function clientAction({ request, params }: Route.ClientActionArgs) {
     const credentials = await parseForm(request)
 
-    try {
+    return await formRequest(credentials, `organiser/events/${params.slug}`, "PATCH")
+        .then((res) => {
+            toast.success("Event Updated", {
+                description: "Your changes have been saved"
+            });
 
-    } catch ({ response }: any) {
-
-    }
+            return redirect(`/my-events/${res.slug}`);
+        })
+        .catch(({ response }) => {
+            toast.error("Something went wrong", {
+                description: `Status code ${response.status}`
+            });
+            return response.data.errors
+        });
 }
 
 interface FormProps {
@@ -57,34 +68,37 @@ interface FormProps {
 
 export default function EditEvent({ loaderData, actionData }: Route.ComponentProps) {
     const errors = actionData;
-    const event = loaderData;
+    const { event } = loaderData;
 
     const [openDate, setOpenDate] = useState(false)
-    const [date, setDate] = useState<Date | undefined>(undefined);
+    const [ date, setDate] = useState<Date | undefined>(event.date ? new Date(event.date) : undefined);
 
-    const [bannerPreview, setBannerPreview] = useState('');
-    const [shareEngagement, setSetEngagement] = useState(false);
+    const [bannerPreview, setBannerPreview] = useState(STORAGE_URL + '/' + event.bannerUrl);
+
+    const [shareEngagement, setSetEngagement] = useState(event.engagementVisible);
 
     const [form, setForm] = useState<FormProps>({
-        title: '',
-        description: '',
-        event_type: '',
+        title: event?.title || '',
+        description: event.description || '',
+        event_type: event.eventType || '',
         banner_url: null,
-        status: 'draft',
-        engagement_visible: true,
-        extra_info: '',
-        venue_name: '',
-        venue_address: '',
-        city: '',
-        country: '',
-        start_time: date,
+        status: event.status || 'draft',
+        engagement_visible: event.engagementVisible,
+        extra_info: event.extraInfo || '',
+        venue_name: event.venueName || '',
+        venue_address: event.venueAddress || '',
+        city: event.city || '',
+        country: event.country || '',
+        start_time: event.startTime || '',
     });
+
+    console.log(event)
 
     return (
         <Form className="flex flex-col lg:flex-row items-stretch gap-10 justify-between" method="post" encType="multipart/form-data">
             <section className="basis-3/6">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-2xl font-medium tracking-tighter ">New Event</h1>
+                    <h1 className="text-2xl font-medium tracking-tighter ">Edit Event</h1>
                     <Button type="button" className="rounded-full font-normal" variant={"secondary"} size={"sm"}>
                         <span className="text-xs"> Save as draft</span> <Save size={18} />
                     </Button>
@@ -104,7 +118,8 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                                         type="button"
                                         size={"sm"} variant={"outline"}
                                         className={`rounded-full shadow-none text-xs font-light 
-                                            ${form.event_type === item && 'bg-primary-theme text-white font-medium'}`}
+                                            ${form.event_type === item && 'bg-primary-theme text-white font-medium'}`
+                                        }
                                         onClick={() => setForm((i) => ({ ...i, event_type: item }))}
                                     >
                                         {item}
@@ -138,6 +153,7 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                             name="title"
                             className="py-5 rounded-full placeholder:text-gray-300"
                             placeholder="Phantom of the Opera"
+                            value={form.title}
                             required
                         />
                         <InputError for="title" error={errors} />
@@ -157,6 +173,7 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                             name="description"
                             className="rounded-xl placeholder:text-gray-300"
                             placeholder="..."
+                            value={form.description}
                         />
                         <InputError for="description" error={errors} />
                     </div>
@@ -179,7 +196,6 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                                                     ...i, banner_url: file
                                                 }));
                                                 setBannerPreview(URL.createObjectURL(file));
-                                                console.log(URL.createObjectURL(file))
                                             }
                                         }
                                         }
@@ -204,6 +220,7 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                                         city: value
                                     }))
                                 }
+                                value={form.city}
                             >
                                 <SelectTrigger className="w-full rounded-full py-5">
                                     <SelectValue placeholder="Select City" />
@@ -228,6 +245,7 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                                         country: value
                                     }))
                                 }
+                                value={form.country}
                             >
                                 <SelectTrigger className="w-full rounded-full py-5">
                                     <SelectValue placeholder="Select Country" />
@@ -270,7 +288,7 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                                     />
                                 </PopoverContent>
                             </Popover>
-                            <input type="hidden" name="date" value={date?.toISOString().split('T')[0]} />
+                            <input type="hidden" name="date" defaultValue={date?.toISOString().split('T')[0]} />
                             <InputError for="date" error={errors} />
                         </div>
                         <div className="flex flex-1 flex-col gap-2">
@@ -282,7 +300,13 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                                 id="time-picker"
                                 step="1"
                                 name="start_time"
-                                defaultValue="10:30:00"
+                                defaultValue={
+                                    form.start_time
+                                        ? typeof form.start_time === 'string'
+                                            ? form.start_time
+                                            : form.start_time.toISOString().substring(11, 16)
+                                        : ''
+                                }
                                 className="rounded-full py-5 bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                             />
                             <InputError for="start_time" error={errors} />
@@ -309,6 +333,7 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                             name="venue_name"
                             className="py-5 rounded-full placeholder:text-gray-300"
                             placeholder="Merit Hall"
+                            defaultValue={form.venue_name}
                         />
                         <InputError for="venue_name" error={errors} />
                     </div>
@@ -321,6 +346,7 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                             name="venue_address"
                             className="py-5 rounded-full placeholder:text-gray-300"
                             placeholder="5th Crescent Ave, Gaduwa close"
+                            defaultValue={form.venue_address}
                         />
                         <InputError for="venue_address" error={errors} />
                     </div>
@@ -333,6 +359,7 @@ export default function EditEvent({ loaderData, actionData }: Route.ComponentPro
                             name="extra_info"
                             className="rounded-xl placeholder:text-gray-300"
                             placeholder="Ensure to not bring children"
+                            defaultValue={form.extra_info}
                         />
                         <InputError for="extra_info" error={errors} />
                     </div>

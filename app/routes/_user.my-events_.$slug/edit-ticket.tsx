@@ -110,13 +110,13 @@ const ProfileForm = React.forwardRef<HTMLFormElement, ProfileFormProps>(
                     <Label htmlFor="theme">Select theme</Label>
                     <div className="flex items-stretch gap-3">
                         {THEMES.map(color => (
-                            <div className="relative h-14 w-14" key={color}>
+                            <div className="relative h-14 flex-1" key={color}>
                                 <button
                                     title={`Select ${color}`}
                                     onClick={() => setTheme(color)}
                                     type="button"
                                     style={{ backgroundColor: color }}
-                                    className="inline-block h-14 w-14 rounded-xl"
+                                    className="inline-block h-14 w-full rounded-md"
                                 />
                                 {theme === color && (
                                     <Check

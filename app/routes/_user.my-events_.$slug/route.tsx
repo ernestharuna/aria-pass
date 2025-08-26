@@ -9,8 +9,10 @@ import type { Route } from "../_user.my-events_.$slug/+types/route";
 import { Link, redirect } from "react-router";
 import { parseForm } from "~/lib/utils";
 import formRequest from "~/http/form.request";
-import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Laptop, Smartphone } from "lucide-react";
 import TicketCard from "~/components/cards/ticket-card";
+import UpdateEventStatus from "./update-event-status";
+import { categorizeDevices } from "./analytics";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     try {
@@ -77,7 +79,7 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
         return sum + ticket.quantityAvailable;
     }, 0);
 
-    // console.log(event)
+    console.log(event)
     return (
         <div>
             <Link to={"/my-events"} className="flex items-center gap-2 text-sm">
@@ -108,13 +110,14 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                 </div>
 
                 {/* Right side */}
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 items-start">
                     <Link to={"edit"}>
                         <Button variant={"outline"} size={"sm"}>
                             Edit
                         </Button>
                     </Link>
                     <AddTicket />
+                    <UpdateEventStatus event={event} />
                 </div>
             </div>
 
@@ -139,8 +142,38 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                 </section>
                 <section className="flex flex-col gap-4 flex-1 border-t py-5">
                     <p className="text-sm">Page views</p>
-                    <p className="font-bold text-2xl">
-                        {typeof event.views === 'object' && (event.views.length)}
+                    <div className="flex justify-between">
+                        <p className="font-bold text-2xl">
+                            {typeof event.views === 'object' && (event.views.length)}
+                        </p>
+
+                        <div className="flex items-end text-primary gap-4 bg-accent px-2 rounded-md">
+                            <div className="flex gap-1 items-center">
+                                <span className="font-medium text-lg">
+                                    {categorizeDevices(event.views as any[]).phone}
+                                </span>
+                                <Smartphone size={14} />
+                            </div>
+                            <div className="flex gap-1 items-center">
+                                <span className="font-medium text-lg">
+                                    {categorizeDevices(event.views as any[]).pc}
+                                </span>
+                                <Laptop size={14} />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="flex flex-col gap-4 flex-1 border-t py-5">
+                    <p className="text-sm">User Engagements</p>
+
+                    <p className="flex items-stretch gap-4">
+                        <p className="font-bold text-2xl">
+                            0 <span className="text-xs text-muted-foreground font-medium">comments</span>
+                        </p>
+                        <div className="border-s" />
+                        <p className="font-bold text-2xl">
+                            {event.likes || "0"} <span className="text-xs text-muted-foreground font-medium">user(s) saved event</span>
+                        </p>
                     </p>
                 </section>
             </div>

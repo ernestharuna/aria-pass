@@ -58,7 +58,7 @@ export default function AddTicket() {
                             {/*  */}
                         </DialogDescription>
                     </DialogHeader>
-                    <ProfileForm />
+                    <ProfileForm ref={formRef} />
                 </DialogContent>
             </Dialog>
         )
@@ -76,7 +76,7 @@ export default function AddTicket() {
                         {/*  */}
                     </DrawerDescription>
                 </DrawerHeader>
-                <ProfileForm className="px-4" />
+                <ProfileForm className="px-4" ref={formRef} />
                 <DrawerFooter className="pt-2">
                     <DrawerClose asChild>
                         <Button
@@ -93,25 +93,25 @@ export default function AddTicket() {
 }
 
 const ProfileForm = React.forwardRef<HTMLFormElement, React.ComponentProps<"form">>(
-    function ProfileForm({ className }) {
+    function ProfileForm({ className }, ref) {
         const [theme, setTheme] = React.useState('');
         const THEMES = ["#6B7280", "#10B981", "#F59E0B", "#4F46E5",]
 
         return (
-            <Form className={cn("grid items-start gap-6", className)} method="POST">
+            <Form ref={ref} className={cn("grid items-start gap-6", className)} method="POST">
                 <input type="hidden" name="type" value={'ticket.create'} required />
 
                 <div className="grid gap-2">
                     <Label htmlFor="theme">Select theme</Label>
                     <div className="flex items-stretch gap-3">
                         {THEMES.map(color => (
-                            <div className="relative h-14 w-14" key={color}>
+                            <div className="relative h-14 flex-1" key={color}>
                                 <button
                                     title={`Select ${color}`}
                                     onClick={() => setTheme(color)}
                                     type="button"
                                     style={{ backgroundColor: color }}
-                                    className="inline-block h-14 w-14 rounded-xl"
+                                    className="inline-block h-14 w-full rounded-md"
                                 />
                                 {theme === color && (
                                     <Check
