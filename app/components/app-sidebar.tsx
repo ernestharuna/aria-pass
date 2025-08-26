@@ -1,7 +1,6 @@
 import * as React from "react"
-import { ChevronRight, LayoutGrid, Plus, Square, SquarePen } from "lucide-react"
+import { Ban, CalendarCheck, Heart, Home,  Plus, Square,  User } from "lucide-react"
 
-import { Calendars } from "~/components/calendars"
 import { DatePicker } from "~/components/date-picker"
 import { NavUser } from "~/components/nav-user"
 import {
@@ -21,42 +20,50 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   user: User;
 };
 
-const data = {
-  calendars: [
-    {
-      name: "My Calendars",
-      items: ["Personal", "Work", "Family"],
-    },
-    {
-      name: "Favorites",
-      items: ["Holidays", "Birthdays"],
-    },
-    {
-      name: "Other",
-      items: ["Travel", "Reminders", "Deadlines"],
-    },
-  ],
-}
+// const data = {
+//   calendars: [
+//     {
+//       name: "My Calendars",
+//       items: ["Personal", "Work", "Family"],
+//     },
+//     {
+//       name: "Favorites",
+//       items: ["Holidays", "Birthdays"],
+//     },
+//     {
+//       name: "Other",
+//       items: ["Travel", "Reminders", "Deadlines"],
+//     },
+//   ],
+// }
 
 const app_menu = [
   {
-    icon: <ChevronRight size={16} strokeWidth={4} />,
+    icon: <Home size={16} strokeWidth={2.5} />,
     label: "Dashboard",
     href: "dashboard"
   },
   {
-    icon: <ChevronRight size={16} strokeWidth={4} />,
+    icon: <CalendarCheck size={16} strokeWidth={2.5} />,
     label: "My Events",
     href: "my-events"
   },
   {
-    icon: <ChevronRight size={16} strokeWidth={4} />,
+    icon: <Heart size={16} strokeWidth={2.5} />,
+    label: "Favourites",
+    href: "favourites"
+  },
+  {
+    icon: <User size={16} strokeWidth={2.5} />,
     label: "Account",
     href: "account"
   },
 ]
 
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
+
+  console.log(user);
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className="border-sidebar-border h-16 border-b">
@@ -66,32 +73,40 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
       <SidebarContent>
         <DatePicker />
         <SidebarSeparator className="mx-0" />
+
         {/* Navigation */}
-        <section className="ps-2 mb-2">
+        <section className="px-2 mb-2">
           {app_menu.map((menu, index) => (
             <NavLink
               key={index + menu.href}
               to={menu.href}
               className={({ isActive, isPending }) =>
                 isActive
-                  ? "block bg-muted "
+                  ? "block rounded-xl p-1 bg-primary-bg text-primary-theme "
                   : isPending
-                    ? "block  hover:bg-gray-100 text-primary"
-                    : "block hover:bg-gray-100 text-primary"
+                    ? "block rounded-xl p-1  hover:bg-gray-100 text-primary"
+                    : "block rounded-xl p-1 hover:bg-gray-100 text-primary"
               }
             >
               {({ isActive }) => (
-                <div className="flex items-center">
-                  <span className={`inline-block p-2 ${isActive ? "text-primary-theme rounded" : ""}`}>
-                    {menu.icon ? (React.cloneElement(menu.icon))
-                      : (<span>
-                        <Square size={16} />
-                      </span>)
-                    }
-                  </span>
-                  <span className={`capitalize text-[13px] font-medium`}>
-                    {menu.label}
-                  </span>
+                <div className="flex items-center justify-between gap-1">
+                  <div className="flex items-center gap-1">
+                    <span className={`inline-block p-2 ${isActive ? "text-primary-theme rounded" : ""}`}>
+                      {menu.icon ? (React.cloneElement(menu.icon))
+                        : (<span>
+                          <Square size={16} />
+                        </span>)
+                      }
+                    </span>
+                    <span className={`capitalize text-sm font-bold tracking-tight`}>
+                      {menu.label}
+                    </span>
+                  </div>
+                  {(menu.href === 'my-events' && !user.organiserProfile?.id) && (
+                    <div className="bg-amber-50 border border-amber-200 p-1 rounded-md text-amber-500">
+                      <Ban size={14} strokeWidth={3} />
+                    </div>
+                  )}
                 </div>
               )}
             </NavLink>
@@ -101,15 +116,15 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
 
         <SidebarSeparator className="mx-0" />
 
-        <Calendars calendars={data.calendars} />
+        {/* <Calendars calendars={data.calendars} /> */}
       </SidebarContent>
 
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
+            <SidebarMenuButton className="bg-primary-theme text-white py-5 rounded-xl">
               <Plus />
-              <span>New Calendar</span>
+              <span className="font-semibold tracking-tight text-sm">Create an Event</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -64,7 +64,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                     {(user && user.name)
                         ? (
                             <div className='hidden md:flex gap-5 items-center'>
-                                <Link to={"/"} className='bg-primary rounded-full px-6 py-3 text-xs text-white font-semibold'>
+                                <Link to={"/my-events/new"} className='bg-primary rounded-full px-6 py-3 text-xs text-white font-semibold'>
                                     Post an Event
                                 </Link>
 
@@ -91,8 +91,6 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                         )
 
                     }
-
-
                     <button aria-label="Menu" className="block md:hidden" type="button" onClick={() => setMenu(!menu)}>
                         {!menu
                             ? <Menu />

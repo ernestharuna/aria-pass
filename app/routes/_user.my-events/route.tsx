@@ -3,12 +3,19 @@ import useSession from '~/hooks/use-session';
 import client from '~/http/client';
 import type { Route } from '../_user.my-events/+types/route';
 import DetailedEventCard from '~/components/cards/detailed-event-card';
-import { Link, redirect, useSearchParams } from 'react-router';
+import { Link, redirect, useSearchParams, type MetaFunction } from 'react-router';
 import { Button } from '~/components/ui/button';
 import { parseForm } from '~/lib/utils';
 import { Plus } from 'lucide-react';
 import RecordFilter from '~/components/utility/record-filter';
 import { useEffect, useState } from 'react';
+
+export const meta: MetaFunction= () => {
+    return [
+        { title: "My Events | AriaPass" },
+        { name: "description", content: "For Musicians" },
+    ];
+}
 
 export async function clientLoader() {
     const { getUser } = useSession();
@@ -74,9 +81,9 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
     return (
         <div>
             <section>
-                <div className="flex flex-col lg:flex-row gap-7 justify-between lg:items-start">
+                <div className="flex flex-col lg:flex-row gap-7 justify-between lg:items-end">
                     <div>
-                        <h1 className='text-primary text-2xl font-medium tracking-tight mb-3'>My Events</h1>
+                        <h1 className='text-primary text-2xl font-medium tracking-tight mb-5'>My Events</h1>
                         <RecordFilter />
                     </div>
                     <Link to={'new'} className=''>
@@ -91,7 +98,7 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
                 </div>
 
                 {(filteredEvents && filteredEvents.length) ? (
-                    <div className="grid grid-cols-1 pt-4 items-stretch justify-start">
+                    <div className="grid grid-cols-1 pt-8 items-stretch justify-start">
                         {filteredEvents.map((event) => (
                             <DetailedEventCard key={event.id} event={event} />
                         ))}
@@ -99,7 +106,14 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
                 ) : (
                     <div className='pt-20 flex flex-col items-start gap-5'>
                         <p className="text-light text-sm text-muted-foreground text-center">
-                            Nothing coming up at the moment
+                            {searchParams.get('status')
+                                ? <span>
+                                    No {searchParams.get('status')} events
+                                </span>
+                                : <span>
+                                    Nothing coming up at the moment
+                                </span>
+                            }
                         </p>
                     </div>
                 )}

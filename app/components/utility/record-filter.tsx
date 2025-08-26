@@ -1,28 +1,35 @@
 import { ArrowDownNarrowWide, Ban, Check, SquarePen, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
-// ! I can add other types here and filter them based on the props coming in, this will be the default filter
-const STATUS_FILTERS = [
-    {
-        label: "Published",
-        icon: <Check size={16} strokeWidth={1.3} />,
-    },
-    {
-        label: "Draft",
-        icon: <SquarePen size={16} strokeWidth={1.3} />,
-    },
-    {
-        label: "Suspended",
-        icon: <Ban size={16} strokeWidth={1.3} />,
-    },
-    {
-        label: "Cancelled",
-        icon: <X size={16} strokeWidth={1.3} />,
-    },
-]
+export default function RecordFilter({ data }: { data?: any[] }) {
 
-export default function RecordFilter() {
+    const DEFAULT_FILTER = [
+        {
+            label: "Published",
+            icon: <Check size={16} strokeWidth={1.3} />,
+        },
+        {
+            label: "Draft",
+            icon: <SquarePen size={16} strokeWidth={1.3} />,
+        },
+        {
+            label: "Suspended",
+            icon: <Ban size={16} strokeWidth={1.3} />,
+        },
+        {
+            label: "Cancelled",
+            icon: <X size={16} strokeWidth={1.3} />,
+        },
+    ];
+
     const [searchParams, setSearchParams] = useSearchParams();
+    const [filters, setFilters] = useState(DEFAULT_FILTER);
+
+    useEffect(() => {
+        if (data)
+            setFilters(data);
+    }, [data])
 
     return (
         <div className="flex items-center gap-3 overflow-x-auto">
@@ -41,7 +48,7 @@ export default function RecordFilter() {
                 <ArrowDownNarrowWide size={16} strokeWidth={1.3} /> <span className="font-medium">All</span>
             </button>
 
-            {STATUS_FILTERS.map((filter) => (
+            {filters.map((filter) => (
                 <button
                     onClick={() => setSearchParams({ status: filter.label.toLowerCase() })}
                     key={filter.label}

@@ -3,9 +3,16 @@ import client from '~/http/client'
 import type { Route } from '../_user.dashboard/+types/route';
 import { ArrowRight, ChevronRight, SquareDashedMousePointer } from 'lucide-react';
 import { Button } from '~/components/ui/button';
-import { Link, useOutletContext } from 'react-router';
+import { Link, useOutletContext, type MetaFunction } from 'react-router';
 import DetailedEventCard from '~/components/cards/detailed-event-card';
 import useSession from '~/hooks/use-session';
+
+export const meta: MetaFunction = () => {
+    return [
+        { title: "Dashboard | AriaPass" },
+        { name: "description", content: "For Musicians" },
+    ];
+}
 
 export async function clientLoader() {
     const { getUser } = useSession();

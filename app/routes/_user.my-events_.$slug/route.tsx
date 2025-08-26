@@ -79,7 +79,6 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
         return sum + ticket.quantityAvailable;
     }, 0);
 
-    console.log(event)
     return (
         <div>
             <Link to={"/my-events"} className="flex items-center gap-2 text-sm">
