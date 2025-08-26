@@ -3,10 +3,12 @@ import useSession from '~/hooks/use-session';
 import client from '~/http/client';
 import type { Route } from '../_user.my-events/+types/route';
 import DetailedEventCard from '~/components/cards/detailed-event-card';
-import { Link, redirect } from 'react-router';
+import { Link, redirect, useSearchParams } from 'react-router';
 import { Button } from '~/components/ui/button';
 import { parseForm } from '~/lib/utils';
 import { Plus } from 'lucide-react';
+import RecordFilter from '~/components/utility/record-filter';
+import { useEffect, useState } from 'react';
 
 export async function clientLoader() {
     const { getUser } = useSession();
@@ -56,25 +58,41 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 export default function MyEvents({ loaderData }: Route.ComponentProps) {
     const { events }: { events: OrganiserEvent[] } = loaderData;
 
+    const [searchParams] = useSearchParams();
+    const [filteredEvents, setFilteredEvents] = useState<OrganiserEvent[]>(events);
+
+    useEffect(() => {
+        const filtered = events.filter((submission) => {
+            if (searchParams.get("status")) {
+                return submission.status === searchParams.get("status");
+            }
+            return true;
+        });
+        setFilteredEvents(filtered);
+    }, [searchParams, events]);
+
     return (
         <div>
             <section>
-                <div className="flex justify-between items-center">
-                    <h1 className='text-primary text-2xl font-medium tracking-tight'>My Events</h1>
-                    <Link to={'new'} >
+                <div className="flex flex-col lg:flex-row gap-7 justify-between lg:items-start">
+                    <div>
+                        <h1 className='text-primary text-2xl font-medium tracking-tight mb-3'>My Events</h1>
+                        <RecordFilter />
+                    </div>
+                    <Link to={'new'} className=''>
                         <Button
                             variant={'default'}
                             size={'sm'}
-                            className='rounded-full cursor-pointer text-xs'
+                            className='bg-primary cursor-pointer text-xs'
                         >
                             Create Event <Plus size={10} />
                         </Button>
                     </Link>
                 </div>
 
-                {(events && events.length) ? (
+                {(filteredEvents && filteredEvents.length) ? (
                     <div className="grid grid-cols-1 pt-4 items-stretch justify-start">
-                        {events.map((event) => (
+                        {filteredEvents.map((event) => (
                             <DetailedEventCard key={event.id} event={event} />
                         ))}
                     </div>

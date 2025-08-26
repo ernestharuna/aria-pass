@@ -1,4 +1,5 @@
-import { Check, ChevronDown, Send, X } from "lucide-react"
+import { Check, ChevronDown, Send, SquarePen, X } from "lucide-react"
+import { useFetcher } from "react-router"
 import { Button } from "~/components/ui/button"
 import {
     DropdownMenu,
@@ -9,6 +10,8 @@ import {
 } from "~/components/ui/dropdown-menu"
 
 export default function UpdateEventStatus({ event }: { event: OrganiserEvent }) {
+    const fetcher = useFetcher();
+
     return (
         <DropdownMenu >
             <DropdownMenuTrigger asChild>
@@ -27,9 +30,23 @@ export default function UpdateEventStatus({ event }: { event: OrganiserEvent }) 
                 <DropdownMenuItem disabled>
                     Cancel event <DropdownMenuShortcut><X /></DropdownMenuShortcut>
                 </DropdownMenuItem>
-                <DropdownMenuItem disabled={!(event.tickets.length > 0)}>
-                    Publish <DropdownMenuShortcut><Send /></DropdownMenuShortcut>
+
+                <DropdownMenuItem disabled={!(event.tickets.length > 0) || (event.status === 'published')}>
+                    <fetcher.Form method="post" action={`/my-events/${event.slug}/status`}>
+                        <input type="hidden" name="status" value="published" />
+                        <button>Publish</button>
+                    </fetcher.Form>
+                    <DropdownMenuShortcut><Send /></DropdownMenuShortcut>
                 </DropdownMenuItem>
+
+                <DropdownMenuItem disabled={event.status !== 'published'}>
+                    <fetcher.Form method="post" action={`/my-events/${event.slug}/status`}>
+                        <input type="hidden" name="status" value="draft" />
+                        <button>Turn to draft</button>
+                    </fetcher.Form>
+                    <DropdownMenuShortcut><SquarePen /></DropdownMenuShortcut>
+                </DropdownMenuItem>
+
                 <DropdownMenuItem disabled>
                     Mark done <DropdownMenuShortcut><Check /></DropdownMenuShortcut>
                 </DropdownMenuItem>

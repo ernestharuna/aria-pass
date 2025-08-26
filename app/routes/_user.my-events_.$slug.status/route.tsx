@@ -2,13 +2,18 @@ import client from '~/http/client';
 import type { Route } from '../_user.my-events_.$slug.status/+types/route';
 import { toast } from 'sonner';
 import { redirect } from 'react-router';
+import { parseForm } from '~/lib/utils';
 
-export async function clientAction({ params }: Route.ClientActionArgs) {
-    const promise = client.post(`/api/events/${params.slug}/interested`);
+export async function clientAction({ params, request }: Route.ClientActionArgs) {
+    const data = await parseForm(request)
+    // console.log(data);
+    // return;
+
+    const promise = client.patch(`/api/organiser/events/${params.slug}/status`, data);
 
     toast.promise(promise, {
-        loading: 'Saving Event to your list',
-        success: 'Event saved!',
+        loading: 'Updating event status',
+        success: 'Status updated successfully',
         error: (err) => err.status === 401 ? 'You must be logged in.' : 'Something went wrong!',
     });
 
