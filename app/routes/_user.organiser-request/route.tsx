@@ -3,13 +3,20 @@ import { Button } from "~/components/ui/button";
 import OpeningPage from "./opening-page";
 import CompanyName from "./company-name";
 import { ArrowLeft, Save } from "lucide-react";
-import { Form, Link, redirect } from "react-router";
+import { Form, Link, redirect, type MetaFunction } from "react-router";
 import CompanyBio from "./company-bio";
 import CompanyContact from "./company-contact";
 import { parseForm } from "~/lib/utils";
 import formRequest from "~/http/form.request";
 import { toast } from "sonner";
 import type { Route } from "../_user.organiser-request/+types/route";
+
+export const meta: MetaFunction = () => {
+    return [
+        { title: "Become an Organiser | AriaPass" },
+        { name: "description", content: "For Musicians" },
+    ];
+}
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);

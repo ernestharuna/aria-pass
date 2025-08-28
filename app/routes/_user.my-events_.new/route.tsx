@@ -30,6 +30,31 @@ import InputError from "~/components/utility/input-error";
 import formRequest from "~/http/form.request";
 import { toast } from "sonner";
 import { Switch } from "~/components/ui/switch";
+import useSession from "~/hooks/use-session";
+import client from "~/http/client";
+
+export async function clientLoader() {
+    const { getUser } = useSession();
+
+    try {
+        const user = getUser();
+        const isOrganiser = user && (await user).organiserProfile?.status === 'active'
+
+        if (!isOrganiser) {
+            toast.warning("Unauthorized page", {
+                description: 'No active orgainiser profile'
+            });
+            return redirect('/dashboard')
+
+        }
+        const { data } = await client.get('/api/organiser/events');
+
+        return { events: data }
+    } catch ({ response }: any) {
+        console.error(response);
+        return redirect('/dashboard')
+    }
+}
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);

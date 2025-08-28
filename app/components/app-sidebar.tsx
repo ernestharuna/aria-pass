@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Ban, CalendarCheck, Heart, Home,  Plus, Square,  User } from "lucide-react"
+import { Ban, CalendarCheck, Heart, Home, Plus, Square, User } from "lucide-react"
 
 import { DatePicker } from "~/components/date-picker"
 import { NavUser } from "~/components/nav-user"
@@ -14,7 +14,7 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "~/components/ui/sidebar"
-import { NavLink } from "react-router"
+import { Link, NavLink } from "react-router"
 
 type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   user: User;
@@ -39,22 +39,22 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 
 const app_menu = [
   {
-    icon: <Home size={16} strokeWidth={2.5} />,
+    icon: <Home size={20} strokeWidth={2.5} />,
     label: "Dashboard",
     href: "dashboard"
   },
   {
-    icon: <CalendarCheck size={16} strokeWidth={2.5} />,
+    icon: <CalendarCheck size={20} strokeWidth={2.5} />,
     label: "My Events",
     href: "my-events"
   },
   {
-    icon: <Heart size={16} strokeWidth={2.5} />,
+    icon: <Heart size={20} strokeWidth={2.5} />,
     label: "Favourites",
     href: "favourites"
   },
   {
-    icon: <User size={16} strokeWidth={2.5} />,
+    icon: <User size={20} strokeWidth={2.5} />,
     label: "Account",
     href: "account"
   },
@@ -122,10 +122,12 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="bg-primary-theme text-white py-5 rounded-xl">
-              <Plus />
-              <span className="font-semibold tracking-tight text-sm">Create an Event</span>
-            </SidebarMenuButton>
+            <Link to={"/my-events"}>
+              <SidebarMenuButton className="bg-primary-theme hover:bg-primary-theme/80 hover:text-white text-white py-5 rounded-xl curosr-pointer">
+                <Plus />
+                <span className="font-semibold tracking-tight text-sm">Create an Event</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
