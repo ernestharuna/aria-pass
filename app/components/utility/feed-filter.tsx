@@ -20,11 +20,11 @@ export function FeedFilter() {
                     <span>{filter}</span> <ChevronDown size={14} />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 relative left-9">
+            <DropdownMenuContent className="w-min relative">
                 <DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
                     <DropdownMenuRadioItem value="Upcoming">Upcoming</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="Following">Following</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="Organisers">Organisers</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Following" disabled>Following</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Organisers" disabled>Organisers</DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>
         </DropdownMenu>

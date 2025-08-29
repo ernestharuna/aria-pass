@@ -115,30 +115,3 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
         </div>
     )
 }
-
-{/* Content Wrapper */ }
-{/* <div className="flex items-stretch px-4 py-2">
-    <div className='flex flex-col leading-0 justify-start items-center '>
-        <p className="text-xl font-light uppercase">{formattedDate.split(' ')[0]}</p>
-        <p className="-mt-2 text-3xl font-bold">{formattedDate.split(' ')[1]}</p>
-    </div>
-
-    <div className="w-1 mx-4 border-e border-gray-400" />
-
-    <div className='flex flex-col pb-1 w-full'>
-        <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-                <MapPin strokeWidth={1.5} size={14} /> <span className='font-light text-sm capitalize'>{event.city}, {event.country}</span>
-            </div>
-            <div className="flex items-center gap-1 mb-1 text-gray-600">
-                <Eye strokeWidth={1.5} size={14} /> <span className='font-light text-xs'>{event.views}</span>
-            </div>
-        </div>
-        <div className="text-lg font-medium tracking-tighter">{event.title}</div>
-        <div className="text-xs font-light">{event.description}</div>
-        <div className="text-[10px] flex items-center gap-2 mt-2">
-            <Ticket strokeWidth={1.5} size={14} />
-            <span className='font-light'>Start from <span className='font-semibold'>NGN 5,000</span> </span>
-        </div>
-    </div>
-</div> */}

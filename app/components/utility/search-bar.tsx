@@ -7,7 +7,7 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-    placeholder = "What type of design are you interested in?",
+    placeholder = "What type of event are you interested in?",
     onSearch,
 }) => {
     const [query, setQuery] = React.useState("");

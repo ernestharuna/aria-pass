@@ -170,7 +170,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             <p>{event.extraInfo || <Placeholder text="No notes created by organiser" />}</p>
                         </div>
 
-                        <Button className="bg-primary-theme w-full py-7 rounded-2xl font-light text-xl tracking-tighter">
+                        <Button className="bg-primary-theme w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter">
                             Get Booked <Ticket />
                         </Button>
                     </aside>

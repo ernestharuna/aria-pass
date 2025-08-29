@@ -1,19 +1,20 @@
 import { Await, Link, redirect } from "react-router";
 import { BrMd } from "~/components/utility/line-break";
-import { ChevronRight, LibraryBig, Piano, UsersRound } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Crown, LibraryBig, Piano, UsersRound } from "lucide-react";
 import SearchBar from "~/components/utility/search-bar";
 import { FeedFilter } from "~/components/utility/feed-filter";
 import { Button } from "~/components/ui/button";
 import StackedSwipeDeck from "~/components/cards/stacked-swipe-deck";
 import type { Route } from "../_guest._index/+types/route";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import EventCardSkeleton from "~/components/skeletons/events-card-skeleton";
 import client from "~/http/client";
 import EventsMapper from "~/components/mappers/event-mapper";
+import { STORAGE_URL } from "~/config/defaults";
 
 export function meta({ }: Route.MetaArgs) {
     return [
-        { title: "Aria Pass | Concerts, Exams, Courses, Tickets" },
+        { title: "AriaPass | Events, Tickets, Concerts" },
         { name: "description", content: "Welcome to React Router!" },
     ];
 }
@@ -41,7 +42,6 @@ const sample = [
 
 export default function Home({ loaderData }: Route.ComponentProps) {
     const { events }: { events: Promise<OrganiserEvent[]> } = loaderData;
-    console.log(events);
 
     return (
         <div className="fadeIn animated">
@@ -92,11 +92,59 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         </div>
                     </div>
 
+                    {/* Event Banners */}
                     <div className="hidden lg:block lg:basis-5/12">
-                        <div className="h-100 w-full bg-gray-200 rounded-3xl" />
+                        <div className="h-100 w-full rounded-3xl border overflow-hidden relative">
+                            <Suspense fallback={<div className="h-100 w-full bg-gray-200 animate-pulse" />}>
+                                <Await resolve={events}>
+                                    {(events) => {
+                                        const [index, setIndex] = useState(0);
+
+                                        const handlePrev = () => {
+                                            setIndex(i => (i - 1 + events.length) % events.length);
+                                        };
+
+                                        const handleNext = () => {
+                                            setIndex(i => (i + 1) % events.length);
+                                        };
+
+                                        return (
+                                            <>
+                                                {/* Overlay background */}
+                                                <div className='absolute top-0 left-0 w-full min-h-full bg-gradient-to-t from-black/50 to-black/10' />
+                                                <img
+                                                    src={events[index].bannerUrl && `${STORAGE_URL}/${events[index].bannerUrl}`}
+                                                    alt={events[index].title}
+                                                    className="h-full w-full object-cover"
+                                                    loading="lazy"
+                                                />
+                                                <button
+                                                    title="Previous"
+                                                    onClick={() => handlePrev()}
+                                                    className="absolute top-1/2 left-4 transform -translate-y-1/2 p-2 bg-white/50 rounded-full text-gray-800 hover:bg-white transition-colors"
+                                                >
+                                                    <ChevronLeft />
+                                                </button>
+                                                <button
+                                                    title="Next"
+                                                    onClick={() => handleNext()}
+                                                    className="absolute top-1/2 right-4 transform -translate-y-1/2 p-2 bg-white/50 rounded-full text-gray-800 hover:bg-white transition-colors"
+                                                >
+                                                    <ChevronRight />
+                                                </button>
+                                                <div className="absolute bottom-5 right-5 py-2 px-3 rounded-full bg-white text-xs shadow-lg flex items-center gap-1">
+                                                    {events[index].organiser.organiserName} <Crown className="inline-block h-4 w-4 fill-amber-500 text-amber-500" />
+                                                </div>
+
+                                            </>
+                                        )
+                                    }}
+                                </Await>
+                            </Suspense>
+                        </div>
                     </div>
                 </section>
-            </header >
+            </header>
 
             <main>
                 <div className="hidden container lg:flex items-center justify-between mb-8">
@@ -106,19 +154,23 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                             <Link to={""} key={item} className="rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-semibold tracking-tight">{item}</Link>
                         ))}
                     </div>
-                    <Button variant={"secondary"} className="rounded-full flex justify-between gap-2 px-5">
-                        <span>Create Event</span>
-                        <ChevronRight />
-                    </Button>
+                    <Link to={"/my-events/new"}>
+                        <Button variant={"secondary"} className="cursor-pointer rounded-full flex justify-between gap-2 px-5">
+                            <span>Create Event</span>
+                            <ChevronRight />
+                        </Button>
+                    </Link>
                 </div>
 
                 <div className="lg:hidden mb-4">
                     <div className="container flex justify-between items-center">
                         <FeedFilter />
-                        <Button variant={"secondary"} className="rounded-full flex justify-between gap-2 h-10">
-                            <span>Create Event</span>
-                            <ChevronRight />
-                        </Button>
+                        <Link to={"/my-events/new"}>
+                            <Button variant={"secondary"} className="cursor-pointer rounded-full flex justify-between gap-2 h-10">
+                                <span>Create Event</span>
+                                <ChevronRight />
+                            </Button>
+                        </Link>
                     </div>
 
                     <hr className="mt-5 mb-2" />
@@ -139,6 +191,12 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     </Suspense>
                 </div>
 
+                <Link to={"events"} className="block mx-auto w-max mt-3">
+                    <Button variant={"outline"} className="py-5 px-10 rounded-full">
+                        See more <ArrowRight />
+                    </Button>
+                </Link>
+
                 <div className="md:hidden flex items-center justify-center py-10">
                     <StackedSwipeDeck
                         initialCards={sample}
@@ -151,9 +209,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
                 <hr className="mt-10" />
 
-                <div className="container mt-20">
+                <div className="container mt-10">
                     <div
-                        className="h-80 rounded py-6 px-8 my-10 flex flex-col justify-center"
+                        className="h-80 rounded-xl py-6 px-8 my-10 flex flex-col justify-center"
                         style={{
                             backgroundImage: `linear-gradient(90deg, #FAF9FB, #FAF9FB00), url('/images/ensemble-banner.png')`,
                             backgroundSize: 'cover, cover',
@@ -165,7 +223,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                             <h2 className="text-xl font-bold mb-2">Get more leads, pay no fees</h2>
                             <p className="font-light text-xs mb-10">Rank higher, skip the fees, and level up your profile — all <br /> for $8/month.</p>
 
-                            <Button className="rounded-full px-10">
+                            <Button className="rounded-full px-10 py-6">
                                 Become an Organiser
                             </Button>
                         </div>

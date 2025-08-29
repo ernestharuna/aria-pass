@@ -52,7 +52,19 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
     return (
         <div>
             <section className="mb-10">
-                <h1 className='text-primary text-2xl font-medium tracking-tight'>Upcoming Events</h1>
+                <div className="flex flex-col gap-4 mb-8">
+                    <p className="text-4xl font-bold tracking-tighter">Hello, {user.name.split(' ')[0]}!</p>
+                    <h1 className='text-primary text-2xl font-medium tracking-tight'>Dashboard</h1>
+                </div>
+
+                <div>
+                    <h2 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
+                        <span>Upcoming Events</span>
+                        <Link to={"/events"} className='hover:bg-gray-100 rounded-lg p-2'>
+                            <ChevronRight size={16} />
+                        </Link>
+                    </h2>
+                </div>
 
                 {(events && events.length) ? (
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-5 pt-5 items-stretch justify-start">
@@ -73,12 +85,12 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
 
             {true && (
                 <section className='mb-10'>
-                    <h1 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
+                    <h2 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
                         <span>Your Events</span>
                         <Link to={"/my-events"} className='hover:bg-gray-100 rounded-lg p-2'>
                             <ChevronRight size={16} />
                         </Link>
-                    </h1>
+                    </h2>
 
                     <p className='text-sm text-muted-foreground mb-2'>
                         Manage your events, tickets, and attendees {" "}

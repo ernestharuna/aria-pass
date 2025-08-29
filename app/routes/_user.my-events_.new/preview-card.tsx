@@ -31,7 +31,7 @@ export default function PreviewCard({ event, bannerImage }: { event?: any, banne
                         </div>
                     </div>
                     <div className="z-10">
-                        <button title="Add to favourites" className='bg-white top-2 left-2 w-max py-2 px-2 rounded-full hover:scale-110 transition'>
+                        <button type='button' title="Add to favourites" className='bg-white top-2 left-2 w-max py-2 px-2 rounded-full hover:scale-110 transition'>
                             <Heart
                                 className="text-primary"
                                 strokeWidth={1.5} size={20} />

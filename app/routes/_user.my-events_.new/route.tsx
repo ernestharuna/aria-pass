@@ -115,8 +115,8 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
     });
 
     return (
-        <Form className="flex flex-col lg:flex-row items-stretch gap-10 justify-between" method="post" encType="multipart/form-data">
-            <section className="basis-3/6">
+        <Form className="relative flex flex-col lg:flex-row items-stretch gap-20 justify-between" method="post" encType="multipart/form-data">
+            <section className="basis-4/6">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-2xl font-medium tracking-tighter ">New Event</h1>
                     <Button type="button" className="rounded-full font-normal" variant={"secondary"} size={"sm"}>
@@ -324,7 +324,7 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
                 </div>
             </section>
 
-            <aside className="flex flex-col gap-4 lg:min-w-[400px] max-w-[400px] w-full">
+            <aside className="sticky top-0 flex flex-col gap-4 lg:min-w-[400px] max-w-[400px] w-full">
                 <h2 className="font-light text-lg flex items-center gap-2 tracking-tight">
                     Event preview <Eye strokeWidth={1} size={20} />
                 </h2>

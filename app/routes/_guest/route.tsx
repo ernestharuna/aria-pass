@@ -30,7 +30,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     const [menu, setMenu] = useState<boolean>(false);
     const [scrolled, setScrolled] = useState<boolean>(false);
 
-    const NAV = ['Explore', 'Organisers', 'Programs', 'Courses']
+    const NAV = ['Events', 'Organisers', 'Programs', 'Courses']
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -46,9 +46,11 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                 <nav className={`bg-white/50 backdrop-blur-md py-5 container flex items-center justify-between transition-all`}>
                     <div className='flex items-center gap-20'>
                         <Link to="/" className='flex items-center'>
-                            <div className='text-xl font-medium tracking-tighter font-serif'>
-                                <span className="text-primary-theme">Aria</span>
-                                <span className="text-black">Pass</span>
+                            <div className='text-base md:text-xl tracking-tighter flex items-center gap-1'>
+                                <span className='font-light'>OwenaHub</span>
+                                <span className='font-bold text-primary'>
+                                    AriaPass
+                                </span>
                             </div>
                         </Link>
 
@@ -164,11 +166,11 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
             <footer className="bg-white text-muted-foreground pt-20">
                 <div className="container grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
-                        <h2 className="text-lg font-semibold text-foreground">
-                            <Link to="/" className='text-xl'>
-                                <span className=" text-gray-400 font-medium">Aria</span>
-                                <span className="text-black font-medium">Pass</span>
-                            </Link>
+                        <h2 className="text-lg font-semibold text-foreground mb-5">
+                            <div className=" relative top-[3px] flex flex-col leading-tight">
+                                <span className="text-sm font-light">OwenaHub</span>
+                                <span className="text-2xl -mt-1 font-bold">AriaPass</span>
+                            </div>
                         </h2>
                         <p className="mt-2 mb-6 text-xs max-w-sm">
                             A space for classical musicians to connect, share, and explore the world of music.
