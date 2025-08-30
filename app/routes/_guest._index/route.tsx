@@ -94,7 +94,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
                     {/* Event Banners */}
                     <div className="hidden lg:block lg:basis-5/12">
-                        <div className="h-100 w-full rounded-3xl border overflow-hidden relative">
+                        <div className="h-100 w-full bg-gray-50 rounded-3xl border overflow-hidden relative">
                             <Suspense fallback={<div className="h-100 w-full bg-gray-200 animate-pulse" />}>
                                 <Await resolve={events}>
                                     {(events) => {
@@ -110,32 +110,36 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
                                         return (
                                             <>
-                                                {/* Overlay background */}
-                                                <div className='absolute top-0 left-0 w-full min-h-full bg-gradient-to-t from-black/50 to-black/10' />
-                                                <img
-                                                    src={events[index].bannerUrl && `${STORAGE_URL}/${events[index].bannerUrl}`}
-                                                    alt={events[index].title}
-                                                    className="h-full w-full object-cover"
-                                                    loading="lazy"
-                                                />
-                                                <button
-                                                    title="Previous"
-                                                    onClick={() => handlePrev()}
-                                                    className="absolute top-1/2 left-4 transform -translate-y-1/2 p-2 bg-white/50 rounded-full text-gray-800 hover:bg-white transition-colors"
-                                                >
-                                                    <ChevronLeft />
-                                                </button>
-                                                <button
-                                                    title="Next"
-                                                    onClick={() => handleNext()}
-                                                    className="absolute top-1/2 right-4 transform -translate-y-1/2 p-2 bg-white/50 rounded-full text-gray-800 hover:bg-white transition-colors"
-                                                >
-                                                    <ChevronRight />
-                                                </button>
-                                                <div className="absolute bottom-5 right-5 py-2 px-3 rounded-full bg-white text-xs shadow-lg flex items-center gap-1">
-                                                    {events[index].organiser.organiserName} <Crown className="inline-block h-4 w-4 fill-amber-500 text-amber-500" />
-                                                </div>
+                                                {events.length > 0 && (
+                                                    <>
+                                                        {/* Overlay background */}
+                                                        <div className='absolute top-0 left-0 w-full min-h-full bg-gradient-to-t from-black/50 to-black/10' />
+                                                        <img
+                                                            src={events[index].bannerUrl && `${STORAGE_URL}/${events[index].bannerUrl}`}
+                                                            alt={events[index].title}
+                                                            className="h-full w-full object-cover"
+                                                            loading="lazy"
+                                                        />
+                                                        <button
+                                                            title="Previous"
+                                                            onClick={() => handlePrev()}
+                                                            className="absolute top-1/2 left-4 transform -translate-y-1/2 p-2 bg-white/50 rounded-full text-gray-800 hover:bg-white transition-colors"
+                                                        >
+                                                            <ChevronLeft />
+                                                        </button>
+                                                        <button
+                                                            title="Next"
+                                                            onClick={() => handleNext()}
+                                                            className="absolute top-1/2 right-4 transform -translate-y-1/2 p-2 bg-white/50 rounded-full text-gray-800 hover:bg-white transition-colors"
+                                                        >
+                                                            <ChevronRight />
+                                                        </button>
+                                                        <div className="absolute bottom-5 right-5 py-2 px-3 rounded-full bg-white text-xs shadow-lg flex items-center gap-1">
+                                                            {events[index].organiser.organiserName} <Crown className="inline-block h-4 w-4 fill-amber-500 text-amber-500" />
+                                                        </div>
 
+                                                    </>
+                                                )}
                                             </>
                                         )
                                     }}

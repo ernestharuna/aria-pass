@@ -89,7 +89,7 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
             <div className="flex flex-col lg:flex-row lg:items-center gap-5 justify-between pt-5 pb-10">
                 {/* Left side */}
                 <div className="flex gap-6 flex-col lg:flex-row lg:items-center w-full">
-                    <div className="bg-gray-100 rounded-md group-hover:opacity-85 aspect-video h:50 lg:h-25 overflow-hidden transition">
+                    <div className="bg-gray-100 border rounded-md group-hover:opacity-85 aspect-video h:50 lg:h-25 overflow-hidden transition">
                         {event.bannerUrl && (
                             <img
                                 src={event.bannerUrl && `${STORAGE_URL}/${event.bannerUrl}`}

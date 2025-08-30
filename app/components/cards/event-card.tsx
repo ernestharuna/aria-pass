@@ -80,7 +80,7 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                                 <AvatarFallback>ER</AvatarFallback>
                             </Avatar>
                         </div>
-                        <div className="text-white font-light text-xs">+200 Attending</div>
+                        <div className="text-white font-light text-xs">Accepting purchases</div>
                     </div>
                 </div>
             </div>

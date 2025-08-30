@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Ban, CalendarCheck, Heart, Home, Plus, Square, User } from "lucide-react"
+import { Ban, CalendarCheck, Heart, Home, Plus, ShoppingCart, Square, User } from "lucide-react"
 
 import { DatePicker } from "~/components/date-picker"
 import { NavUser } from "~/components/nav-user"
@@ -52,6 +52,11 @@ const app_menu = [
     icon: <Heart size={20} strokeWidth={2.5} />,
     label: "Favourites",
     href: "favourites"
+  },
+  {
+    icon: <ShoppingCart size={20} strokeWidth={2.5} />,
+    label: "Purchases",
+    href: "purchases"
   },
   {
     icon: <User size={20} strokeWidth={2.5} />,
