@@ -5,4 +5,5 @@ interface Ticket extends Model {
     price: string,
     theme: string,
     quantityAvailable: number,
+    ticketPurchases: number,
 }

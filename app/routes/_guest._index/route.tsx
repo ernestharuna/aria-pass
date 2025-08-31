@@ -56,7 +56,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </div>
             <header className="flex flex-col gap-5 lg:min-h-[65vh]">
                 <section className="container flex justify-between gap-20 items-center my-16">
-                    <div className="lg:basis-7/12 text-center md:text-start overflow-hidden">
+                    <div className="lg:basis-7/12 text-center md:text-start overflow-auto">
                         <h1 className="text-3xl md:text-5xl font-serif font-normal md:leading-13 text-primary tracking-tighter">
                             Experience the <BrMd /> Community Behind the Concerts
                         </h1>
@@ -66,14 +66,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
                         <div className="mt-10 flex flex-col items-start gap-3 ">
                             <div className="flex gap-4 items-stretch mx-auto md:mx-0">
-                                <Link to="" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full bg-[#3A3546] text-white ">
+                                <Link to="/events" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full bg-[#3A3546] text-white ">
                                     <Piano size={16} /> <span>Events</span>
                                 </Link>
-                                <Link to="" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
-                                    <LibraryBig size={16} /> <span>Theory <span className="hidden md:inline-block">& Exams</span></span>
-                                </Link>
-                                <Link to="" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
+                                <Link to="organisers" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
                                     <UsersRound size={16} /> <span>Organisers</span>
+                                </Link>
+                                <Link to="/#" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
+                                    <LibraryBig size={16} /> <span>Theory <span className="hidden md:inline-block">& Exams</span></span>
                                 </Link>
                             </div>
 
@@ -82,7 +82,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                                     <SearchBar />
                                 </div>
 
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 overflow-x-auto">
                                     <span className="font-semibold text-xs">Popular:</span>
                                     {["Free ticket", "Christmas Carol", "Concert", "Classical"].map((item, index) => (
                                         <Link to={'?' + item.toLowerCase()} key={item + index} className="text-nowrap px-4 py-1.5 border border-gray-200 text-xs font-light rounded-full hover:bg-gray-50">
@@ -156,8 +156,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 <div className="hidden container lg:flex items-center justify-between mb-8">
                     <FeedFilter />
                     <div className="flex gap-4 items-center">
-                        {["Choral", "Ensemble", "Church Music", "Recitals", "Classical Band", "Chamber"].map((item) => (
-                            <Link to={""} key={item} className="rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-semibold tracking-tight">{item}</Link>
+                        {["All", "Choral", "Ensemble", "Church Music", "Recitals", "Chamber"].map((item) => (
+                            <Link
+                                to={""}
+                                key={item}
+                                className={`rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-medium tracking-tight ${item === "All" && "bg-[#F8F7F4] text-primary"}`}
+                            >
+                                {item}
+                            </Link>
                         ))}
                     </div>
                     <Link to={"/my-events/new"}>

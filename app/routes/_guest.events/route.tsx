@@ -34,8 +34,9 @@ export default function Events({ loaderData }: Route.ComponentProps) {
 
     return (
         <main>
-            <div className='container py-10 flex items-center gap-5'>
-                <h1 className='text-3xl font-semibold tracking-tight'>All Events</h1>
+            <div className='container py-10 flex flex-col gap-2'>
+                <h1 className='text-2xl font-semibold tracking-tighter'>All Events</h1>
+                <p className='text-sm text-gray-500 font-light'>Showing all events</p>
             </div>
 
             <div className="hidden container lg:flex items-center justify-between mb-8">

@@ -53,7 +53,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
         <div>
             <section className="mb-10">
                 <div className="flex flex-col gap-4 mb-8">
-                    <p className="text-4xl font-bold tracking-tighter">Hello, {user.name.split(' ')[0]}!</p>
+                    <p className="text-3xl md:text-4xl font-bold tracking-tighter">Hello, {user.name.split(' ')[0]}!</p>
                     <h1 className='text-primary text-2xl font-medium tracking-tight'>Dashboard</h1>
                 </div>
 
@@ -110,13 +110,13 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                             </p>
                             {user.organiserProfile ? (
                                 <Link to={"/my-events/new"}>
-                                    <Button size={'sm'} className='rounded-full bg-primary text-xs'>
+                                    <Button className='rounded-full bg-primary px-22 py-6'>
                                         Create an Event
                                     </Button>
                                 </Link>
                             ) : (
                                 <Link to={"/organiser-request"}>
-                                    <Button className='rounded-full bg-primary-theme text-xs'>
+                                    <Button className='rounded-full bg-primary-theme px-22 py-6'>
                                         Becoome an Organiser <ArrowRight />
                                     </Button>
                                 </Link>

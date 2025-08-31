@@ -31,6 +31,9 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
     const TOTAL_TICKETS: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
         return sum + ticket.quantityAvailable;
     }, 0);
+    const TOTAL_TICKETS_SALES: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
+        return sum + ticket.ticketPurchases;
+    }, 0);
 
     return (
         <div className="flex items-center justify-between py-5 border-b">
@@ -52,7 +55,7 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
                         {formattedDate} at {event.startTime.split(":")[0]}:{event.startTime.split(":")[1]} ∙ {event.venueName}, <span className="capitalize">{event.city}, {event.country}</span>
                     </p>
                     <p className='font-light text-gray-500 text-[12px]'>
-                        0/{TOTAL_TICKETS} tickets sold
+                        {TOTAL_TICKETS_SALES}/{TOTAL_TICKETS} tickets sold
                     </p>
                 </div>
             </div>

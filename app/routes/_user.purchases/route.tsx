@@ -58,7 +58,7 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
             <section>
                 <div className="flex flex-col lg:flex-row gap-7 justify-between lg:items-end">
                     <div>
-                        <h1 className='text-primary text-2xl font-medium tracking-tight mb-5'>
+                        <h1 className='text-primary text-3xl font-bold tracking-tight mb-5'>
                             Purchases
                         </h1>
                         <small></small>
@@ -91,7 +91,7 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
                                     No {searchParams.get('status')} events
                                 </span>
                                 : <span>
-                                    Nothing coming up at the moment
+                                    No purchases yet
                                 </span>
                             }
                         </p>

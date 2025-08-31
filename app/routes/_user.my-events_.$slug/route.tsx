@@ -73,10 +73,16 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 
 export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
     const { event }: { event: OrganiserEvent } = loaderData;
+    console.log(event);
+
     const FORMATTED_DATE = dayjs(event.date).format('MMMM D, YYYY');
 
     const TOTAL_TICKETS: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
         return sum + ticket.quantityAvailable;
+    }, 0);
+
+    const TOTAL_TICKETS_SALES: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
+        return sum + ticket.ticketPurchases;
     }, 0);
 
     return (
@@ -131,7 +137,7 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                     <p className="text-sm">Tickets sold</p>
                     <div className="flex justify-between">
                         <p className="font-bold text-2xl">
-                            0/{TOTAL_TICKETS}
+                            {TOTAL_TICKETS_SALES}/{TOTAL_TICKETS}
                         </p>
                         <Button variant={"secondary"} size={"sm"} className="text-xs p-0">
                             <span>{event.tickets.length} categories</span>

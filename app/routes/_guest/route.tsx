@@ -1,12 +1,32 @@
-import { ChevronRight, Facebook, Instagram, Menu, Twitter, X } from 'lucide-react'
+import { ChevronRight, Facebook, Instagram, Menu, Piano, Twitter, X } from 'lucide-react'
 import { Suspense, useEffect, useState } from 'react';
-import { Await, Link, NavLink, Outlet } from 'react-router'
+import { Await, Link, NavLink, Outlet, type MetaFunction } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import AnnouncementBanner from '~/components/cards/announcement-banner';
 import type { Route } from '../_guest/+types/route';
 import useSession from '~/hooks/use-session';
 import CustomAvatar from '~/components/custom/custom-avatar';
+
+export const meta: MetaFunction = () => {
+    return [
+        { title: "AriaPass - Discover the community behind the concerts" },
+        { name: "description", content: "Discover the community behind the concerts" },
+        { name: "theme-color", content: "#625DF5" },
+        { name: "keywords", content: "events, music, tickets, organise" },
+        { name: "author", content: "OwenaHub" },
+        { name: "robots", content: "index, follow" },
+        { property: "og:title", content: "AriaPass - Discover the community behind the concerts" },
+        { property: "og:description", content: "Discover the community behind the concerts" },
+        { property: "og:image", content: "https://ariapass.owenahub.com/images/banners/app_banner.png" }, // image URL
+        { property: "og:url", content: "https://ariapass.owenahub.com" },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "AriaPass - Discover the community behind the concerts" },
+        { name: "twitter:description", content: "Discover the community behind the concerts" },
+        { name: "twitter:image", content: "https://ariapass.owenahub.com/images/banners/app_banner.png" }, // image URL
+    ];
+}
 
 export async function clientLoader(_: Route.ClientLoaderArgs) {
     const { getUser } = useSession();
@@ -30,7 +50,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     const [menu, setMenu] = useState<boolean>(false);
     const [scrolled, setScrolled] = useState<boolean>(false);
 
-    const NAV = ['Events', 'Organisers', 'Programs', 'Courses']
+    const NAV = ['Events', 'Organisers']
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -41,32 +61,33 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     const { session, user }: { session: boolean, user: User } = loaderData ?? { session: false, user: { name: "" } as User };
 
     return (
-        <>
+        <div>
             <div className={`sticky top-0 z-10 bg-white/50 backdrop-blur-md ${scrolled && 'border-b border-gray-50'}`}>
                 <nav className={`bg-white/50 backdrop-blur-md py-5 container flex items-center justify-between transition-all`}>
-                    <div className='flex items-center gap-20'>
-                        <Link to="/" className='flex items-center'>
-                            <div className='text-base md:text-xl tracking-tighter flex items-center gap-1'>
-                                <span className='font-light'>OwenaHub</span>
-                                <span className='font-bold text-primary'>
-                                    AriaPass
-                                </span>
-                            </div>
-                        </Link>
+                    {/* <div className='flex items-center justify-between gap-20'> */}
+                    <Link to="/" className='flex items-center gap-2'>
+                        <Piano size={26} strokeWidth={1.5} className="text-primary-theme" />
+                        <div className='text-base md:text-xl tracking-tighter flex items-center gap-1'>
+                            <span className='font-light hidden md:inline-block'>OwenaHub</span>
+                            <span className='font-medium md:font-bold text-primary'>
+                                AriaPass
+                            </span>
+                        </div>
+                    </Link>
 
-                        <ul className='hidden md:flex gap-8 text-sm'>
-                            {NAV.map((item) => (
-                                <li key={item} className='hover:text-gray-400 font-medium transition-all'>
-                                    <Link to={item.toLowerCase()}>{item}</Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <ul className='hidden md:flex gap-8 text-sm'>
+                        {NAV.map((item) => (
+                            <li key={item} className='hover:text-gray-400 font-normal tracking-tight transition-all'>
+                                <Link to={item.toLowerCase()}>{item}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                    {/* </div> */}
 
                     {(user && user.name)
                         ? (
                             <div className='hidden md:flex gap-5 items-center'>
-                                <Link to={"/my-events/new"} className='bg-primary rounded-full px-6 py-3 text-xs text-white font-semibold'>
+                                <Link to={"/my-events/new"} className='bg-primary rounded-full px-6 py-3 text-xs text-white font-medium'>
                                     Post an Event
                                 </Link>
 
@@ -224,6 +245,6 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                     &copy; {new Date().getFullYear()} AriaPass. Built for the music community.
                 </div>
             </footer>
-        </>
+        </div>
     )
 }

@@ -25,6 +25,10 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
         return sum + ticket.quantityAvailable;
     }, 0);
 
+    const TOTAL_TICKETS_SALES: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
+        return sum + ticket.ticketPurchases;
+    }, 0);
+
     return (
         <section>
             <div className="bg-slate-100 col-span-1 md:col-span-4 h-60 w-full aspect-video group-hover:opacity-75 lg:h-auto overflow-hidden">
@@ -89,7 +93,9 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                             <div className='text-gray-500 flex flex-col items-start gap-1'>
                                 <span className="text-sm">Tickets Sold</span>
                                 <span>
-                                    <span className="text-2xl font-bold text-primary">0</span>
+                                    <span className="text-2xl font-bold text-primary">
+                                        {TOTAL_TICKETS_SALES}
+                                    </span>
                                     <span>/{TOTAL_TICKETS}</span>
                                 </span>
                             </div>

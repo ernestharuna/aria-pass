@@ -32,6 +32,10 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
         return sum + ticket.quantityAvailable;
     }, 0);
 
+    const TOTAL_TICKETS_SALES: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
+        return sum + ticket.ticketPurchases;
+    }, 0);
+
     return (
         <div>
             <div className="container py-10 flex gap-10 items-start">
@@ -90,7 +94,9 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                     <div className='text-gray-500 flex flex-col items-end gap-1'>
                                         <span className="text-sm">Tickets Sold</span>
                                         <span>
-                                            <span className="text-3xl font-bold text-primary">0</span>
+                                            <span className="text-3xl font-bold text-primary">
+                                                {TOTAL_TICKETS_SALES}
+                                            </span>
                                             <span>/{TOTAL_TICKETS}</span>
                                         </span>
                                     </div>
@@ -188,7 +194,6 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                         {(() => {
                             const [ticket, setTicket] = useState<Ticket>(event.tickets[0]);
                             const [next, setNext] = useState(false);
-                            const { getUser } = useSession()
 
                             return (
                                 <Dialog>

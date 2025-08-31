@@ -15,9 +15,9 @@ export default function AccountLayout() {
 
     return (
         <div>
-            <section className=" mx-auto mt-8">
+            <section className=" mx-auto">
                 <p className="text-gray-500">{user.name}</p>
-                <h1 className="text-3xl">Account Setting</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Account Setting</h1>
             </section>
 
             {/* Tabs */}

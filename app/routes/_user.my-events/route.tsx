@@ -10,7 +10,7 @@ import { Plus } from 'lucide-react';
 import RecordFilter from '~/components/utility/record-filter';
 import { useEffect, useState } from 'react';
 
-export const meta: MetaFunction= () => {
+export const meta: MetaFunction = () => {
     return [
         { title: "My Events | AriaPass" },
         { name: "description", content: "For Musicians" },
@@ -83,16 +83,15 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
             <section>
                 <div className="flex flex-col lg:flex-row gap-7 justify-between lg:items-end">
                     <div>
-                        <h1 className='text-primary text-2xl font-medium tracking-tight mb-5'>My Events</h1>
+                        <h1 className='text-primary text-3xl font-bold tracking-tight mb-5'>My Events</h1>
                         <RecordFilter />
                     </div>
                     <Link to={'new'} className=''>
                         <Button
                             variant={'default'}
-                            size={'sm'}
-                            className='bg-primary cursor-pointer text-xs'
+                            className='bg-primary cursor-pointer text-xs px-20 flex items-center gap-2'
                         >
-                            Create Event <Plus size={10} />
+                            <span>Create Event</span> <Plus size={10} />
                         </Button>
                     </Link>
                 </div>
