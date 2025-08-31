@@ -4,7 +4,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Crown, LibraryBig, Piano, UsersR
 import SearchBar from "~/components/utility/search-bar";
 import { FeedFilter } from "~/components/utility/feed-filter";
 import { Button } from "~/components/ui/button";
-import StackedSwipeDeck from "~/components/cards/stacked-swipe-deck";
+// import StackedSwipeDeck from "~/components/cards/stacked-swipe-deck";
 import type { Route } from "../_guest._index/+types/route";
 import { Suspense, useState } from "react";
 import EventCardSkeleton from "~/components/skeletons/events-card-skeleton";
@@ -33,12 +33,12 @@ export async function clientLoader(_: Route.ClientLoaderArgs) {
     }
 }
 
-const sample = [
-    { id: 1, title: "Beethoven: Symphony No.5", subtitle: "Royal Hall • London", image: "/images/event-flyer.jpg" },
-    { id: 2, title: "Verdi: Requiem", subtitle: "Opera House • Milan", image: "/images/event-flyer.jpg" },
-    { id: 3, title: "Mozart: Piano Recital", subtitle: "Concert Hall • Berlin", image: "/images/event-flyer.jpg" },
-    { id: 4, title: "Brahms: Chamber Night", subtitle: "Studio • New York", image: "/images/event-flyer.jpg" },
-];
+// const sample = [
+//     { id: 1, title: "Beethoven: Symphony No.5", subtitle: "Royal Hall • London", image: "/images/event-flyer.jpg" },
+//     { id: 2, title: "Verdi: Requiem", subtitle: "Opera House • Milan", image: "/images/event-flyer.jpg" },
+//     { id: 3, title: "Mozart: Piano Recital", subtitle: "Concert Hall • Berlin", image: "/images/event-flyer.jpg" },
+//     { id: 4, title: "Brahms: Chamber Night", subtitle: "Studio • New York", image: "/images/event-flyer.jpg" },
+// ];
 
 export default function Home({ loaderData }: Route.ComponentProps) {
     const { events }: { events: Promise<OrganiserEvent[]> } = loaderData;
@@ -57,9 +57,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             <header className="flex flex-col gap-5 lg:min-h-[65vh]">
                 <section className="container flex justify-between gap-20 items-center my-16">
                     <div className="lg:basis-7/12 text-center md:text-start overflow-hidden">
-                        <h1 className="text-3xl md:text-5xl font-semibold md:leading-13 text-primary tracking-tight">Experience the <BrMd /> Community Behind the Concerts</h1>
-                        <p className="text-primary text-base mt-5 leading-5">
-                            Explore work from the most talented and accomplished <BrMd /> designers ready to take on your next project.
+                        <h1 className="text-3xl md:text-5xl font-serif font-normal md:leading-13 text-primary tracking-tighter">
+                            Experience the <BrMd /> Community Behind the Concerts
+                        </h1>
+                        <p className="text-primary tracking-tight text-sm md:text-base mt-5 leading-5">
+                            Discover events, book tickets, and connect with fellow music <BrMd /> enthusiasts on AriaPass — your gateway to unforgettable musical experiences.
                         </p>
 
                         <div className="mt-10 flex flex-col items-start gap-3 ">
@@ -201,21 +203,21 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     </Button>
                 </Link>
 
-                <div className="md:hidden flex items-center justify-center py-10">
+                {/* <div className="md:hidden flex items-center justify-center py-10">
                     <StackedSwipeDeck
                         initialCards={sample}
                         width={350}
                         height={520}
                         onSwipe={(card, dir) => console.log("swiped", card.title, dir > 0 ? "right" : "left")}
                     />
-                </div>
+                </div> */}
                 {/* Events End ---------------------------------------------- */}
 
                 <hr className="mt-10" />
 
                 <div className="container mt-10">
                     <div
-                        className="h-80 rounded-xl py-6 px-8 my-10 flex flex-col justify-center"
+                        className="h-80 rounded-4xl py-6 px-8 my-10 flex flex-col justify-center"
                         style={{
                             backgroundImage: `linear-gradient(90deg, #FAF9FB, #FAF9FB00), url('/images/ensemble-banner.png')`,
                             backgroundSize: 'cover, cover',
@@ -223,12 +225,13 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         }}
                     >
                         <div className="">
-                            <div className="h-10 w-10 rounded-full bg-[#F6A700] mb-3" />
-                            <h2 className="text-3xl font-semibold tracking-tight mb-2">Get more leads, pay no fees</h2>
-                            <p className="font-light text-sm mb-10">Rank higher, skip the fees, and level up your profile — all <br /> for $0/month.</p>
+                            <h2 className="text-3xl font-semibold tracking-tighter mb-4">
+                                Get more leads, <br className="md:hidden" />  Pay no fees
+                            </h2>
+                            <p className="font-light text-sm mb-10">Rank higher, skip the fees, and level up your profile — all <BrMd /> for $0/month.</p>
 
                             <Link to={"/organiser-request"}>
-                                <Button className="rounded-full px-10 py-6">
+                                <Button className="w-full md:w-max rounded-full px-10 py-6">
                                     Become an Organiser
                                 </Button>
                             </Link>
