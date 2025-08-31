@@ -66,9 +66,6 @@ const app_menu = [
 ]
 
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
-
-  console.log(user);
-
   return (
     <Sidebar {...props}>
       <SidebarHeader className="border-sidebar-border h-16 border-b">

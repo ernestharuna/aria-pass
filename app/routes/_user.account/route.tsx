@@ -7,14 +7,14 @@ export const meta: MetaFunction = () => {
     ];
 }
 
-export default function Account() {
+export default function AccountLayout() {
     const user: User = useOutletContext();
 
     const tabs = ["My account", "Ticket purchase", "Preferences"];
     const NAVIGATION = [...tabs, ...(user.accountType === 'admin' ? ['Operations'] : [])]
 
     return (
-        <div className="container">
+        <div>
             <section className=" mx-auto mt-8">
                 <p className="text-gray-500">{user.name}</p>
                 <h1 className="text-3xl">Account Setting</h1>

@@ -7,14 +7,14 @@ import { useNavigate } from "react-router";
 import { PAYSTACK_PUBK } from "~/config/defaults";
 import client from "~/http/client";
 
-export default function OneTimePurchase({ event, ticket, user }: { event: OrganiserEvent, ticket: Ticket, user?: User | undefined }) {
+export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticket, user?: User | undefined }) {
     const publicKey = PAYSTACK_PUBK;
 
     const amount = parseInt(ticket.price) * 100; // Paystack expects amount in kobo
 
     const [form, setForm] = useState({
-        name: "",
-        email: "",
+        name: user?.name || "",
+        email: user?.email || "",
         phone: ""
     })
 
@@ -71,7 +71,7 @@ export default function OneTimePurchase({ event, ticket, user }: { event: Organi
                     });
 
                     resolve('Congratulations! Ticket purchased');
-                    return navigate(`/dashboard`);
+                    return navigate(`/purchases`);
                 } catch (error: any) {
                     toast.warning('Something went wrong', {
                         description: error.response?.data?.error || "Please try again later"
@@ -120,6 +120,7 @@ export default function OneTimePurchase({ event, ticket, user }: { event: Organi
                                 onChange={(e) => setForm((i) => (
                                     { ...i, name: e.target.value }
                                 ))}
+                                disabled={Boolean(user)}
                             />
                         </div>
                         <div className="flex-1">
@@ -133,6 +134,7 @@ export default function OneTimePurchase({ event, ticket, user }: { event: Organi
                                 onChange={(e) => setForm((i) => (
                                     { ...i, email: e.target.value }
                                 ))}
+                                disabled={Boolean(user)}
                             />
                         </div>
                     </div>

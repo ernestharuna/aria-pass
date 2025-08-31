@@ -1,10 +1,11 @@
 import client from '~/http/client';
-import type { Route } from '../_user.favourites/+types/route';
+import type { Route } from '../_user.purchases/+types/route';
 import { redirect, useSearchParams, type MetaFunction } from 'react-router';
 import { useEffect, useState } from 'react';
-import EventCard from '~/components/cards/event-card';
-import { Dot, Ticket, UserStar } from 'lucide-react';
+import { Ticket, UserStar } from 'lucide-react';
 import RecordFilter from '~/components/utility/record-filter';
+import PurchaseStatus from '~/components/utility/purchase-status';
+import FormatPrice from '~/components/utility/format-price';
 
 export const meta: MetaFunction = () => {
     return [
@@ -15,9 +16,9 @@ export const meta: MetaFunction = () => {
 
 export async function clientLoader() {
     try {
-        const { data } = await client.get('/api/events/favourites');
+        const { data } = await client.get('/api/tickets/purchases');
 
-        return { events: data }
+        return { tickets: data }
     } catch ({ response }: any) {
         console.error(response);
         return redirect('/dashboard')
@@ -25,10 +26,11 @@ export async function clientLoader() {
 }
 
 export default function MyEvents({ loaderData }: Route.ComponentProps) {
-    const { events }: { events: OrganiserEvent[] } = loaderData;
+    const { tickets }: { tickets: TicketPurchase[] } = loaderData;
+    console.log(tickets);
 
     const [searchParams] = useSearchParams();
-    const [filteredEvents, setFilteredEvents] = useState<OrganiserEvent[]>(events);
+    const [filteredData, setFilteredData] = useState<TicketPurchase[]>(tickets);
 
     const FILTERS = [
         {
@@ -42,14 +44,14 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
     ]
 
     useEffect(() => {
-        const filtered = events.filter((submission) => {
+        const filtered = tickets.filter((item: any) => {
             if (searchParams.get("status")) {
-                return submission.status === searchParams.get("status");
+                return item.status === searchParams.get("status");
             }
             return true;
         });
-        setFilteredEvents(filtered);
-    }, [searchParams, events]);
+        setFilteredData(filtered);
+    }, [searchParams, tickets]);
 
     return (
         <div>
@@ -64,10 +66,21 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
                     </div>
                 </div>
 
-                {(filteredEvents && filteredEvents.length) ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 items-stretch justify-start">
-                        {filteredEvents.map((event) => (
-                            <EventCard key={event.id} event={event} />
+                {(filteredData && filteredData.length) ? (
+                    <div className="grid grid-cols-1 gap-6 pt-8 items-stretch justify-start">
+                        {filteredData.map((purchase) => (
+                            <div className='p-4 rounded-lg bg-gray-50' key={purchase.id}>
+                                <small>{purchase.ticket.name}</small>
+                                <div className="flex items-start justify-between mb-2">
+                                    <div className="font-bold">
+                                        <FormatPrice price={purchase.ticket.price} />
+                                    </div>
+                                    <PurchaseStatus status={purchase.status} />
+                                </div>
+                                <div className="font-mono text-xs">
+                                    {purchase.code}
+                                </div>
+                            </div>
                         ))}
                     </div>
                 ) : (

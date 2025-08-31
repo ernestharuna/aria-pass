@@ -4,10 +4,10 @@ import dayjs from "dayjs";
 import TicketCard from "~/components/cards/ticket-card";
 import Placeholder from "~/components/utility/placeholder";
 import { Button } from "~/components/ui/button";
-import { Link } from "react-router";
+import { Link, useOutletContext } from "react-router";
 import RedirectOrFetcher from "~/components/navigation/like-event";
 import SharePage from "~/components/utility/share-page";
-import OneTimePurchase from "./purchase-button";
+import PaystackPurchaseButton from "./paystack-purchase-button";
 import {
     Dialog,
     DialogContent,
@@ -17,8 +17,10 @@ import {
 } from "~/components/ui/dialog"
 import { useState } from "react";
 import FormatPrice from "~/components/utility/format-price";
+import useSession from "~/hooks/use-session";
 
 export default function DesktopView({ event }: { event: OrganiserEvent }) {
+    const user: User = useOutletContext();
 
     let banner = event.bannerUrl
         ? `${STORAGE_URL}/${event.bannerUrl}`
@@ -96,7 +98,10 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                         <span className="text-sm">Starts from</span>
                                         <span>
                                             <span className="text-3xl font-bold text-primary-theme">
-                                                N5,000
+                                                {event.tickets.length
+                                                    ? <FormatPrice price={Math.min(...event.tickets.map(ticket => Number(ticket.price)))} />
+                                                    : '0'
+                                                }
                                             </span>
                                         </span>
                                     </div>
@@ -183,6 +188,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                         {(() => {
                             const [ticket, setTicket] = useState<Ticket>(event.tickets[0]);
                             const [next, setNext] = useState(false);
+                            const { getUser } = useSession()
 
                             return (
                                 <Dialog>
@@ -198,7 +204,12 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                                 <DialogTitle>Buy Ticket</DialogTitle>
                                             </DialogHeader>
                                             {next && (
-                                                <Button variant={"outline"} className="w-max p-0 text-xs shadow-none rounded-full" onClick={() => setNext(false)}>
+                                                <Button
+                                                    size={"sm"}
+                                                    variant={"outline"}
+                                                    className="w-max p-0 text-xs shadow-none rounded-full"
+                                                    onClick={() => setNext(false)}
+                                                >
                                                     <ArrowLeft /> Back
                                                 </Button>
                                             )}
@@ -228,7 +239,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                             )}
 
                                             {next && (
-                                                <OneTimePurchase event={event} ticket={ticket} />
+                                                <PaystackPurchaseButton user={user} ticket={ticket} />
                                             )}
                                         </DialogContent>
                                     </form>
@@ -240,7 +251,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                     <div className="bg-white px-8 py-6 rounded-3xl border border-gray-100 mb-8">
                         <div className="flex items-center justify-between">
                             <h3 className="font-semibold text-xl">
-                                Comments <span className="font-light text-sm">(256)</span>
+                                Comments <span className="font-light text-sm">(0)</span>
                             </h3>
                             <Ellipsis />
                         </div>

@@ -8,7 +8,7 @@ export default function MyAccount() {
     const user: User = useOutletContext();
 
     return (
-        <div >
+        <div>
             <div className='max-w-xl grid grid-cols-1 md:grid-cols-2 gap-5 mb-7'>
                 <div>
                     <Input

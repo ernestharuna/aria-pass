@@ -1,4 +1,4 @@
-export default function FormatPrice({ price }: { price: string }) {
+export default function FormatPrice({ price }: { price: any }) {
     return (
         <>
             {parseFloat(price) === 0

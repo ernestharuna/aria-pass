@@ -224,12 +224,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     >
                         <div className="">
                             <div className="h-10 w-10 rounded-full bg-[#F6A700] mb-3" />
-                            <h2 className="text-xl font-bold mb-2">Get more leads, pay no fees</h2>
-                            <p className="font-light text-xs mb-10">Rank higher, skip the fees, and level up your profile — all <br /> for $8/month.</p>
+                            <h2 className="text-3xl font-semibold tracking-tight mb-2">Get more leads, pay no fees</h2>
+                            <p className="font-light text-sm mb-10">Rank higher, skip the fees, and level up your profile — all <br /> for $0/month.</p>
 
-                            <Button className="rounded-full px-10 py-6">
-                                Become an Organiser
-                            </Button>
+                            <Link to={"/organiser-request"}>
+                                <Button className="rounded-full px-10 py-6">
+                                    Become an Organiser
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -161,7 +161,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                 <AnnouncementBanner />
             </div>
 
-            <Outlet />
+            <Outlet context={user} />
 
             <footer className="bg-white text-muted-foreground pt-20">
                 <div className="container grid grid-cols-1 md:grid-cols-3 gap-8">
