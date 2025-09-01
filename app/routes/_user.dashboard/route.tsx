@@ -6,11 +6,12 @@ import { Button } from '~/components/ui/button';
 import { Link, useOutletContext, type MetaFunction } from 'react-router';
 import DetailedEventCard from '~/components/cards/detailed-event-card';
 import useSession from '~/hooks/use-session';
+import { defaultMeta } from '~/lib/meta';
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (args) => {
     return [
+        ...defaultMeta(args) || [],
         { title: "Dashboard | AriaPass" },
-        { name: "description", content: "For Musicians" },
     ];
 }
 

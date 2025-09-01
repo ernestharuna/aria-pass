@@ -6,11 +6,12 @@ import { Ticket, UserStar } from 'lucide-react';
 import RecordFilter from '~/components/utility/record-filter';
 import PurchaseStatus from '~/components/utility/purchase-status';
 import FormatPrice from '~/components/utility/format-price';
+import { defaultMeta } from '~/lib/meta';
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (args) => {
     return [
-        { title: "Tickets | AriaPass" },
-        { name: "description", content: "For Musicians" },
+        ...defaultMeta(args) || [],
+        { title: "Purchases | AriaPass" },
     ];
 }
 

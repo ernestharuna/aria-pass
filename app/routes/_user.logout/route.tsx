@@ -4,10 +4,12 @@ import client from "~/http/client";
 import type { Route } from "../_user.logout/+types/route";
 
 export async function clientAction({ }: Route.ClientActionArgs) {
-    await client.post('/api/logout');
+    const promise = client.post('/api/logout');
 
-    toast.info('You logged out', {
-        description: 'Maybe you want to login again? 🥺',
+    await toast.promise(promise, {
+        loading: 'Processing request',
+        success: 'You have logged out!',
+        error: 'Failed to log out. Please try again.',
     });
 
     return redirect('/login');

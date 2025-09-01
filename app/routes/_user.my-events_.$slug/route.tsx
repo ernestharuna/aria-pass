@@ -6,13 +6,27 @@ import { STORAGE_URL } from "~/config/defaults";
 import EventStatus from "~/components/utility/event-status";
 import AddTicket from "./add-ticket";
 import type { Route } from "../_user.my-events_.$slug/+types/route";
-import { Link, redirect } from "react-router";
+import { Link, redirect, type MetaFunction } from "react-router";
 import { parseForm } from "~/lib/utils";
 import formRequest from "~/http/form.request";
 import { ArrowLeft, ArrowRight, ChevronDown, Laptop, Smartphone } from "lucide-react";
 import TicketCard from "~/components/cards/ticket-card";
 import UpdateEventStatus from "./update-event-status";
 import { categorizeDevices } from "./analytics";
+import { defaultMeta } from '~/lib/meta';
+
+export const meta: MetaFunction = (args: any) => {
+    if (!args.data.event) {
+        return [
+            { title: "AriaPass - Discover the community behind the concerts" },
+        ];
+    }
+    const event = args.data.event;
+    return [
+        ...defaultMeta(args) || [],
+        { title: `${event.title} | AriaPass` },
+    ];
+}
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     try {

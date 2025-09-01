@@ -11,13 +11,14 @@ import { parseForm } from "~/lib/utils";
 import DefaultButton from "~/components/buttons/default-button";
 import GoogleAuthButton from "~/components/buttons/google-auth-button";
 import type { Route } from "../_auth.login/+types/route";
+import { defaultMeta } from '~/lib/meta';
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (args) => {
   return [
+    ...defaultMeta(args) || [],
     { title: "Login | AriaPass" },
-    { name: "description", content: "The Learner's Hub" },
   ];
-};
+}
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const credentials = await parseForm(request);
@@ -33,7 +34,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     return redirect(route);
   } catch ({ response }: any) {
     console.log(response);
-    
+
     const error: any = response?.data?.errors;
     return error;
   }

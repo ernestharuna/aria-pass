@@ -9,11 +9,12 @@ import { parseForm } from '~/lib/utils';
 import { Plus } from 'lucide-react';
 import RecordFilter from '~/components/utility/record-filter';
 import { useEffect, useState } from 'react';
+import { defaultMeta } from '~/lib/meta';
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (args) => {
     return [
+        ...defaultMeta(args) || [],
         { title: "My Events | AriaPass" },
-        { name: "description", content: "For Musicians" },
     ];
 }
 

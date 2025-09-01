@@ -10,13 +10,14 @@ import authRequest from "~/http/auth.request";
 import { parseForm } from "~/lib/utils";
 import DefaultButton from "~/components/buttons/default-button";
 import type { Route } from "../_auth.register/+types/route";
+import { defaultMeta } from '~/lib/meta';
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (args) => {
     return [
+        ...defaultMeta(args) || [],
         { title: "Register | AriaPass" },
-        { name: "description", content: "The Learner's Hub" },
     ];
-};
+}
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);
@@ -156,7 +157,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                                 </div>
                             </div>
                             <div className="mt-7">
-                                <DefaultButton text="Register"/>
+                                <DefaultButton text="Register" />
                             </div>
                         </Form>
 

@@ -1,5 +1,5 @@
 import { Eye, MapPinHouse, MapPlus, Save, Scroll } from "lucide-react";
-import { Form, redirect } from "react-router";
+import { Form, redirect, type MetaFunction } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -32,6 +32,15 @@ import { toast } from "sonner";
 import { Switch } from "~/components/ui/switch";
 import useSession from "~/hooks/use-session";
 import client from "~/http/client";
+
+import { defaultMeta } from '~/lib/meta';
+
+export const meta: MetaFunction = (args) => {
+    return [
+        ...defaultMeta(args) || [],
+        { title: "New Event | AriaPass" },
+    ];
+}
 
 export async function clientLoader() {
     const { getUser } = useSession();

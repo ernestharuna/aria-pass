@@ -1,12 +1,12 @@
 import { NavLink, Outlet, useOutletContext, type MetaFunction } from "react-router";
+import { defaultMeta } from '~/lib/meta';
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (args) => {
     return [
+        ...defaultMeta(args) || [],
         { title: "Account | AriaPass" },
-        { name: "description", content: "For Musicians" },
     ];
 }
-
 export default function AccountLayout() {
     const user: User = useOutletContext();
 

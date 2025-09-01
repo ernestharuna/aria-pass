@@ -5,11 +5,12 @@ import RecordFilter from '~/components/utility/record-filter';
 import { useEffect, useState } from 'react';
 import EventCard from '~/components/cards/event-card';
 import { Dot } from 'lucide-react';
+import { defaultMeta } from '~/lib/meta';
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (args) => {
     return [
+        ...defaultMeta(args) || [],
         { title: "Favourites | AriaPass" },
-        { name: "description", content: "For Musicians" },
     ];
 }
 

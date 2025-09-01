@@ -1,4 +1,4 @@
-import { Await, Link, redirect } from "react-router";
+import { Await, Link, redirect, type MetaFunction } from "react-router";
 import { BrMd } from "~/components/utility/line-break";
 import { ArrowRight, ChevronLeft, ChevronRight, Crown, LibraryBig, Piano, UsersRound } from "lucide-react";
 import SearchBar from "~/components/utility/search-bar";
@@ -12,12 +12,36 @@ import client from "~/http/client";
 import EventsMapper from "~/components/mappers/event-mapper";
 import { STORAGE_URL } from "~/config/defaults";
 
-export function meta({ }: Route.MetaArgs) {
+export const meta: MetaFunction = () => {
+    const title = "AriaPass - Discover the community behind the concerts";
+    const description = "AriaPass is a new way to experience live events. Discover and connect with other fans, plan meetups before concerts, and organize your event tickets with a community of music lovers. A product of OwenaHub Collective.";
+    const imageUrl = "https://ariapass.owenahub.com/images/banners/app_banner.png";
+    const url = "https://ariapass.owenahub.com";
+
     return [
-        { title: "AriaPass | Events, Tickets, Concerts" },
-        { name: "description", content: "Welcome to React Router!" },
+        // Standard Meta Tags
+        { title: title },
+        { name: "description", content: description },
+        { name: "theme-color", content: "#625DF5" },
+        { name: "keywords", content: "concert community, music events, fan meetups, social ticketing, event organization, AriaPass, OwenaHub" },
+        { name: "author", content: "OwenaHub Collective" },
+        { name: "robots", content: "index, follow" },
+
+        // Open Graph (Facebook, LinkedIn)
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:image", content: imageUrl },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "website" },
+
+        // Twitter
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:site", content: "@owenahub" }, // Optional: Add your Twitter handle
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: imageUrl },
     ];
-}
+};
 
 export async function clientLoader(_: Route.ClientLoaderArgs) {
     try {
