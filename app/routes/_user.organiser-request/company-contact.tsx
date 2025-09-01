@@ -1,8 +1,7 @@
-import DefaultButton from '~/components/buttons/default-button'
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 
-export default function CompanyContact() {
+export default function CompanyContact({ profile }: { profile: OrganiseProfile }) {
     return (
         <div>
             <h1 className="text-xl font-medium mb-3">3. Contact Information</h1>
@@ -17,6 +16,7 @@ export default function CompanyContact() {
                             className='py-5 rounded-full shadow-none'
                             placeholder='www.acme.org'
                             name='website_url'
+                            defaultValue={profile?.webisteUrl || ''}
                             id='website'
                             type='url'
                         />
@@ -27,20 +27,23 @@ export default function CompanyContact() {
                             className='py-5 rounded-full shadow-none'
                             placeholder='acme@choral.com'
                             name='contact_email'
+                            defaultValue={profile?.contactEmail || ''}
                             id='email'
                             type='email'
                         />
                     </div>
                 </div>
-                <div className='mb-14'>
+                <div className=''>
                     <Label className='mb-1 text-sm font-light ms-2' htmlFor='phone'>Phone</Label>
                     <Input
                         id='phone'
                         className='py-5 rounded-full shadow-none'
                         placeholder='0800 000 0000'
                         name='contact_phone'
+                        defaultValue={profile?.contactPhone || ''}
                         type='tel'
                         maxLength={11}
+                        required
 
                         onInput={(e) => {
                             const input = e.target as HTMLInputElement;
@@ -52,9 +55,6 @@ export default function CompanyContact() {
                     <div id="phone-counter" className="ms-2 text-sm text-gray-500 mt-1">
                         11 characters left
                     </div>
-                </div>
-                <div>
-                    <DefaultButton text='Submit Request' />
                 </div>
             </div>
         </div>

@@ -24,7 +24,7 @@ export async function clientLoader() {
 export default function Administrator({ loaderData }: Route.ComponentProps) {
     const { profiles }: { profiles: OrganiseProfile[] } = loaderData;
     const fetcher = useFetcher();
-
+   
     return (
         <div>
             <section>

@@ -6,7 +6,7 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react"
-import { Form, Link } from "react-router"
+import { Link, useFetcher } from "react-router"
 
 import {
   Avatar,
@@ -32,6 +32,7 @@ import { Button } from "./ui/button"
 
 export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar();
+  const fetcher = useFetcher();
 
   return (
     <SidebarMenu>
@@ -108,16 +109,20 @@ export function NavUser({ user }: { user: User }) {
 
             <DropdownMenuSeparator />
 
-            <Form
+            <fetcher.Form
               method="POST"
               action="logout"
               title="Logout out your account"
             >
-              <Button className="w-full text-start flex justify-start" variant={"ghost"}>
+              <Button
+                className="w-full text-start flex justify-start" variant={"ghost"}
+                type="submit"
+                disabled={fetcher.state === "loading" || fetcher.state === "submitting"}
+              >
                 <LogOut className="text-gray-500" />
                 Log out
               </Button>
-            </Form>
+            </fetcher.Form>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

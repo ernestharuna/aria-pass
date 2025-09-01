@@ -1,6 +1,6 @@
 import { Textarea } from '~/components/ui/textarea'
 
-export default function CompanyBio() {
+export default function CompanyBio({ profile }: { profile: OrganiseProfile }) {
     return (
         <div>
             <h1 className="text-xl font-medium mb-3">2. Company Biography</h1>
@@ -14,7 +14,10 @@ export default function CompanyBio() {
                     className='rounded-lg shadow-none text-sm'
                     placeholder='Amazing biography on ACME chorale...'
                     name='biography'
+                    defaultValue={profile?.bio || ''}
                     maxLength={300}
+                    minLength={10}
+                    required
 
                     onInput={(e) => {
                         const input = e.target as HTMLInputElement;

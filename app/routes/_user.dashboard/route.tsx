@@ -3,7 +3,7 @@ import client from '~/http/client'
 import type { Route } from '../_user.dashboard/+types/route';
 import { ArrowRight, ChevronRight, SquareDashedMousePointer } from 'lucide-react';
 import { Button } from '~/components/ui/button';
-import { Link, useOutletContext, type MetaFunction } from 'react-router';
+import { Link, redirect, useOutletContext, type MetaFunction } from 'react-router';
 import DetailedEventCard from '~/components/cards/detailed-event-card';
 import useSession from '~/hooks/use-session';
 import { defaultMeta } from '~/lib/meta';
@@ -16,7 +16,7 @@ export const meta: MetaFunction = (args) => {
 }
 
 export async function clientLoader() {
-    const { getUser } = useSession();
+    const { getUser, validateSession } = useSession();
 
     try {
         const user = getUser();
@@ -41,8 +41,12 @@ export async function clientLoader() {
         };
 
     } catch ({ response }: any) {
+        if (response.status === 409) {
+            await validateSession();
+        }
+
         console.error("Failed to fetch events:", response);
-        throw new Error("Could not fetch event data.");
+        return redirect('')
     }
 }
 
@@ -69,8 +73,8 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
 
                 {(events && events.length) ? (
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-5 pt-5 items-stretch justify-start">
-                        {events.map((event) => (
-                            <EventCard key={event.id} event={event} />
+                        {events.map((event, index) => (
+                            <EventCard key={event.id + index} event={event} />
                         ))}
                     </div>
                 ) : (
@@ -110,15 +114,29 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                                 You have no events yet.
                             </p>
                             {user.organiserProfile ? (
-                                <Link to={"/my-events/new"}>
-                                    <Button className='rounded-full bg-primary px-22 py-6'>
-                                        Create an Event
+                                <>
+                                    <Button disabled={user.organiserProfile?.status !== 'active'}
+                                        className='rounded-full bg-primary px-22 py-6'
+                                    >
+                                        <Link to={"/my-events/new"}>
+                                            Create an Event
+                                        </Link>
                                     </Button>
-                                </Link>
+                                    {user.organiserProfile.status === 'pending' && (
+                                        <small className="text-xs text-amber-600">
+                                            Request under review
+                                        </small>
+                                    )}
+                                    {user.organiserProfile.status === 'suspended' && (
+                                        <small className="text-xs text-destructive">
+                                            Account suspended
+                                        </small>
+                                    )}
+                                </>
                             ) : (
                                 <Link to={"/organiser-request"}>
                                     <Button className='rounded-full bg-primary-theme px-22 py-6'>
-                                        Becoome an Organiser <ArrowRight />
+                                        Become an Organiser <ArrowRight />
                                     </Button>
                                 </Link>
                             )}
