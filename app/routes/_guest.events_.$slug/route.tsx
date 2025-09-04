@@ -14,9 +14,6 @@ export const meta: MetaFunction = ({ data }: any) => {
   }
   const event: OrganiserEvent = data.event;
 
-  const imageUrl = "https://ariapass.owenahub.com/images/banners/app_banner.png";
-  const url = "https://ariapass.owenahub.com";
-
   return [
     // Standard Meta Tags
     { title: `${event.title} | AriaPass` },
@@ -29,8 +26,8 @@ export const meta: MetaFunction = ({ data }: any) => {
     // Open Graph (Facebook, LinkedIn)
     { property: "og:title", content: `${event.title} | AriaPass` },
     { property: "og:description", content: event.description || "Discover the community behind the concerts" },
-    { property: "og:image", content: imageUrl },
-    { property: "og:url", content: url },
+    { property: "og:image", content: "https://ariapass.owenahub.com/images/banners/app_banner.png" },
+    { property: "og:url", content: "https://ariapass.owenahub.com" },
     { property: "og:type", content: "website" },
 
     // Twitter
@@ -38,7 +35,7 @@ export const meta: MetaFunction = ({ data }: any) => {
     { name: "twitter:site", content: "@owenahub" }, // Optional: Add your Twitter handle
     { name: "twitter:title", content: `${event.title} | AriaPass` },
     { name: "twitter:description", content: event.description || "Discover the community behind the concerts" },
-    { name: "twitter:image", content: imageUrl },
+    { name: "twitter:image", content: "https://ariapass.owenahub.com/images/banners/app_banner.png" },
   ];
 };
 

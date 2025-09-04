@@ -28,7 +28,6 @@ export async function clientLoader() {
 
 export default function MyEvents({ loaderData }: Route.ComponentProps) {
     const { tickets }: { tickets: TicketPurchase[] } = loaderData;
-    console.log(tickets);
 
     const [searchParams] = useSearchParams();
     const [filteredData, setFilteredData] = useState<TicketPurchase[]>(tickets);

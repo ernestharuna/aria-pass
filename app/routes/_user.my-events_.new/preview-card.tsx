@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
-import { Eye, Heart, MapPin, Ticket } from 'lucide-react'
+import { Eye, Heart, MapPin } from 'lucide-react'
 import CustomAvatar from '~/components/custom/custom-avatar';
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import Placeholder from '~/components/utility/placeholder'
 
 export default function PreviewCard({ event, bannerImage }: { event?: any, bannerImage: any }) {
@@ -51,27 +50,6 @@ export default function PreviewCard({ event, bannerImage }: { event?: any, banne
                     </div>
 
                     <div className="text-lg font-medium tracking-tighter mb-1">{event.title || <Placeholder text='Event title' />}</div>
-
-                    <div className="flex items-center gap-2">
-                        <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring *:data-[slot=avatar]:grayscale">
-                            <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                <AvatarFallback>CN</AvatarFallback>
-                            </Avatar>
-                            <Avatar>
-                                <AvatarImage src="https://github.com/leerob.png" alt="@leerob" />
-                                <AvatarFallback>LR</AvatarFallback>
-                            </Avatar>
-                            <Avatar>
-                                <AvatarImage
-                                    src="https://github.com/evilrabbit.png"
-                                    alt="@evilrabbit"
-                                />
-                                <AvatarFallback>ER</AvatarFallback>
-                            </Avatar>
-                        </div>
-                        <div className="text-white font-light text-xs">+200 Attending</div>
-                    </div>
                 </div>
             </div>
             <div className='flex items-center justify-between'>

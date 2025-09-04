@@ -22,7 +22,7 @@ export const meta: MetaFunction = (args) => {
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     const { data } = await client.get('api/organiser-profile');
-    console.log(data);
+    
     const url = new URL(request.url);
     const step = url.searchParams.get("step") || "1";
     return { step, profile: data };
@@ -129,6 +129,7 @@ export default function OrganiserRequest({ loaderData, actionData }: Route.Compo
                 <InputError for="bio" error={errors} />
                 <InputError for="currency" error={errors} />
                 <InputError for="contact_phone" error={errors} />
+                <InputError for="contact_email" error={errors} />
                 <InputError for="city" error={errors} />
                 <InputError for="country" error={errors} />
             </div>

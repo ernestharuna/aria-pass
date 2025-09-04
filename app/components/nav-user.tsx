@@ -2,17 +2,12 @@ import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
+  Piano,
   Sparkles,
 } from "lucide-react"
 import { Link, useFetcher } from "react-router"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,11 +19,12 @@ import {
 } from "~/components/ui/dropdown-menu"
 import {
   SidebarMenu,
-  SidebarMenuButton,
+  // SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "~/components/ui/sidebar"
 import { Button } from "./ui/button"
+import CustomAvatar from "./custom/custom-avatar"
 
 export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar();
@@ -39,20 +35,20 @@ export function NavUser({ user }: { user: User }) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            <div
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-primary-bg rounded-md py-0.5 px-1 flex items-center gap-2"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatarUrl} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+              <div className="rounded-lg bg-primary-theme text-white p-2">
+                <Piano className="h-5 w-5" strokeWidth={2.3} />
+              </div>
+              <div>
+                <small className="text-xs text-muted-foreground">OwenaHub</small>
+                <div className="font-bold text-xl tracking-tighter text-primary -mt-1.5">
+                  AriaPass
+                </div>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
-            </SidebarMenuButton>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
@@ -62,10 +58,7 @@ export function NavUser({ user }: { user: User }) {
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatarUrl} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                </Avatar>
+                <CustomAvatar name={user.name} styles="h-10 w-10" />
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="truncate text-xs">{user.email}</span>
@@ -97,10 +90,6 @@ export function NavUser({ user }: { user: User }) {
                   Account
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
                 Notifications

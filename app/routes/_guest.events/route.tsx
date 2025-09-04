@@ -7,37 +7,14 @@ import EventsMapper from '~/components/mappers/event-mapper';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { FeedFilter } from '~/components/utility/feed-filter';
+import { defaultMeta } from '~/lib/meta';
 
-export const meta: MetaFunction = () => {
-    const title = "Events | AriaPass - Discover the community behind the concerts";
-    const description = "AriaPass is a new way to experience live events. Discover and connect with other fans, plan meetups before concerts, and organize your event tickets with a community of music lovers. A product of OwenaHub Collective.";
-    const imageUrl = "https://ariapass.owenahub.com/images/banners/app_banner.png";
-    const url = "https://ariapass.owenahub.com";
-
+export const meta: MetaFunction = (args) => {
     return [
-        // Standard Meta Tags
-        { title: title },
-        { name: "description", content: description },
-        { name: "theme-color", content: "#625DF5" },
-        { name: "keywords", content: "concert community, music events, fan meetups, social ticketing, event organization, AriaPass, OwenaHub" },
-        { name: "author", content: "OwenaHub Collective" },
-        { name: "robots", content: "index, follow" },
-
-        // Open Graph (Facebook, LinkedIn)
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:image", content: imageUrl },
-        { property: "og:url", content: url },
-        { property: "og:type", content: "website" },
-
-        // Twitter
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:site", content: "@owenahub" }, // Optional: Add your Twitter handle
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: imageUrl },
+        ...defaultMeta(args) || [],
+        { title: "Events | AriaPass - Discover the community behind the concerts" },
     ];
-};
+}
 
 export async function clientLoader(_: Route.ClientLoaderArgs) {
     try {

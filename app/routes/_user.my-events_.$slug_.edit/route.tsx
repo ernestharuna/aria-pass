@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Route } from '../_user.my-events_.$slug_.edit/+types/route';
 import client from '~/http/client';
 import { toast } from 'sonner';
-import { Form, redirect } from 'react-router';
+import { Form, redirect, type MetaFunction } from 'react-router';
 import { parseForm } from '~/lib/utils';
 import { Button } from '~/components/ui/button';
 import { Label } from '~/components/ui/label';
@@ -18,6 +18,15 @@ import DefaultButton from '~/components/buttons/default-button';
 import PreviewCard from './preview-card';
 import { STORAGE_URL } from '~/config/defaults';
 import formRequest from '~/http/form.request';
+import { defaultMeta } from '~/lib/meta'
+
+export const meta: MetaFunction = (args) => {
+    return [
+        ...defaultMeta(args) || [],
+        { title: "Edit Event | AriaPass" },
+    ];
+}
+
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     try {

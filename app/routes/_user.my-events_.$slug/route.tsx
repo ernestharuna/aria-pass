@@ -87,7 +87,6 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 
 export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
     const { event }: { event: OrganiserEvent } = loaderData;
-    console.log(event);
 
     const FORMATTED_DATE = dayjs(event.date).format('MMMM D, YYYY');
 

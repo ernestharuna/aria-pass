@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Ban, CalendarCheck, Heart, Home, Plus, ShoppingCart, Square, User } from "lucide-react"
+import { Ban, CalendarCheck, Heart, Home, Plus, ShoppingCart, Square, User, UserPlus } from "lucide-react"
 
 import { DatePicker } from "~/components/date-picker"
 import { NavUser } from "~/components/nav-user"
@@ -68,9 +68,27 @@ const app_menu = [
 export function AppSidebar({ user, ...props }: AppSidebarProps) {
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="border-sidebar-border h-16 border-b">
+      <SidebarHeader className="border-sidebar-border h-16">
         <NavUser user={user} />
       </SidebarHeader>
+
+      <section className="border mx-2 mt-2 mb-2 bg-white rounded-2xl">
+        <div className="px-4 py-3">
+          <div className="text-sm font-bold tracking-tight">
+            {user.name}
+          </div>
+          <div className="text-xs font-light text-gray-600">
+            {user.email}
+          </div>
+        </div>
+        <hr />
+        <div className="px-4 py-4 hover:bg-primary hover:text-white rounded-b-2xl transition cursor-pointer">
+          <div className="text-xs font-medium flex items-center gap-2">
+            <UserPlus size={16} />
+            <span>Invite teammates</span>
+          </div>
+        </div>
+      </section>
 
       <SidebarContent>
         <DatePicker />
@@ -84,10 +102,10 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
               to={menu.href}
               className={({ isActive, isPending }) =>
                 isActive
-                  ? "block rounded-xl p-1 bg-primary-bg text-primary-theme "
+                  ? "block rounded-xl p-1 mb-0.5 bg-primary-bg text-primary-theme "
                   : isPending
-                    ? "block rounded-xl p-1  hover:bg-gray-100 text-primary"
-                    : "block rounded-xl p-1 hover:bg-gray-100 text-primary"
+                    ? "block rounded-xl p-1 mb-0.5  hover:bg-gray-100 text-primary"
+                    : "block rounded-xl p-1 mb-0.5 hover:bg-gray-100 text-primary"
               }
             >
               {({ isActive }) => (
@@ -100,7 +118,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
                         </span>)
                       }
                     </span>
-                    <span className={`capitalize text-sm font-bold tracking-tight`}>
+                    <span className={`capitalize text-[15px] font-bold tracking-tight`}>
                       {menu.label}
                     </span>
                   </div>

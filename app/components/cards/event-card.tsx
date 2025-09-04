@@ -1,10 +1,5 @@
 import { Crown, Eye, Heart, MapPin } from 'lucide-react';
 import dayjs from 'dayjs';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "~/components/ui/avatar"
 import { STORAGE_URL } from '~/config/defaults';
 import { Link } from 'react-router';
 import RedirectOrFetcher from '../navigation/like-event';
@@ -61,27 +56,6 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                     </div>
 
                     <div className="text-lg font-medium tracking-tighter mb-1">{event.title}</div>
-
-                    <div className="flex items-center gap-2">
-                        <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring *:data-[slot=avatar]:grayscale">
-                            <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                <AvatarFallback>CN</AvatarFallback>
-                            </Avatar>
-                            <Avatar>
-                                <AvatarImage src="https://github.com/leerob.png" alt="@leerob" />
-                                <AvatarFallback>LR</AvatarFallback>
-                            </Avatar>
-                            <Avatar>
-                                <AvatarImage
-                                    src="https://github.com/evilrabbit.png"
-                                    alt="@evilrabbit"
-                                />
-                                <AvatarFallback>ER</AvatarFallback>
-                            </Avatar>
-                        </div>
-                        <div className="text-white font-light text-xs">Accepting purchases</div>
-                    </div>
                 </div>
             </div>
             <div className='flex items-center justify-between'>

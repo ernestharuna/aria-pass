@@ -6,7 +6,7 @@ import type { Route } from "../_user.logout/+types/route";
 export async function clientAction({ }: Route.ClientActionArgs) {
     const promise = client.post('/api/logout');
 
-    await toast.promise(promise, {
+    toast.promise(promise, {
         loading: 'Processing request',
         success: 'You have logged out!',
         error: 'Failed to log out. Please try again.',

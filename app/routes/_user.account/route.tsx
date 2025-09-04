@@ -11,7 +11,11 @@ export default function AccountLayout() {
     const user: User = useOutletContext();
 
     const tabs = ["My account", "Ticket purchase", "Preferences"];
-    const NAVIGATION = [...tabs, ...(user.accountType === 'admin' ? ['Operations'] : [])]
+    const NAVIGATION = [
+        ...tabs,
+        ...(user.organiserProfile ? ['Payouts', 'Event Staff'] : []),
+        ...(user.accountType === 'admin' ? ['Operations'] : [])
+    ]
 
     return (
         <div>

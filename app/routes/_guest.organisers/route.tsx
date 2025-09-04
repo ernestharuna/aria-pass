@@ -1,7 +1,15 @@
 import { ChevronRight } from 'lucide-react'
-import { Link } from 'react-router'
+import { Link, type MetaFunction } from 'react-router'
 import EmptyState from '~/components/skeletons/empty-state'
 import { Button } from '~/components/ui/button'
+import { defaultMeta } from '~/lib/meta'
+
+export const meta: MetaFunction = (args) => {
+    return [
+        ...defaultMeta(args) || [],
+        { title: "Organisers | AriaPass" },
+    ];
+}
 
 export default function Organisers() {
     return (
