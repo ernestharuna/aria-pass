@@ -11,11 +11,11 @@ export const meta: MetaFunction = (args) => {
     ];
 }
 
-export default function Organisers() {
+export default function Artists() {
     return (
         <main className='animated fadeIn'>
             <div className='container py-10 flex flex-col gap-2'>
-                <h1 className='text-2xl font-semibold tracking-tighter'>Organisers</h1>
+                <h1 className='text-2xl font-semibold tracking-tighter'>Artists</h1>
                 <p className='text-sm text-gray-500 font-light'>Showing all verified profiles & partners</p>
             </div>
 
@@ -25,22 +25,18 @@ export default function Organisers() {
                         <Link to={""} key={item} className="rounded-full py-2 px-4 hover:bg-stone-100 text-sm font-semibold tracking-tight">{item}</Link>
                     ))}
                 </div>
-                <Link to={`/organiser-request`} >
-                    <Button variant={"secondary"} className="rounded-full flex justify-between gap-2 px-5">
-                        <span>Become an Organiser</span>
-                        <ChevronRight />
-                    </Button>
-                </Link>
+                <Button variant={"secondary"} disabled className="rounded-full flex justify-between gap-2 px-5">
+                    <span>Join as Artist</span>
+                    <ChevronRight />
+                </Button>
             </div>
 
             <div className="lg:hidden mb-4">
                 <div className="container flex justify-between items-center">
-                    <Link to={`/organiser-request`} >
-                        <Button variant={"secondary"} className="rounded-full flex justify-between gap-2 px-5">
-                            <span>Become an Organiser</span>
-                            <ChevronRight />
-                        </Button>
-                    </Link>
+                    <Button variant={"secondary"} disabled className="rounded-full flex justify-between gap-2 px-5">
+                        <span>Join as Artist</span>
+                        <ChevronRight />
+                    </Button>
 
                 </div>
 

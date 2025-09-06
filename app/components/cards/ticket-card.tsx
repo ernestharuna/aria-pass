@@ -12,7 +12,7 @@ export default function TicketCard({ ticket, user = 'user' }: { ticket: Ticket, 
                 <FormatPrice price={ticket.price} />
             </p>
 
-            <h5 className='font-bold tracking-tighter text-xl' style={{ color: ticket.theme }}>{ticket.name}</h5>
+            <h5 className='font-bold tracking-tighter text-xl capitalize' style={{ color: ticket.theme }}>{ticket.name}</h5>
             <p className='text-sm text-muted-foreground mt-1'>{ticket.quantityAvailable} units</p>
 
 

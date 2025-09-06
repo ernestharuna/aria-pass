@@ -1,6 +1,6 @@
 import { Await, Link, redirect } from "react-router";
 import { BrMd } from "~/components/utility/line-break";
-import { ArrowRight, ChevronLeft, ChevronRight, Crown, LibraryBig, Piano, UsersRound, UserStar } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Crown, Piano, UsersRound, UserStar } from "lucide-react";
 import SearchBar from "~/components/utility/search-bar";
 import { FeedFilter } from "~/components/utility/feed-filter";
 import { Button } from "~/components/ui/button";
@@ -62,10 +62,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                                 <Link to="/events" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full bg-[#3A3546] text-white ">
                                     <Piano size={16} /> <span>Events</span>
                                 </Link>
-                                <Link to="organisers" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
+                                <Link to="/organisers" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
                                     <UsersRound size={16} /> <span>Organisers</span>
                                 </Link>
-                                <Link to="/#" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
+                                <Link to="/artists" className="flex gap-1.5 items-center py-3 px-4 font-medium text-sm rounded-full hover:bg-gray-50">
                                     <UserStar size={16} /> <span>Artists</span>
                                 </Link>
                             </div>

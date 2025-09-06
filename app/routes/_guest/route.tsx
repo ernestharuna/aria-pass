@@ -1,6 +1,6 @@
 import { ChevronRight, Facebook, Instagram, Menu, Piano, Twitter, X } from 'lucide-react'
 import { Suspense, useEffect, useState } from 'react';
-import { Await, Link, NavLink, Outlet} from 'react-router'
+import { Await, Link, NavLink, Outlet } from 'react-router'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import AnnouncementBanner from '~/components/cards/announcement-banner';
@@ -30,7 +30,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     const [menu, setMenu] = useState<boolean>(false);
     const [scrolled, setScrolled] = useState<boolean>(false);
 
-    const NAV = ['Events', 'Organisers']
+    const NAV = ['Events', 'Organisers', 'Artists']
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -44,25 +44,25 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
         <div>
             <div className={`sticky top-0 z-10 bg-white/50 backdrop-blur-md ${scrolled && 'border-b border-gray-50'}`}>
                 <nav className={`bg-white/50 backdrop-blur-md py-5 container flex items-center justify-between transition-all`}>
-                    {/* <div className='flex items-center justify-between gap-20'> */}
-                    <Link to="/" className='flex items-center gap-2'>
-                        <Piano size={26} strokeWidth={1.5} className="text-primary-theme" />
-                        <div className='text-base md:text-xl tracking-tighter flex items-center gap-1'>
-                            <span className='font-light hidden md:inline-block'>OwenaHub</span>
-                            <span className='font-medium md:font-bold text-primary'>
-                                AriaPass
-                            </span>
-                        </div>
-                    </Link>
+                    <div className='flex items-center justify-between gap-20'>
+                        <Link to="/" className='flex items-center gap-2'>
+                            <Piano size={26} strokeWidth={1.5} className="text-primary-theme" />
+                            <div className='text-base md:text-xl tracking-tighter flex items-center gap-1'>
+                                <span className='font-light hidden md:inline-block'>OwenaHub</span>
+                                <span className='font-medium md:font-bold text-primary'>
+                                    AriaPass
+                                </span>
+                            </div>
+                        </Link>
 
-                    <ul className='hidden md:flex gap-8 text-sm'>
-                        {NAV.map((item) => (
-                            <li key={item} className='hover:text-gray-400 font-normal tracking-tight transition-all'>
-                                <Link to={item.toLowerCase()}>{item}</Link>
-                            </li>
-                        ))}
-                    </ul>
-                    {/* </div> */}
+                        <ul className='hidden md:flex gap-8 text-sm'>
+                            {NAV.map((item) => (
+                                <li key={item} className='hover:text-gray-400 font-normal tracking-tight transition-all'>
+                                    <Link to={item.toLowerCase()}>{item}</Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
                     {(user && user.name)
                         ? (

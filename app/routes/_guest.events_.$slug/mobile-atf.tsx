@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Calendar, Dot, Ellipsis, Heart, MapPin, Share2, Ticket } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Dot, Ellipsis, Heart, MapPin, Share, Ticket } from "lucide-react";
 import { STORAGE_URL } from "~/config/defaults";
 import dayjs from "dayjs";
 import { Link, useOutletContext } from 'react-router';
@@ -31,17 +31,17 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
 
     return (
         <section>
-            <div className="bg-slate-100 col-span-1 md:col-span-4 h-60 w-full aspect-video group-hover:opacity-75 lg:h-auto overflow-hidden">
+            <div className="bg-slate-100 col-span-1 md:col-span-4 h-80 w-full aspect-video group-hover:opacity-75 lg:h-auto overflow-hidden">
                 <img
                     src={banner}
                     alt={event.title}
-                    className="h-60 w-full object-cover"
+                    className="h-80 w-full object-cover"
                 />
             </div>
 
             <div className='container mt-5'>
                 <div className='text-sm mb-2'>
-                    Organised by {" "}
+                    Curated by {" "}
                     <Link to="#creator" className="font-bold text-primary-theme underline underline-offset-2">
                         {event.organiser.organiserName}
                     </Link>
@@ -54,10 +54,10 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                     <div className="flex items-center gap-4 mb-3">
                         {/* /api/events/${params.slug}/interested */}
                         <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
-                            <button className="flex items-center gap-2 px-3 py-2 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
+                            <button className="flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
                                 <div>
                                     <Heart
-                                        size={16}
+                                        size={18}
                                         className={`${event.liked && 'text-destructive fill-current'}`}
                                     />
                                 </div>
@@ -68,9 +68,9 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                             </button>
                         </RedirectOrFetcher>
                         <SharePage>
-                            <div className="flex items-center gap-2 px-3 py-2 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
+                            <div className="flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
                                 <div>
-                                    <Share2 size={16} />
+                                    <Share size={18} />
                                 </div>
                                 <span>Share</span>
                             </div>
@@ -91,25 +91,27 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
 
                         <div className='flex items-end gap-14 justify-start'>
                             <div className='text-gray-500 flex flex-col items-start gap-1'>
-                                <span className="text-sm">Tickets Sold</span>
-                                <span>
-                                    <span className="text-2xl font-bold text-primary">
-                                        {TOTAL_TICKETS_SALES}
-                                    </span>
-                                    <span>/{TOTAL_TICKETS}</span>
-                                </span>
-                            </div>
-                            <div className='text-gray-500 flex flex-col items-start gap-1'>
                                 <span className="text-sm">Starts from</span>
                                 <span>
                                     <span className="text-2xl font-bold text-primary-theme">
                                         {event.tickets.length
                                             ? <FormatPrice price={Math.min(...event.tickets.map(ticket => Number(ticket.price)))} />
-                                            : '0'
+                                            : 'No tickets available'
                                         }
                                     </span>
                                 </span>
                             </div>
+                            {event.engagementVisible ? (
+                                <div className='text-gray-500 flex flex-col items-start gap-1'>
+                                    <span className="text-sm">Tickets Sold</span>
+                                    <span>
+                                        <span className="text-2xl font-bold text-primary">
+                                            {TOTAL_TICKETS_SALES}
+                                        </span>
+                                        <span>/{TOTAL_TICKETS}</span>
+                                    </span>
+                                </div>
+                            ) : ""}
                         </div>
                     </div>
 
@@ -171,59 +173,76 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                             const [next, setNext] = useState(false);
 
                             return (
-                                <Dialog>
-                                    <form>
-                                        <DialogTrigger asChild>
-                                            <Button className="bg-primary-theme w-full py-6 text-lg font-medium rounded-full tracking-tighter">
-                                                Get Booked <Ticket />
+                                <>
+                                    {(event.tickets.length < 2 && event.tickets[0].price === '0.00') ? (
+                                        <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
+                                            <Button className="bg-primary w-full py-7 text-lg font-medium rounded-2xl tracking-tighter">
+                                                <span>I will attend</span>
+                                                <div>
+                                                    <Heart
+                                                        size={18}
+                                                        className={`${event.liked && 'text-destructive fill-current'}`}
+                                                    />
+                                                </div>
                                             </Button>
-                                        </DialogTrigger>
-
-                                        <DialogContent className="sm:max-w-[425px]">
-                                            <DialogHeader className="">
-                                                <DialogTitle>Buy Ticket</DialogTitle>
-                                            </DialogHeader>
-                                            {next && (
-                                                <Button
-                                                    size={"sm"}
-                                                    variant={"outline"}
-                                                    className="w-max p-0 text-xs shadow-none rounded-full"
-                                                    onClick={() => setNext(false)}
-                                                >
-                                                    <ArrowLeft /> Back
-                                                </Button>
-                                            )}
-                                            {!next && (
-                                                <>
-                                                    {event.tickets.map((item: Ticket) => (
-                                                        <div
-                                                            onClick={() => setTicket(item)}
-                                                            className={`border p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
-                                                        >
-                                                            <div>
-                                                                <small>{item.name}</small>
-                                                                <p className="font-semibold">
-                                                                    <FormatPrice price={item.price} />
-                                                                </p>
-                                                            </div>
-                                                            {(item.id === ticket.id) && (
-                                                                <Dot strokeWidth={10} />
-                                                            )}
-                                                        </div>
-                                                    ))}
-
-                                                    <Button disabled={!ticket} onClick={() => setNext(!next)}>
-                                                        Continue
+                                        </RedirectOrFetcher>
+                                    ) : (
+                                        <Dialog>
+                                            <form>
+                                                <DialogTrigger asChild>
+                                                    <Button className="bg-primary-theme w-full py-7 text-lg font-medium rounded-full tracking-tighter">
+                                                        Get a Ticket <Ticket />
                                                     </Button>
-                                                </>
-                                            )}
+                                                </DialogTrigger>
 
-                                            {next && (
-                                                <OneTimePurchase user={user} ticket={ticket} />
-                                            )}
-                                        </DialogContent>
-                                    </form>
-                                </Dialog>
+                                                <DialogContent className="sm:max-w-[425px]">
+                                                    <DialogHeader className="">
+                                                        <DialogTitle>Buy Ticket</DialogTitle>
+                                                    </DialogHeader>
+                                                    {next && (
+                                                        <Button
+                                                            size={"sm"}
+                                                            variant={"outline"}
+                                                            className="w-max p-0 text-xs shadow-none rounded-full"
+                                                            onClick={() => setNext(false)}
+                                                        >
+                                                            <ArrowLeft /> Back
+                                                        </Button>
+                                                    )}
+                                                    {!next && (
+                                                        <>
+                                                            {event.tickets.map((item: Ticket) => (
+                                                                <div
+                                                                    onClick={() => setTicket(item)}
+                                                                    className={`border p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
+                                                                >
+                                                                    <div>
+                                                                        <small>{item.name}</small>
+                                                                        <p className="font-semibold">
+                                                                            <FormatPrice price={item.price} />
+                                                                        </p>
+                                                                    </div>
+                                                                    {(item.id === ticket.id) && (
+                                                                        <Dot strokeWidth={10} />
+                                                                    )}
+                                                                </div>
+                                                            ))}
+
+                                                            <Button disabled={!ticket} onClick={() => setNext(!next)}>
+                                                                Continue
+                                                            </Button>
+                                                        </>
+                                                    )}
+
+                                                    {next && (
+                                                        <OneTimePurchase user={user} ticket={ticket} />
+                                                    )}
+                                                </DialogContent>
+                                            </form>
+                                        </Dialog>
+                                    )}
+
+                                </>
                             )
                         })()}
                     </div>

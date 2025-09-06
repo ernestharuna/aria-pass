@@ -204,7 +204,12 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                         ? event.tickets.map(ticket =>
                             <TicketCard ticket={ticket} user="organiser" key={ticket.id} />
                         )
-                        : <span className="text-gray-400">No tickets yet</span>
+                        : <span className="text-gray-400 text-xs">
+                            No tickets yet <br />
+                            <span className="text-amber-800 bg-amber-100 px-2 py-1 rounded-md mt-2 inline-block">
+                                If this is a Free Event, create a ticket with zero price named "Free Entry"
+                            </span>
+                        </span>
                     }
 
                 </div>

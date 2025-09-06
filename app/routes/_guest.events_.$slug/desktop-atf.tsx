@@ -17,7 +17,6 @@ import {
 } from "~/components/ui/dialog"
 import { useState } from "react";
 import FormatPrice from "~/components/utility/format-price";
-import useSession from "~/hooks/use-session";
 
 export default function DesktopView({ event }: { event: OrganiserEvent }) {
     const user: User = useOutletContext();
@@ -45,14 +44,14 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             <img
                                 src={banner}
                                 alt={event.title}
-                                className="h-90 w-full object-cover"
+                                className="h-120 w-full object-cover"
                             />
 
                             <div className="bg-white/90 px-4 py-2 text-sm font-semibold rounded-md absolute top-5 left-5">{event.eventType}</div>
                         </div>
                         <div className='px-8 py-8'>
                             <div className='text-sm mb-2'>
-                                Organised by {" "}
+                                Curated by {" "}
                                 <Link to="#creator" className="font-bold text-primary-theme underline underline-offset-2">
                                     {event.organiser.organiserName}
                                 </Link>
@@ -62,7 +61,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                     {event.title}
                                 </h1>
 
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-6">
                                     <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
                                         <button title="Add to favourites" className='border p-3 border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition'>
                                             <Heart
@@ -92,25 +91,27 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
 
                                 <div className='flex items-end gap-16'>
                                     <div className='text-gray-500 flex flex-col items-end gap-1'>
-                                        <span className="text-sm">Tickets Sold</span>
-                                        <span>
-                                            <span className="text-3xl font-bold text-primary">
-                                                {TOTAL_TICKETS_SALES}
-                                            </span>
-                                            <span>/{TOTAL_TICKETS}</span>
-                                        </span>
-                                    </div>
-                                    <div className='text-gray-500 flex flex-col items-end gap-1'>
                                         <span className="text-sm">Starts from</span>
                                         <span>
                                             <span className="text-3xl font-bold text-primary-theme">
                                                 {event.tickets.length
                                                     ? <FormatPrice price={Math.min(...event.tickets.map(ticket => Number(ticket.price)))} />
-                                                    : '0'
+                                                    : 'No tickets available'
                                                 }
                                             </span>
                                         </span>
                                     </div>
+                                    {event.engagementVisible ? (
+                                        <div className='text-gray-500 flex flex-col items-end gap-1'>
+                                            <span className="text-sm">Tickets Sold</span>
+                                            <span>
+                                                <span className="text-3xl font-bold text-primary">
+                                                    {TOTAL_TICKETS_SALES}
+                                                </span>
+                                                <span>/{TOTAL_TICKETS}</span>
+                                            </span>
+                                        </div>
+                                    ) : ''}
                                 </div>
                             </div>
 
@@ -196,59 +197,75 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             const [next, setNext] = useState(false);
 
                             return (
-                                <Dialog>
-                                    <form>
-                                        <DialogTrigger asChild>
-                                            <Button className="bg-primary-theme w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter">
-                                                Get Booked <Ticket />
+                                <>
+                                    {(event.tickets.length < 2 && event.tickets[0].price === '0.00') ? (
+                                        <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
+                                            <Button className="bg-primary w-full py-7 text-lg font-light rounded-2xl tracking-tighter">
+                                                <span>I will attend</span>
+                                                <div>
+                                                    <Heart
+                                                        size={20}
+                                                        className={`${event.liked && 'text-destructive fill-current'}`}
+                                                    />
+                                                </div>
                                             </Button>
-                                        </DialogTrigger>
-
-                                        <DialogContent className="sm:max-w-[425px]">
-                                            <DialogHeader className="">
-                                                <DialogTitle>Buy Ticket</DialogTitle>
-                                            </DialogHeader>
-                                            {next && (
-                                                <Button
-                                                    size={"sm"}
-                                                    variant={"outline"}
-                                                    className="w-max p-0 text-xs shadow-none rounded-full"
-                                                    onClick={() => setNext(false)}
-                                                >
-                                                    <ArrowLeft /> Back
-                                                </Button>
-                                            )}
-                                            {!next && (
-                                                <>
-                                                    {event.tickets.map((item: Ticket) => (
-                                                        <div
-                                                            onClick={() => setTicket(item)}
-                                                            className={`border p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
-                                                        >
-                                                            <div>
-                                                                <small>{item.name}</small>
-                                                                <p className="font-semibold">
-                                                                    <FormatPrice price={item.price} />
-                                                                </p>
-                                                            </div>
-                                                            {(item.id === ticket.id) && (
-                                                                <Dot strokeWidth={10} />
-                                                            )}
-                                                        </div>
-                                                    ))}
-
-                                                    <Button disabled={!ticket} onClick={() => setNext(!next)}>
-                                                        Continue
+                                        </RedirectOrFetcher>
+                                    ) : (
+                                        <Dialog>
+                                            <form>
+                                                <DialogTrigger asChild>
+                                                    <Button className="bg-primary-theme w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter">
+                                                        Get a Ticket <Ticket />
                                                     </Button>
-                                                </>
-                                            )}
+                                                </DialogTrigger>
 
-                                            {next && (
-                                                <PaystackPurchaseButton user={user} ticket={ticket} />
-                                            )}
-                                        </DialogContent>
-                                    </form>
-                                </Dialog>
+                                                <DialogContent className="sm:max-w-[425px]">
+                                                    <DialogHeader className="">
+                                                        <DialogTitle>Buy Ticket</DialogTitle>
+                                                    </DialogHeader>
+                                                    {next && (
+                                                        <Button
+                                                            size={"sm"}
+                                                            variant={"outline"}
+                                                            className="w-max p-0 text-xs shadow-none rounded-full"
+                                                            onClick={() => setNext(false)}
+                                                        >
+                                                            <ArrowLeft /> Back
+                                                        </Button>
+                                                    )}
+                                                    {!next && (
+                                                        <>
+                                                            {event.tickets.map((item: Ticket) => (
+                                                                <div
+                                                                    onClick={() => setTicket(item)}
+                                                                    className={`border p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
+                                                                >
+                                                                    <div>
+                                                                        <small>{item.name}</small>
+                                                                        <p className="font-semibold">
+                                                                            <FormatPrice price={item.price} />
+                                                                        </p>
+                                                                    </div>
+                                                                    {(item.id === ticket.id) && (
+                                                                        <Dot strokeWidth={10} />
+                                                                    )}
+                                                                </div>
+                                                            ))}
+
+                                                            <Button disabled={!ticket} onClick={() => setNext(!next)}>
+                                                                Continue
+                                                            </Button>
+                                                        </>
+                                                    )}
+
+                                                    {next && (
+                                                        <PaystackPurchaseButton user={user} ticket={ticket} />
+                                                    )}
+                                                </DialogContent>
+                                            </form>
+                                        </Dialog>
+                                    )}
+                                </>
                             )
                         })()}
                     </aside>
