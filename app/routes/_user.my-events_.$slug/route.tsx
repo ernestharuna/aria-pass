@@ -14,6 +14,7 @@ import TicketCard from "~/components/cards/ticket-card";
 import UpdateEventStatus from "./update-event-status";
 import { categorizeDevices } from "./analytics";
 import { defaultMeta } from '~/lib/meta';
+import MembersTable from "./members-table";
 
 export const meta: MetaFunction = (args: any) => {
     if (!args.data.event) {
@@ -33,7 +34,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         const res = await client.get(`api/organiser/events/${params.slug}`);
         return { event: res.data }
     } catch ({ response }: any) {
-        console.log(response);
         toast.warning("Something broke", {
             description: response.data.message || ""
         })
@@ -43,8 +43,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export async function clientAction({ request, params }: Route.ClientActionArgs) {
     const credentials = await parseForm(request)
-    // console.log(credentials);
-    // return
 
     try {
         switch (credentials.type) {
@@ -87,6 +85,8 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 
 export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
     const { event }: { event: OrganiserEvent } = loaderData;
+    console.log(event);
+
 
     const FORMATTED_DATE = dayjs(event.date).format('MMMM D, YYYY');
 
@@ -218,6 +218,23 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                         <ArrowRight />
                     </div>
                 )}
+            </div>
+
+            <div className="mt-10 text-sm relative">
+                <h3 className="font-semibold">Staff/Performers</h3>
+
+                <div className="flex items-stretch gap-7 mt-5 overflow-x-auto pb-10 border-b ">
+                    {event.members?.length
+                        ? <MembersTable members={event.members} />
+                        : <span className="text-gray-400 text-xs">
+                            No members yet <br />
+                            <span className="text-amber-800 bg-amber-100 px-2 py-1 rounded-md mt-2 inline-block">
+                                Add event members that can help manage this event
+                            </span>
+                        </span>
+                    }
+
+                </div>
             </div>
         </div>
     )

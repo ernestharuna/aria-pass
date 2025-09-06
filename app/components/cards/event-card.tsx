@@ -27,7 +27,7 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                 )}
 
                 {/* Overlay background */}
-                <div className='absolute top-0 left-0 w-full min-h-full bg-gradient-to-t from-black/70 to-black/30' />
+                <div className='absolute top-0 left-0 w-full min-h-full bg-gradient-to-t from-black/60 to-black/20' />
 
                 {/* Upperside of the card */}
                 <div className="absolute flex items-center justify-between top-2 w-[97%] left-2 py-0.5 px-1">
@@ -55,7 +55,7 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                         <MapPin strokeWidth={1.5} size={14} /> <span className='font-light text-sm capitalize'>{event.city}, {event.country}</span>
                     </div>
 
-                    <div className="text-lg font-medium tracking-tighter mb-1">{event.title}</div>
+                    <div className="text-xl leading-6 font-semibold tracking-tighter mb-1">{event.title}</div>
                 </div>
             </div>
             <div className='flex items-center justify-between'>

@@ -3,7 +3,9 @@ import { Input } from '~/components/ui/input'
 export default function CompanyName({ profile }: { profile: OrganiseProfile | null }) {
     return (
         <div>
-            <h1 className="text-xl font-medium mb-3">1. Company name</h1>
+            <h1 className="text-xl font-medium mb-3">
+                <span className="text-primary-theme"> 1.</span> Company name
+            </h1>
             <div className='text-sm mb-5 font-light'>
                 This name will be used to check your virality and will appear when you post events and on your digital tickets
             </div>

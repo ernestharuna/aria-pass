@@ -120,7 +120,7 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                                 onChange={(e) => setForm((i) => (
                                     { ...i, name: e.target.value }
                                 ))}
-                                disabled={Boolean(user)}
+                                disabled={Boolean(user?.id)}
                             />
                         </div>
                         <div className="flex-1">
@@ -134,7 +134,7 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                                 onChange={(e) => setForm((i) => (
                                     { ...i, email: e.target.value }
                                 ))}
-                                disabled={Boolean(user)}
+                                disabled={Boolean(user?.id)}
                             />
                         </div>
                     </div>

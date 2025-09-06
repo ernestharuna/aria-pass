@@ -3,7 +3,8 @@ import { Textarea } from '~/components/ui/textarea'
 export default function CompanyBio({ profile }: { profile: OrganiseProfile }) {
     return (
         <div>
-            <h1 className="text-xl font-medium mb-3">2. Company Biography</h1>
+            <h1 className="text-xl font-medium mb-3">
+                <span className="text-primary-theme"> 2.</span> Company Biography</h1>
             <div className='text-sm mb-5 font-light'>
                 Keep it simple; great profiles give real metrics and share their vision with their fans
             </div>

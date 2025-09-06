@@ -10,6 +10,7 @@ import { Plus } from 'lucide-react';
 import RecordFilter from '~/components/utility/record-filter';
 import { useEffect, useState } from 'react';
 import { defaultMeta } from '~/lib/meta';
+import NewTeammate from './new-teammate';
 
 export const meta: MetaFunction = (args) => {
     return [
@@ -87,14 +88,19 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
                         <h1 className='text-primary text-3xl font-bold tracking-tight mb-5'>My Events</h1>
                         <RecordFilter />
                     </div>
-                    <Link to={'new'} className=''>
-                        <Button
-                            variant={'default'}
-                            className='bg-primary cursor-pointer text-xs px-20 flex items-center gap-2'
-                        >
-                            <span>Create Event</span> <Plus size={10} />
-                        </Button>
-                    </Link>
+
+                    <div className="flex items-center gap-5 justify-between">
+                        <Link to={'new'} className=''>
+                            <Button
+                                variant={'default'}
+                                className='bg-primary cursor-pointer text-xs px-20 flex items-center gap-2'
+                            >
+                                <span>Create Event</span> <Plus size={10} />
+                            </Button>
+                        </Link>
+
+                        <NewTeammate events={events} />
+                    </div>
                 </div>
 
                 {(filteredEvents && filteredEvents.length) ? (

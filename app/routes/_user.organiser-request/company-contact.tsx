@@ -4,7 +4,8 @@ import { Label } from '~/components/ui/label'
 export default function CompanyContact({ profile }: { profile: OrganiseProfile }) {
     return (
         <div>
-            <h1 className="text-xl font-medium mb-3">3. Contact Information</h1>
+            <h1 className="text-xl font-medium mb-3">
+                <span className="text-primary-theme"> 3.</span> Contact Information</h1>
             <div className='text-sm mb-5'>
                 Provide contact details for your profile, this will be used to contact you by your clients
             </div>

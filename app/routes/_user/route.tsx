@@ -12,16 +12,34 @@ import {
 } from "~/components/ui/sidebar"
 import type { Route } from "../_user/+types/route";
 import Breadcrumb from "~/components/navigation/breadcrumb";
+import client from "~/http/client";
 
 export async function clientLoader() {
-    const { validateSession } = useSession();
+    const { getUser, validateSession } = useSession();
     const { intendedRoute } = useRoute();
+
+    async function getSpaces() {
+        const user = getUser();
+        const isOrganiser = user && (await user).organiserProfile;
+
+        if (!isOrganiser) return [];
+
+        const spaces = await client.get('api/spaces');
+        return spaces.data;
+    }
+
+    async function getInvitedSpaces() {
+        const spaces = await client.get('api/spaces/invited');
+        return spaces.data;
+    }
 
     try {
         const user = await validateSession();
-        return { user };
-    } catch ({ response }: any) {
+        const spaces = getSpaces();
+        const invitedSpaces = getInvitedSpaces();
 
+        return { user, spaces, invitedSpaces };
+    } catch ({ response }: any) {
         if (response?.status === 401) {
             toast.warning("Your session has expired!", {
                 description: "Login to continue using OwenaHub",
@@ -40,13 +58,14 @@ export async function clientLoader() {
 }
 
 export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
-    const { user }: { user: User } = loaderData;
+    const { user, spaces, invitedSpaces }: { user: User, spaces: Promise<OrganiserEvent[]>, invitedSpaces: Promise<OrganiserEvent[]> } = loaderData;
+    console.log(invitedSpaces);
 
     return (
         <SidebarProvider>
-            <AppSidebar user={user} />
+            <AppSidebar user={user} spaces={spaces} invitedSpaces={invitedSpaces} />
             <SidebarInset>
-                <header className="z-50 bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4">
+                <header className="z-50 bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-y px-4">
                     <SidebarTrigger className="-ml-1" />
                     <Separator
                         orientation="vertical"
