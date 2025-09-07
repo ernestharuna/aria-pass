@@ -85,8 +85,6 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 
 export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
     const { event }: { event: OrganiserEvent } = loaderData;
-    console.log(event);
-
 
     const FORMATTED_DATE = dayjs(event.date).format('MMMM D, YYYY');
 
@@ -119,6 +117,7 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                         )}
                     </div>
                     <div className='flex flex-col gap-2'>
+
                         <EventStatus status={event.status} />
                         <h4 className='text-xl font-semibold'>{event.title}</h4>
                         <p className='text-gray-700 text-sm'>
@@ -204,10 +203,10 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                         ? event.tickets.map(ticket =>
                             <TicketCard ticket={ticket} user="organiser" key={ticket.id} />
                         )
-                        : <span className="text-gray-400 text-xs">
+                        : <span className="text-gray-400 text-xs max-w-xs inline-block">
                             No tickets yet <br />
                             <span className="text-amber-800 bg-amber-100 px-2 py-1 rounded-md mt-2 inline-block">
-                                If this is a Free Event, create a ticket with zero price named "Free Entry"
+                                If this is a <b>Free Event</b>, create a ticket with zero price named "Free Entry"
                             </span>
                         </span>
                     }
@@ -226,7 +225,7 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                 <div className="flex items-stretch gap-7 mt-5 overflow-x-auto pb-10 border-b ">
                     {event.members?.length
                         ? <MembersTable members={event.members} />
-                        : <span className="text-gray-400 text-xs">
+                        : <span className="text-gray-400 text-xs max-w-xs inline-block">
                             No members yet <br />
                             <span className="text-amber-800 bg-amber-100 px-2 py-1 rounded-md mt-2 inline-block">
                                 Add event members that can help manage this event

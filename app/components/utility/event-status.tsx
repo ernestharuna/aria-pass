@@ -10,7 +10,7 @@ export default function EventStatus({ status }: Pick<OrganiserEvent, 'status'>) 
     const classes = statusStyles[status] ?? "bg-gray-50 text-gray-500";
 
     return (
-        <span className="hidden md:inline-block text-xs font-semibold capitalize tracking-tight">
+        <span className="text-xs font-semibold capitalize tracking-tight">
             <span className={`px-2 py-1 rounded-md ${classes}`}>
                 {status}
             </span>

@@ -4,7 +4,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import {
     Select,
@@ -99,11 +99,50 @@ interface FormProps {
     start_time: Date | undefined,
 }
 
+// If you use date-fns, you can replace toLocalYMD with format(date, 'yyyy-MM-dd')
+
+/** Parse 'YYYY-MM-DD' as a local Date at midnight (no UTC shift). */
+function parseLocalDateFromYMD(ymd?: string): Date | undefined {
+    if (!ymd) return undefined;
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(ymd);
+    if (!m) return undefined;
+    const [_, y, mo, d] = m;
+    return new Date(Number(y), Number(mo) - 1, Number(d)); // local midnight
+}
+
+/** Try to safely parse any server value into a local calendar Date. */
+function safeParseEventDate(input?: string): Date | undefined {
+    if (!input) return undefined;
+
+    // If server sends plain 'YYYY-MM-DD'
+    if (/^\d{4}-\d{2}-\d{2}$/.test(input)) {
+        return parseLocalDateFromYMD(input);
+    }
+
+    // Otherwise, let JS parse (ISO, etc.), then normalize to local midnight
+    const d = new Date(input);
+    if (Number.isNaN(d.getTime())) return undefined;
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+/** Format a Date into 'YYYY-MM-DD' using **local** calendar. */
+function toLocalYMD(d?: Date): string {
+    return d
+        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+            d.getDate()
+        ).padStart(2, "0")}`
+        : "";
+}
+
 export default function CreateEvent({ actionData }: Route.ComponentProps) {
     const errors = actionData;
 
     const [openDate, setOpenDate] = useState(false)
-    const [date, setDate] = useState<Date | undefined>(undefined);
+
+    const [date, setDate] = React.useState<Date | undefined>(undefined);
+
+    // ✅ Controlled, local‑safe 'YYYY-MM-DD' string to submit
+    const dateYMD = React.useMemo(() => toLocalYMD(date), [date]);
 
     const [bannerPreview, setBannerPreview] = useState('');
     const [shareEngagement, setSetEngagement] = useState(false);
@@ -312,7 +351,7 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
                                     />
                                 </PopoverContent>
                             </Popover>
-                            <input type="hidden" name="date" value={date?.toISOString().split('T')[0]} />
+                            <input type="hidden" name="date" value={dateYMD} />
                             <InputError for="date" error={errors} />
                         </div>
                         <div className="flex flex-1 flex-col gap-2">

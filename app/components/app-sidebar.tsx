@@ -107,8 +107,8 @@ export function AppSidebar({ user, spaces, invitedSpaces, ...props }: AppSidebar
                         className={({ isActive }) =>
                           [
                             isActive
-                              ? "block rounded-md p-2 mb-0.5 bg-gray-200 text-xs"
-                              : "block rounded-md p-2 mb-0.5 hover:bg-gray-100 text-xs",
+                              ? "block rounded-md p-2 mb-1 bg-gray-200 border text-xs"
+                              : "block rounded-md p-2 mb-1 bg-gray-100 border text-xs",
                           ].join(" ")
                         }
                       >
@@ -143,8 +143,8 @@ export function AppSidebar({ user, spaces, invitedSpaces, ...props }: AppSidebar
                         className={({ isActive }) =>
                           [
                             isActive
-                              ? "block rounded-md p-2 mb-0.5 bg-gray-200 text-xs"
-                              : "block rounded-md p-2 mb-0.5 hover:bg-gray-100 text-xs",
+                              ? "block rounded-md p-2 mb-1 bg-gray-200 border text-xs"
+                              : "block rounded-md p-2 mb-1 bg-gray-100 border text-xs",
                           ].join(" ")
                         }
                       >

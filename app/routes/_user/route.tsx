@@ -59,7 +59,6 @@ export async function clientLoader() {
 
 export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
     const { user, spaces, invitedSpaces }: { user: User, spaces: Promise<OrganiserEvent[]>, invitedSpaces: Promise<OrganiserEvent[]> } = loaderData;
-    console.log(invitedSpaces);
 
     return (
         <SidebarProvider>

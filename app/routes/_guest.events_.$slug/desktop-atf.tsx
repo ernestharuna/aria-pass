@@ -47,7 +47,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                 className="h-120 w-full object-cover"
                             />
 
-                            <div className="bg-white/90 px-4 py-2 text-sm font-semibold rounded-md absolute top-5 left-5">{event.eventType}</div>
+                            <div className="bg-white/90 border border-gray-500 px-4 py-2 text-sm font-semibold rounded-md absolute top-5 left-5">{event.eventType}</div>
                         </div>
                         <div className='px-8 py-8'>
                             <div className='text-sm mb-2'>
