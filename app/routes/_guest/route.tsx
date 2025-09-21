@@ -46,7 +46,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                 <nav className={`bg-white/50 backdrop-blur-md py-5 container flex items-center justify-between transition-all`}>
                     <div className='flex items-center justify-between gap-20'>
                         <Link to="/" className='flex items-center gap-2'>
-                            <Piano size={26} strokeWidth={1.5} className="text-primary-theme" />
+                            <img src="/images/logos/app_logo.png" alt="AriaPass Logo" className="h-10 w-10 object-contain" />
                             <div className='text-base md:text-xl tracking-tighter flex items-center gap-1'>
                                 <span className='font-light hidden md:inline-block'>OwenaHub</span>
                                 <span className='font-medium md:font-bold text-primary'>

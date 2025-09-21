@@ -38,9 +38,8 @@ export function NavUser({ user }: { user: User }) {
             <div
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-primary-bg rounded-md py-0.5 px-1 flex items-center gap-2"
             >
-              <div className="rounded-lg bg-primary-theme text-white p-2">
-                <Piano className="h-5 w-5" strokeWidth={2.3} />
-              </div>
+              <img src="/images/logos/app_logo.png" alt="AriaPass Logo" className="h-10 w-10 object-contain" />
+
               <div>
                 <small className="text-xs text-muted-foreground">OwenaHub</small>
                 <div className="font-bold text-xl tracking-tighter text-primary -mt-1.5">
