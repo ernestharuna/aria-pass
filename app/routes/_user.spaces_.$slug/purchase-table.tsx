@@ -9,16 +9,25 @@ import {
     TableRow,
 } from "~/components/ui/table";
 import FormatPrice from "~/components/utility/format-price";
+import TransactionStatus from "~/components/utility/transaction-status";
 
 export default function PurchasesTable({ event }: { event: OrganiserEvent }) {
     function getPurchases(args: Ticket[]): TicketPurchase[] {
-        const PURCHASES: TicketPurchase[] = [];
-        args.forEach(ticket => {
-            ticket.purchases.forEach(item => {
-                PURCHASES.push(item)
-            })
-        });
-        return PURCHASES;
+        return args.flatMap(ticket =>
+            (ticket.purchases ?? []).map(item => ({
+                ...item,
+                ticket: {
+                    id: ticket.id,
+                    eventId: ticket.eventId,
+                    name: ticket.name,
+                    description: ticket.description,
+                    price: ticket.price,
+                    theme: ticket.theme,
+                    quantityAvailable: ticket.quantityAvailable,
+                    ticketPurchases: ticket.ticketPurchases,
+                },
+            }))
+        );
     }
 
     function sumPrices(purchases: TicketPurchase[]) {
@@ -29,6 +38,8 @@ export default function PurchasesTable({ event }: { event: OrganiserEvent }) {
     }
 
     const PURCHASES = getPurchases(event.tickets);
+    console.log(PURCHASES);
+
     const SUM_AMOUNT = sumPrices(PURCHASES);
 
     return (
@@ -40,6 +51,7 @@ export default function PurchasesTable({ event }: { event: OrganiserEvent }) {
                         <TableHead className="w-[150px]">Email</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Code</TableHead>
+                        <TableHead>Ticket Name</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead className="text-right">Amount</TableHead>
                     </TableRow>
@@ -52,9 +64,15 @@ export default function PurchasesTable({ event }: { event: OrganiserEvent }) {
                                 <TableCell>{purchase.user.name}</TableCell>
                                 <TableCell className="font-mono">{purchase.code}</TableCell>
                                 <TableCell>
-                                    <div className="rounded bg-gray-100 text-primary font-mono text-sm w-fit px-2 uppercase">
-                                        {purchase.status}
-                                    </div>
+                                    <span
+                                        style={{ background: purchase.ticket.theme }}
+                                        className="font-semibold px-2 py-1 rounded text-white text-sm"
+                                    >
+                                        {purchase.ticket.name}
+                                    </span>
+                                </TableCell>
+                                <TableCell>
+                                    <TransactionStatus status={purchase.status} />
                                 </TableCell>
                                 <TableCell className="text-right">
                                     <FormatPrice price={purchase.amount} />
@@ -71,7 +89,7 @@ export default function PurchasesTable({ event }: { event: OrganiserEvent }) {
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={4}>Total Revenue</TableCell>
+                        <TableCell colSpan={5}>Total Revenue</TableCell>
                         <TableCell className="text-right">
                             {parseInt(SUM_AMOUNT as any) === 0
                                 ? (<>₦0</>)

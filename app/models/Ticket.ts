@@ -6,5 +6,5 @@ interface Ticket extends Model {
     theme: string,
     quantityAvailable: number,
     ticketPurchases: number,
-    purchases: TicketPurchase[];
+    purchases?: TicketPurchase[];
 }
