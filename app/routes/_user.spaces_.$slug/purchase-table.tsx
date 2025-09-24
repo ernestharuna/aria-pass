@@ -38,14 +38,12 @@ export default function PurchasesTable({ event }: { event: OrganiserEvent }) {
     }
 
     const PURCHASES = getPurchases(event.tickets);
-    console.log(PURCHASES);
-
     const SUM_AMOUNT = sumPrices(PURCHASES);
 
     return (
         <div>
             <Table>
-                <TableCaption>A list of ticket purchases.</TableCaption>
+                <TableCaption>Ticket Purchases</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead className="w-[150px]">Email</TableHead>
