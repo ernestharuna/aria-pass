@@ -10,7 +10,7 @@ export const meta: MetaFunction = (args) => {
 export default function AccountLayout() {
     const user: User = useOutletContext();
 
-    const tabs = ["My account", "Ticket purchase", "Preferences"];
+    const tabs = ["My Account", "Ticket purchase", "Preferences"];
     const NAVIGATION = [
         ...tabs,
         ...(user.organiserProfile ? ['Payouts', 'Event Staff'] : []),
