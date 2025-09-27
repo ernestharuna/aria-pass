@@ -1,4 +1,4 @@
-import { ChevronRight, Facebook, Instagram, Menu, Piano, Twitter, X } from 'lucide-react'
+import { ChevronRight, Facebook, Instagram, Menu, Twitter, X } from 'lucide-react'
 import { Suspense, useEffect, useState } from 'react';
 import { Await, Link, NavLink, Outlet } from 'react-router'
 import { Button } from '~/components/ui/button'
@@ -43,13 +43,13 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     return (
         <div>
             <div className={`sticky top-0 z-10 bg-white/50 backdrop-blur-md ${scrolled && 'border-b border-gray-50'}`}>
-                <nav className={`bg-white/50 backdrop-blur-md py-5 container flex items-center justify-between transition-all`}>
+                <nav className={`bg-white/50 backdrop-blur-md py-3 container flex items-center justify-between transition-all`}>
                     <div className='flex items-center justify-between gap-20'>
                         <Link to="/" className='flex items-center gap-2'>
-                            <img src="/images/logos/app_logo.png" alt="AriaPass Logo" className="h-10 w-10 object-contain" />
+                            <img src="/images/logos/app_logo.png" alt="AriaPass Logo" className="h-8 w-8 object-contain" />
                             <div className='text-base md:text-xl tracking-tighter flex items-center gap-1'>
-                                <span className='font-light hidden md:inline-block'>OwenaHub</span>
-                                <span className='font-medium md:font-bold text-primary'>
+                                <span className='font-extralight hidden md:inline-block'>OwenaHub</span>
+                                <span className='font-medium md:font-semibold text-primary tracking-tighter'>
                                     AriaPass
                                 </span>
                             </div>
@@ -57,7 +57,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
 
                         <ul className='hidden md:flex gap-8 text-sm'>
                             {NAV.map((item) => (
-                                <li key={item} className='hover:text-gray-400 font-normal tracking-tight transition-all'>
+                                <li key={item} className='hover:text-gray-400 text-sm font-normal tracking-tight transition-all'>
                                     <Link to={item.toLowerCase()}>{item}</Link>
                                 </li>
                             ))}
@@ -177,12 +177,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                             A space for classical musicians to connect, share, and explore the world of music.
                         </p>
 
-                        <div className="flex w-full max-w-sm items-center gap-2">
-                            <Input type="email" placeholder="Subscribe to updates" className='rounded text-xs placeholder:text-xs' />
-                            <Button type="submit" variant="secondary" className='rounded text-xs'>
-                                Subscribe
-                            </Button>
-                        </div>
+                        
                     </div>
 
                     {/* Navigation */}

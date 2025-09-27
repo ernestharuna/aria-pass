@@ -1,4 +1,5 @@
-import { Check, ChevronDown, Send, SquarePen, X } from "lucide-react"
+import { isPast } from "date-fns";
+import { Check, ChevronDown, Send, SquarePen, Ticket, X } from "lucide-react"
 import { useFetcher } from "react-router"
 import { Button } from "~/components/ui/button"
 import {
@@ -8,12 +9,14 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu"
+import { isPastEventDate } from "~/lib/utils";
 
 export default function UpdateEventStatus({ event }: { event: OrganiserEvent }) {
     const fetcher = useFetcher();
+    console.log({ event });
 
     return (
-        <DropdownMenu >
+        <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <div className="flex flex-col gap-1 items-center">
                     <Button variant="secondary" size="sm">
@@ -28,28 +31,45 @@ export default function UpdateEventStatus({ event }: { event: OrganiserEvent }) 
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-max relative">
                 <DropdownMenuItem disabled>
-                    Cancel event <DropdownMenuShortcut><X /></DropdownMenuShortcut>
+                    Cancel event
+                    <DropdownMenuShortcut><X /></DropdownMenuShortcut>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem disabled={!(event.tickets.length > 0) || (event.status === 'published')}>
-                    <fetcher.Form method="post" action={`/my-events/${event.slug}/status`}>
+                <fetcher.Form method="post" action={`/my-events/${event.slug}/status`}>
+                    <DropdownMenuItem disabled={!(event.tickets.length > 0) || (event.status === 'published')}>
                         <input type="hidden" name="status" value="published" />
                         <button>Publish</button>
-                    </fetcher.Form>
-                    <DropdownMenuShortcut><Send /></DropdownMenuShortcut>
-                </DropdownMenuItem>
+                        <DropdownMenuShortcut><Send /></DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                </fetcher.Form>
 
-                <DropdownMenuItem disabled={event.status !== 'published'}>
-                    <fetcher.Form method="post" action={`/my-events/${event.slug}/status`}>
+                <fetcher.Form method="post" action={`/my-events/${event.slug}/status`}>
+                    <DropdownMenuItem disabled={event.status !== 'published'}>
                         <input type="hidden" name="status" value="draft" />
                         <button>Turn to draft</button>
-                    </fetcher.Form>
-                    <DropdownMenuShortcut><SquarePen /></DropdownMenuShortcut>
-                </DropdownMenuItem>
+                        <DropdownMenuShortcut><SquarePen /></DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                </fetcher.Form>
 
-                <DropdownMenuItem disabled>
-                    Mark done <DropdownMenuShortcut><Check /></DropdownMenuShortcut>
-                </DropdownMenuItem>
+                {isPastEventDate(event.date, event.startTime)
+                    ? (
+                        <fetcher.Form method="post" action={`/my-events/${event.slug}/status`}>
+                            <DropdownMenuItem disabled={event.status !== 'published'}>
+                                <input type="hidden" name="status" value="completed" />
+                                <button>Mark done</button>
+                                <DropdownMenuShortcut><Check /></DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                        </fetcher.Form>
+                    ) : (
+                        <fetcher.Form method="post" action={`/my-events/${event.slug}/status`}>
+                            <DropdownMenuItem disabled={event.status !== 'published'}>
+                                <input type="hidden" name="status" value="completed" />
+                                <button>Close sales</button>
+                                <DropdownMenuShortcut><Ticket /></DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                        </fetcher.Form>
+                    )
+                }
             </DropdownMenuContent>
         </DropdownMenu >
     )

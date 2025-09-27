@@ -118,7 +118,11 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                     </div>
                     <div className='flex flex-col gap-2'>
 
-                        <EventStatus status={event.status} />
+                        <EventStatus
+                            date={event.date}
+                            status={event.status}
+                            startTime={event.startTime}
+                        />
                         <h4 className='text-xl font-semibold'>{event.title}</h4>
                         <p className='text-gray-700 text-sm'>
                             {FORMATTED_DATE} at {event.startTime.split(":")[0]}:{event.startTime.split(":")[1]} ∙ {event.venueName}, <span className="capitalize">{event.city}, {event.country}</span>

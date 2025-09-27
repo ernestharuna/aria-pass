@@ -38,7 +38,7 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
     return (
         <div className="flex items-center justify-between py-5 border-b">
             {/* Left side */}
-            <div className="flex gap-3 items-start w-full">
+            <div className="flex gap-3 items-start w-full relative">
                 <div className="bg-gray-100 rounded-md group-hover:opacity-85 aspect-video h-20 overflow-hidden transition">
                     {event.bannerUrl && (
                         <img
@@ -58,11 +58,14 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
                         {TOTAL_TICKETS_SALES}/{TOTAL_TICKETS} tickets sold
                     </p>
                 </div>
+                <Link to={`/my-events/${event.slug}`} aria-hidden="true" className="absolute inset-0" />
             </div>
 
             {/* Right side */}
             <div className="flex gap-3 items-center">
-                <EventStatus status={event.status} />
+                <div className="hidden md:inline-block">
+                    <EventStatus status={event.status} />
+                </div>
                 {window.location.pathname === '/my-events' && (
                     <Actions event={event} />
                 )}
@@ -85,14 +88,17 @@ function Actions({ event }: { event: OrganiserEvent }) {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-max relative md:right-[40%]">
-                <Link to={`/my-events/${event.slug}`}>
+                <Link to={`${event.slug}`}>
                     <DropdownMenuItem className='cursor-pointer'>
                         View
                     </DropdownMenuItem>
                 </Link>
-                <DropdownMenuItem>
-                    Edit
-                </DropdownMenuItem>
+
+                <Link to={`${event.slug}/edit`}>
+                    <DropdownMenuItem>
+                        Edit
+                    </DropdownMenuItem>
+                </Link>
 
                 <Dialog>
                     <form>

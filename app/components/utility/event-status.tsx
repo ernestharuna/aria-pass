@@ -1,4 +1,12 @@
-export default function EventStatus({ status }: Pick<OrganiserEvent, 'status'>) {
+import { isPastEventDate } from "~/lib/utils";
+
+export default function EventStatus({
+    status,
+    date,
+    startTime
+}:
+    Pick<OrganiserEvent, "status" | "date" | "startTime"> &
+    Partial<Pick<OrganiserEvent, "date" | "startTime">>) {
     const statusStyles: Record<string, string> = {
         draft: "bg-gray-100 text-primary",
         published: "bg-green-100 text-green-600",
@@ -12,7 +20,18 @@ export default function EventStatus({ status }: Pick<OrganiserEvent, 'status'>) 
     return (
         <span className="text-xs font-semibold capitalize tracking-tight">
             <span className={`px-2 py-1 rounded-md ${classes}`}>
-                {status}
+                {date && startTime
+                    ? (
+                        <>
+                            {!isPastEventDate(date, startTime) && status === 'completed'
+                                ? 'Sales closed'
+                                : status
+                            }
+                        </>
+                    )
+                    : <>{status}</>
+                }
+
             </span>
         </span>
     );

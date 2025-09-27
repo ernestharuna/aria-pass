@@ -9,7 +9,7 @@ interface OrganiserEvent extends Model {
     eventType: string;
     startTime: string;
     endTime: string | null;
-    date: Date;
+    date: string; // 'YYYY-MM-DD';
 
     status: 'draft' | 'suspended' | 'cancelled' | 'completed' | 'published',
     tickets: Ticket[];

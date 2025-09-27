@@ -1,6 +1,6 @@
 import { Await, Link, redirect } from "react-router";
 import { BrMd } from "~/components/utility/line-break";
-import { ArrowRight, ChevronLeft, ChevronRight, Crown, Piano, UsersRound, UserStar } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Crown, Piano, Stars, UsersRound, UserStar } from "lucide-react";
 import SearchBar from "~/components/utility/search-bar";
 import { FeedFilter } from "~/components/utility/feed-filter";
 import { Button } from "~/components/ui/button";
@@ -38,7 +38,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
     return (
         <div className="fadeIn animated">
-            <div className="relative isolate px-6 pt-5 lg:px-8 -z-10">
+            {/* <div className="relative isolate px-6 pt-5 lg:px-8 -z-10">
                 <div aria-hidden="true" className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
                     <div style={{
                         clipPath:
@@ -46,15 +46,27 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     }} className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-indigo-100 to-indigo-500 opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
                     />
                 </div>
-            </div>
+            </div> */}
             <header className="flex flex-col gap-5 lg:min-h-[65vh]">
                 <section className="container flex justify-between gap-20 items-center my-16">
                     <div className="lg:basis-7/12 text-center md:text-start overflow-auto">
-                        <h1 className="text-3xl md:text-5xl font-serif font-normal md:leading-13 text-primary tracking-tighter">
-                            Experience the <BrMd /> Community Behind the Concerts
+
+                        <div className="border border-gray-200 text-xs md:text-xs rounded-full px-4 py-1.5 w-max mb-4 tracking-tight flex items-center gap-0 mx-auto md:mx-0">
+                            <span className="text-primary-theme font-semibold flex items-center gap-1.5">
+                                <span>Commission-free</span> <Stars className="text-pink-300 fill-pink-300" strokeWidth={1} size={16}/>
+                            </span>
+                            <span className="h-4 border-r mx-3" />
+                            <span className="text-muted-foreground flex items-center gap-1">
+                                <span>Sell tickets</span>
+                                <ChevronRight strokeWidth={1} size={16} />
+                            </span>
+                        </div>
+
+                        <h1 className="text-3xl md:text-5xl font-normal md:leading-13 text-primary tracking-tighter">
+                            Experience the Community <BrMd /> Behind the Concerts
                         </h1>
-                        <p className="text-primary tracking-tight text-sm md:text-base mt-5 leading-5">
-                            Discover events, book tickets, and connect with fellow music <BrMd /> enthusiasts on AriaPass — your gateway to unforgettable musical experiences.
+                        <p className="tracking-tight  font-medium text-gray-500 text-md md:text-base mt-5 leading-6">
+                            Discover events, buy tickets, and connect with fellow <BrMd /> music enthusiasts on AriaPass.
                         </p>
 
                         <div className="mt-10 flex flex-col items-start gap-3 ">

@@ -17,6 +17,8 @@ import {
 } from "~/components/ui/dialog"
 import { useState } from "react";
 import FormatPrice from "~/components/utility/format-price";
+import { FormatLineBreak } from "~/components/utility/format-line-break";
+import { to12HourFormat } from "~/lib/utils";
 
 export default function DesktopView({ event }: { event: OrganiserEvent }) {
     const user: User = useOutletContext();
@@ -47,7 +49,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                 className="h-120 w-full object-cover"
                             />
 
-                            <div className="bg-white/90 border border-gray-500 px-4 py-2 text-sm font-semibold rounded-md absolute top-5 left-5">{event.eventType}</div>
+                            <div className="bg-white/60 border px-4 py-2 text-sm font-semibold rounded-md absolute top-5 left-5">{event.eventType}</div>
                         </div>
                         <div className='px-8 py-8'>
                             <div className='text-sm mb-2'>
@@ -81,7 +83,10 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                 <div className='flex flex-col gap-3'>
                                     <div className='text-gray-500 flex items-center gap-2'>
                                         <Calendar size={18} />
-                                        <span className='text-normal'>{formattedDate}</span> — <span>{event.startTime.split(":")[0]}:{event.startTime.split(":")[1]}</span>
+                                        <span className='text-normal'>{formattedDate}</span> — {" "}
+                                        <span className="text-primary font-semibold tracking-tighter">
+                                            {to12HourFormat(event.startTime)}
+                                        </span>
                                     </div>
                                     <div className='text-gray-500 flex items-center gap-2'>
                                         <MapPin size={18} />
@@ -120,7 +125,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             <div>
                                 <h2 className="font-semibold tracking-tighter text-xl text-indigo-800 mb-4">About Event</h2>
                                 <div>
-                                    {event.description}
+                                    <FormatLineBreak input={event.description} />
                                 </div>
                             </div>
 

@@ -11,6 +11,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import FormatPrice from "~/components/utility/format-price";
 import OneTimePurchase from "./paystack-purchase-button";
 import { useState } from "react";
+import { to12HourFormat } from "~/lib/utils";
+import { FormatLineBreak } from "~/components/utility/format-line-break";
 
 export default function MobileView({ event }: { event: OrganiserEvent }) {
     const user: User = useOutletContext();
@@ -31,12 +33,13 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
 
     return (
         <section>
-            <div className="bg-slate-100 col-span-1 md:col-span-4 h-80 w-full aspect-video group-hover:opacity-75 lg:h-auto overflow-hidden">
+            <div className="bg-slate-100 col-span-1 md:col-span-4 h-80 w-full aspect-video group-hover:opacity-75 lg:h-auto relative overflow-hidden">
                 <img
                     src={banner}
                     alt={event.title}
                     className="h-80 w-full object-cover"
                 />
+                <div className="bg-white/60 border px-3 py-1.5 text-xs font-semibold rounded-lg absolute top-5 left-5">{event.eventType}</div>
             </div>
 
             <div className='container mt-5'>
@@ -81,7 +84,10 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                         <div className='flex flex-col gap-3'>
                             <div className='text-gray-500 flex items-center gap-2'>
                                 <Calendar size={20} />
-                                <span className='text-sm'>{formattedDate}</span> — <span>{event.startTime.split(":")[0]}:{event.startTime.split(":")[1]}</span>
+                                <span className='text-sm'>{formattedDate}</span> — {" "}
+                                <span className="text-primary font-semibold tracking-tighter">
+                                    {to12HourFormat(event.startTime)}
+                                </span>
                             </div>
                             <div className='text-gray-500 flex items-center gap-2'>
                                 <MapPin size={20} />
@@ -118,7 +124,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                     <div className="bg-white border border-gray-100 p-4 rounded-2xl mt-5 w-full">
                         <h2 className="font-semibold tracking-tighter text-lg text-primary mb-2">About Event</h2>
                         <div className="text-sm">
-                            {event.description}
+                            <FormatLineBreak input={event.description} />
                         </div>
 
                         <hr className="my-7" />

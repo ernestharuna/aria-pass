@@ -12,7 +12,7 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
     return (
         <div key={index} className="bg-white border-gray-100 flex flex-col gap-1 group">
             {/* event banner */}
-            <div className="relative bg-gray-100 rounded-lg w-full group-hover:opacity-85 aspect-video h-60 lg:h-70 overflow-hidden transition">
+            <div className="relative bg-gray-100 rounded-lg w-full group-hover:opacity-85 aspect-video h-80 lg:h-90 overflow-hidden transition">
                 <Link to={`/events/${event.slug}`}>
                     <span aria-hidden="true" className="z-10 absolute inset-0" />
                 </Link>

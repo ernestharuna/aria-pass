@@ -30,7 +30,6 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);
-    console.log(credentials);
 
     const url = new URL(request.url);
     const step = url.searchParams.get("step") || "1";
