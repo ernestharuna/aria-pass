@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import FormatPrice from "~/components/utility/format-price";
 import OneTimePurchase from "./paystack-purchase-button";
 import { useState } from "react";
-import { to12HourFormat } from "~/lib/utils";
+import { isPastEventDate, to12HourFormat } from "~/lib/utils";
 import { FormatLineBreak } from "~/components/utility/format-line-break";
 
 export default function MobileView({ event }: { event: OrganiserEvent }) {
@@ -39,7 +39,15 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                     alt={event.title}
                     className="h-80 w-full object-cover"
                 />
-                <div className="bg-white/60 border px-3 py-1.5 text-xs font-semibold rounded-lg absolute top-5 left-5">{event.eventType}</div>
+                <div className="bg-white/60 border px-3 py-1.5 text-xs font-semibold rounded-lg absolute top-5 left-5">
+                    {event.eventType}
+                </div>
+
+                {event.status === 'completed' && (
+                    <div className='bg-gray-800 font-bold text-white text-xs px-3 py-3 rounded-md w-max mb-1 absolute bottom-5 left-5'>
+                        {isPastEventDate(event.date, event.startTime) ? 'EVENT ENDED' : 'SOLD OUT'}
+                    </div>
+                )}
             </div>
 
             <div className='container mt-5'>
@@ -196,7 +204,10 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                                         <Dialog>
                                             <form>
                                                 <DialogTrigger asChild>
-                                                    <Button className="bg-primary-theme w-full py-7 text-lg font-medium rounded-full tracking-tighter">
+                                                    <Button
+                                                        className="bg-primary-theme w-full py-7 text-lg font-medium rounded-full tracking-tighter"
+                                                        disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
+                                                    >
                                                         Get a Ticket <Ticket />
                                                     </Button>
                                                 </DialogTrigger>

@@ -18,21 +18,18 @@ export default function EventStatus({
     const classes = statusStyles[status] ?? "bg-gray-50 text-gray-500";
 
     return (
-        <span className="text-xs font-semibold capitalize tracking-tight">
-            <span className={`px-2 py-1 rounded-md ${classes}`}>
-                {date && startTime
-                    ? (
-                        <>
-                            {!isPastEventDate(date, startTime) && status === 'completed'
-                                ? 'Sales closed'
-                                : status
-                            }
-                        </>
-                    )
-                    : <>{status}</>
-                }
-
-            </span>
+        <span className={`w-max text-xs text-nowrap font-semibold capitalize tracking-tight px-2 py-1 rounded-md ${classes}`}>
+            {date && startTime
+                ? (
+                    <>
+                        {!isPastEventDate(date, startTime) && status === 'completed'
+                            ? 'Sales closed'
+                            : status
+                        }
+                    </>
+                )
+                : <>{status}</>
+            }
         </span>
     );
 }

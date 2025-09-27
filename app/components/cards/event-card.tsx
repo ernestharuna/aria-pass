@@ -4,11 +4,12 @@ import { STORAGE_URL } from '~/config/defaults';
 import { Link } from 'react-router';
 import RedirectOrFetcher from '../navigation/like-event';
 import CustomAvatar from '../custom/custom-avatar';
+import { isPastEventDate } from '~/lib/utils';
 
 
 export default function EventCard({ event, index }: { event: OrganiserEvent, index?: number }) {
     const formattedDate = dayjs(event.date).format('MMM DD').toUpperCase();
-
+    
     return (
         <div key={index} className="bg-white border-gray-100 flex flex-col gap-1 group">
             {/* event banner */}
@@ -51,11 +52,21 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
 
                 {/* Added top-0 and left-0 to position the overlay */}
                 <div className='absolute bottom-0 left-0 w-full text-white p-2'>
-                    <div className="flex items-center gap-1">
-                        <MapPin strokeWidth={1.5} size={14} /> <span className='font-light text-sm capitalize'>{event.city}, {event.country}</span>
+                    {event.status === 'completed' && (
+                        <div className='bg-gray-800 text-white text-xs px-3 py-3 rounded-md w-max mb-1'>
+                            {isPastEventDate(event.date, event.startTime) ? 'Event Completed' : 'SOLD OUT'}
+                        </div>
+                    )}
+                    <div className="flex items-center gap-1 mb-1">
+                        <MapPin strokeWidth={1.5} size={14} />
+                        <span className='font-light text-sm capitalize'>
+                            {event.city}, {event.country}
+                        </span>
                     </div>
 
-                    <div className="text-xl leading-6 font-semibold tracking-tighter mb-1">{event.title}</div>
+                    <div className="text-xl leading-6 font-semibold tracking-tighter mb-1">
+                        {event.title}
+                    </div>
                 </div>
             </div>
             <div className='flex items-center justify-between'>

@@ -62,9 +62,9 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
             </div>
 
             {/* Right side */}
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center w-max">
                 <div className="hidden md:inline-block">
-                    <EventStatus status={event.status} />
+                    <EventStatus date={event.date} startTime={event.startTime} status={event.status} />
                 </div>
                 {window.location.pathname === '/my-events' && (
                     <Actions event={event} />

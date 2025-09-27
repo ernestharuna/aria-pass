@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 import FormatPrice from "~/components/utility/format-price";
 import { FormatLineBreak } from "~/components/utility/format-line-break";
-import { to12HourFormat } from "~/lib/utils";
+import { isPastEventDate, to12HourFormat } from "~/lib/utils";
 
 export default function DesktopView({ event }: { event: OrganiserEvent }) {
     const user: User = useOutletContext();
@@ -49,7 +49,15 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                 className="h-120 w-full object-cover"
                             />
 
-                            <div className="bg-white/60 border px-4 py-2 text-sm font-semibold rounded-md absolute top-5 left-5">{event.eventType}</div>
+                            <div className="bg-white/60 border px-4 py-2 text-sm font-semibold rounded-md absolute top-5 left-5">
+                                {event.eventType}
+                            </div>
+
+                            {event.status === 'completed' && (
+                                <div className='bg-gray-800 font-bold text-white text-xs px-3 py-3 rounded-md w-max mb-1 absolute bottom-5 left-5'>
+                                    {isPastEventDate(event.date, event.startTime) ? 'Event Completed' : 'SOLD OUT'}
+                                </div>
+                            )}
                         </div>
                         <div className='px-8 py-8'>
                             <div className='text-sm mb-2'>
@@ -205,7 +213,10 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                 <>
                                     {(event.tickets.length < 2 && event.tickets[0].price === '0.00') ? (
                                         <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
-                                            <Button className="bg-primary w-full py-7 text-lg font-light rounded-2xl tracking-tighter">
+                                            <Button
+                                                disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
+                                                className="bg-primary w-full py-7 text-lg font-light rounded-2xl tracking-tighter"
+                                            >
                                                 <span>I will attend</span>
                                                 <div>
                                                     <Heart
@@ -219,7 +230,10 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                         <Dialog>
                                             <form>
                                                 <DialogTrigger asChild>
-                                                    <Button className="bg-primary-theme w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter">
+                                                    <Button
+                                                        className="bg-primary-theme w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter"
+                                                        disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
+                                                    >
                                                         Get a Ticket <Ticket />
                                                     </Button>
                                                 </DialogTrigger>
