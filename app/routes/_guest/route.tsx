@@ -2,7 +2,6 @@ import { ChevronRight, Facebook, Instagram, Menu, Twitter, X } from 'lucide-reac
 import { Suspense, useEffect, useState } from 'react';
 import { Await, Link, NavLink, Outlet } from 'react-router'
 import { Button } from '~/components/ui/button'
-import { Input } from '~/components/ui/input'
 import AnnouncementBanner from '~/components/cards/announcement-banner';
 import type { Route } from '../_guest/+types/route';
 import useSession from '~/hooks/use-session';
@@ -41,29 +40,29 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
     const { session, user }: { session: boolean, user: User } = loaderData ?? { session: false, user: { name: "" } as User };
 
     return (
-        <div>
-            <div className={`sticky top-0 z-10 bg-white/50 backdrop-blur-md ${scrolled && 'border-b border-gray-50'}`}>
+        <>
+            <div className={`sticky top-0 z-10 bg-white/50 backdrop-blur-md ${scrolled && 'border-b border-gray-100'}`}>
                 <nav className={`bg-white/50 backdrop-blur-md py-3 container flex items-center justify-between transition-all`}>
                     <div className='flex items-center justify-between gap-20'>
                         <Link to="/" className='flex items-center gap-2'>
                             <img src="/images/logos/app_logo.png" alt="AriaPass Logo" className="h-8 w-8 object-contain" />
-                            <div className='text-base md:text-xl tracking-tighter flex items-center gap-1'>
-                                <span className='font-extralight hidden md:inline-block'>OwenaHub</span>
-                                <span className='font-medium md:font-semibold text-primary tracking-tighter'>
+                            <div className='text-base md:text-xl tracking-tighter flex flex-col items-start'>
+                                <span className='font-extralight text-[10px] md:text-xs inline-block'>OwenaHub</span>
+                                <span className='text-indigo-800 font-semibold tracking-tighter -mt-1'>
                                     AriaPass
                                 </span>
                             </div>
                         </Link>
 
-                        <ul className='hidden md:flex gap-8 text-sm'>
-                            {NAV.map((item) => (
-                                <li key={item} className='hover:text-gray-400 text-sm font-normal tracking-tight transition-all'>
-                                    <Link to={item.toLowerCase()}>{item}</Link>
-                                </li>
-                            ))}
-                        </ul>
                     </div>
 
+                    <ul className='hidden md:flex gap-8 text-sm'>
+                        {NAV.map((item) => (
+                            <li key={item} className='hover:text-gray-400 text-sm font-normal tracking-tight transition-all'>
+                                <Link to={item.toLowerCase()}>{item}</Link>
+                            </li>
+                        ))}
+                    </ul>
                     {(user && user.name)
                         ? (
                             <div className='hidden md:flex gap-5 items-center'>
@@ -177,7 +176,7 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                             A space for classical musicians to connect, share, and explore the world of music.
                         </p>
 
-                        
+
                     </div>
 
                     {/* Navigation */}
@@ -220,6 +219,6 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                     &copy; {new Date().getFullYear()} AriaPass. Built for the music community.
                 </div>
             </footer>
-        </div>
+        </>
     )
 }

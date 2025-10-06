@@ -110,9 +110,9 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
 
                     <div className="flex items-center gap-3 mb-5">
                         <div className="flex-1">
-                            <Label className="mb-1 cursor-not-allowed" htmlFor="name">Name</Label>
+                            <Label className="mb-1" htmlFor="name">Name</Label>
                             <Input
-                                className="py-5"
+                                className="py-5 rounded-xl"
                                 type="text"
                                 id="name"
                                 placeholder="First Last"
@@ -124,9 +124,9 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                             />
                         </div>
                         <div className="flex-1">
-                            <Label className="mb-1 cursor-not-allowed" htmlFor="email">Email</Label>
+                            <Label className="mb-1" htmlFor="email">Email</Label>
                             <Input
-                                className="py-5"
+                                className="py-5 rounded-xl"
                                 type="text"
                                 id="email"
                                 placeholder="your@email.com"
@@ -138,9 +138,10 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                             />
                         </div>
                     </div>
+                    
                     <Label className="mb-1">Phone</Label>
                     <Input
-                        className="py-5 border border-gray-400"
+                        className="py-5 border border-gray-400 rounded-xl"
                         type="text"
                         id="phone"
                         placeholder="0800 000 0000"
@@ -149,10 +150,11 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                         ))}
                     />
                 </form>
+
                 <PaystackButton
                     {...componentProps}
                     disabled={form.email.length < 5 || form.phone.length < 11}
-                    className="w-full py-2.5 rounded-md bg-primary font-bold text-sm text-white cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed hover:bg-muted-foreground transition"
+                    className="w-full py-3 rounded-xl bg-primary font-bold text-sm text-white cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed hover:bg-muted-foreground transition"
                 />
             </div>
         </div>

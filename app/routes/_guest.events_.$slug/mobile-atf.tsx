@@ -1,18 +1,15 @@
-import { ArrowLeft, ArrowRight, Calendar, Dot, Ellipsis, Heart, MapPin, Share, Ticket } from "lucide-react";
+import { ArrowRight, Calendar, Ellipsis, Heart, MapPin, Share } from "lucide-react";
 import { STORAGE_URL } from "~/config/defaults";
 import dayjs from "dayjs";
 import { Link, useOutletContext } from 'react-router';
 import TicketCard from "~/components/cards/ticket-card";
 import Placeholder from "~/components/utility/placeholder";
-import { Button } from "~/components/ui/button";
 import RedirectOrFetcher from "~/components/navigation/like-event";
 import SharePage from "~/components/utility/share-page";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "~/components/ui/dialog";
 import FormatPrice from "~/components/utility/format-price";
-import OneTimePurchase from "./paystack-purchase-button";
-import { useState } from "react";
 import { isPastEventDate, to12HourFormat } from "~/lib/utils";
 import { FormatLineBreak } from "~/components/utility/format-line-break";
+import CheckoutModal from "./checkout-modal";
 
 export default function MobileView({ event }: { event: OrganiserEvent }) {
     const user: User = useOutletContext();
@@ -65,7 +62,10 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                     <div className="flex items-center gap-4 mb-3">
                         {/* /api/events/${params.slug}/interested */}
                         <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
-                            <button className="flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
+                            <button className="relative flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
+                                <span className="absolute -top-2 -right-2 bg-muted text-muted-foreground border text-xs w-6 h-6 rounded-full flex items-center justify-center">
+                                    {(event.likes ?? 0) > 0 && "+"}{event.likes === 0 ? '👀' : event.likes}
+                                </span>
                                 <div>
                                     <Heart
                                         size={18}
@@ -129,7 +129,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                         </div>
                     </div>
 
-                    <div className="bg-white border border-gray-100 p-4 rounded-2xl mt-5 w-full">
+                    <div className="bg-white border border-gray-100 p-4 rounded-2xl mt-5 w-full relative">
                         <h2 className="font-semibold tracking-tighter text-lg text-primary mb-2">About Event</h2>
                         <div className="text-sm">
                             <FormatLineBreak input={event.description} />
@@ -182,90 +182,11 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                             )}
                         </div>
 
-                        {(() => {
-                            const [ticket, setTicket] = useState<Ticket>(event.tickets[0]);
-                            const [next, setNext] = useState(false);
-
-                            return (
-                                <>
-                                    {(event.tickets.length < 2 && event.tickets[0].price === '0.00') ? (
-                                        <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
-                                            <Button className="bg-primary w-full py-7 text-lg font-medium rounded-2xl tracking-tighter">
-                                                <span>I will attend</span>
-                                                <div>
-                                                    <Heart
-                                                        size={18}
-                                                        className={`${event.liked && 'text-destructive fill-current'}`}
-                                                    />
-                                                </div>
-                                            </Button>
-                                        </RedirectOrFetcher>
-                                    ) : (
-                                        <Dialog>
-                                            <form>
-                                                <DialogTrigger asChild>
-                                                    <Button
-                                                        className="bg-primary-theme w-full py-7 text-lg font-medium rounded-full tracking-tighter"
-                                                        disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
-                                                    >
-                                                        Get a Ticket <Ticket />
-                                                    </Button>
-                                                </DialogTrigger>
-
-                                                <DialogContent className="sm:max-w-[425px]">
-                                                    <DialogHeader className="">
-                                                        <DialogTitle>Buy Ticket</DialogTitle>
-                                                    </DialogHeader>
-                                                    {next && (
-                                                        <Button
-                                                            size={"sm"}
-                                                            variant={"outline"}
-                                                            className="w-max p-0 text-xs shadow-none rounded-full"
-                                                            onClick={() => setNext(false)}
-                                                        >
-                                                            <ArrowLeft /> Back
-                                                        </Button>
-                                                    )}
-                                                    {!next && (
-                                                        <>
-                                                            {event.tickets.map((item: Ticket) => (
-                                                                <div
-                                                                    onClick={() => setTicket(item)}
-                                                                    className={`border p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
-                                                                >
-                                                                    <div>
-                                                                        <small>{item.name}</small>
-                                                                        <p className="font-semibold">
-                                                                            <FormatPrice price={item.price} />
-                                                                        </p>
-                                                                    </div>
-                                                                    {(item.id === ticket.id) && (
-                                                                        <Dot strokeWidth={10} />
-                                                                    )}
-                                                                </div>
-                                                            ))}
-
-                                                            <Button disabled={!ticket} onClick={() => setNext(!next)}>
-                                                                Continue
-                                                            </Button>
-                                                        </>
-                                                    )}
-
-                                                    {next && (
-                                                        <OneTimePurchase user={user} ticket={ticket} />
-                                                    )}
-                                                </DialogContent>
-                                            </form>
-                                        </Dialog>
-                                    )}
-
-                                </>
-                            )
-                        })()}
+                        <CheckoutModal event={event} user={user} />
                     </div>
 
                     <div className="bg-white border border-gray-100 p-4 rounded-2xl  w-full">
-                        <div className="text-sm relative mb-10">
+                        <div className="text-sm mb-10">
                             <div className="flex items-center justify-between mb-5">
                                 <h3 className="font-semibold text-lg">Notes</h3>
                                 <Ellipsis />

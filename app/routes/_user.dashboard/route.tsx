@@ -13,7 +13,7 @@ export const meta: MetaFunction = (args) => {
         ...defaultMeta(args) || [],
         { title: "Dashboard | AriaPass" },
     ];
-}
+};
 
 export async function clientLoader() {
     const { getUser, validateSession } = useSession();
@@ -72,9 +72,15 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                 </div>
 
                 {(events && events.length) ? (
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-5 pt-5 items-stretch justify-start">
+                    <div
+                        className="flex overflow-x-auto gap-5 pt-5 items-stretch snap-x snap-mandatory scroll-smooth px-[10vw] md:px-5 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300"
+                    >
                         {events.map((event, index) => (
-                            <EventCard key={event.id + index} event={event} />
+                            <div
+                                key={event.id + index}
+                                className="flex-shrink-0 snap-start max-w-xs md:w-auto [animation-name:scale-in-view] [animation-timeline:view()] [animation-range:entry_25%_cover_50%_exit_25%]">
+                                <EventCard event={event} />
+                            </div>
                         ))}
                     </div>
                 ) : (

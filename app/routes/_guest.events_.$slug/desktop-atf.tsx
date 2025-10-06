@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Calendar, Dot, Ellipsis, Heart, MapPin, Share, Ticket } from "lucide-react";
+import { ArrowRight, Calendar, Ellipsis, Heart, MapPin, Share } from "lucide-react";
 import { STORAGE_URL } from "~/config/defaults";
 import dayjs from "dayjs";
 import TicketCard from "~/components/cards/ticket-card";
@@ -7,18 +7,10 @@ import { Button } from "~/components/ui/button";
 import { Link, useOutletContext } from "react-router";
 import RedirectOrFetcher from "~/components/navigation/like-event";
 import SharePage from "~/components/utility/share-page";
-import PaystackPurchaseButton from "./paystack-purchase-button";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "~/components/ui/dialog"
-import { useState } from "react";
 import FormatPrice from "~/components/utility/format-price";
 import { FormatLineBreak } from "~/components/utility/format-line-break";
 import { isPastEventDate, to12HourFormat } from "~/lib/utils";
+import CheckoutModal from "./checkout-modal";
 
 export default function DesktopView({ event }: { event: OrganiserEvent }) {
     const user: User = useOutletContext();
@@ -55,7 +47,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
 
                             {event.status === 'completed' && (
                                 <div className='bg-gray-800 font-bold text-white text-xs px-3 py-3 rounded-md w-max mb-1 absolute bottom-5 left-5'>
-                                    {isPastEventDate(event.date, event.startTime) ? 'Event Completed' : 'SOLD OUT'}
+                                    {isPastEventDate(event.date, event.startTime) ? 'EVENT ENDED' : 'SOLD OUT'}
                                 </div>
                             )}
                         </div>
@@ -73,7 +65,10 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
 
                                 <div className="flex items-center gap-6">
                                     <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
-                                        <button title="Add to favourites" className='border p-3 border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition'>
+                                        <button title="Add to favourites" className='relative border p-3 border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition'>
+                                            <span className="absolute -top-2 -right-2 bg-muted text-muted-foreground border text-xs w-6 h-6 rounded-full flex items-center justify-center">
+                                                {(event.likes ?? 0) > 0 && "+"}{event.likes === 0 ? '👀' : event.likes}
+                                            </span>
                                             <Heart
                                                 className={`${event.liked && 'text-destructive fill-current'}`}
                                             />
@@ -205,88 +200,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             <p>{event.extraInfo || <Placeholder text="No notes created by organiser" />}</p>
                         </div>
 
-                        {(() => {
-                            const [ticket, setTicket] = useState<Ticket>(event.tickets[0]);
-                            const [next, setNext] = useState(false);
-
-                            return (
-                                <>
-                                    {(event.tickets.length < 2 && event.tickets[0].price === '0.00') ? (
-                                        <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
-                                            <Button
-                                                disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
-                                                className="bg-primary w-full py-7 text-lg font-light rounded-2xl tracking-tighter"
-                                            >
-                                                <span>I will attend</span>
-                                                <div>
-                                                    <Heart
-                                                        size={20}
-                                                        className={`${event.liked && 'text-destructive fill-current'}`}
-                                                    />
-                                                </div>
-                                            </Button>
-                                        </RedirectOrFetcher>
-                                    ) : (
-                                        <Dialog>
-                                            <form>
-                                                <DialogTrigger asChild>
-                                                    <Button
-                                                        className="bg-primary-theme w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter"
-                                                        disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
-                                                    >
-                                                        Get a Ticket <Ticket />
-                                                    </Button>
-                                                </DialogTrigger>
-
-                                                <DialogContent className="sm:max-w-[425px]">
-                                                    <DialogHeader className="">
-                                                        <DialogTitle>Buy Ticket</DialogTitle>
-                                                    </DialogHeader>
-                                                    {next && (
-                                                        <Button
-                                                            size={"sm"}
-                                                            variant={"outline"}
-                                                            className="w-max p-0 text-xs shadow-none rounded-full"
-                                                            onClick={() => setNext(false)}
-                                                        >
-                                                            <ArrowLeft /> Back
-                                                        </Button>
-                                                    )}
-                                                    {!next && (
-                                                        <>
-                                                            {event.tickets.map((item: Ticket) => (
-                                                                <div
-                                                                    onClick={() => setTicket(item)}
-                                                                    className={`border p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
-                                                                >
-                                                                    <div>
-                                                                        <small>{item.name}</small>
-                                                                        <p className="font-semibold">
-                                                                            <FormatPrice price={item.price} />
-                                                                        </p>
-                                                                    </div>
-                                                                    {(item.id === ticket.id) && (
-                                                                        <Dot strokeWidth={10} />
-                                                                    )}
-                                                                </div>
-                                                            ))}
-
-                                                            <Button disabled={!ticket} onClick={() => setNext(!next)}>
-                                                                Continue
-                                                            </Button>
-                                                        </>
-                                                    )}
-
-                                                    {next && (
-                                                        <PaystackPurchaseButton user={user} ticket={ticket} />
-                                                    )}
-                                                </DialogContent>
-                                            </form>
-                                        </Dialog>
-                                    )}
-                                </>
-                            )
-                        })()}
+                        <CheckoutModal event={event} user={user} />
                     </aside>
 
                     <div className="bg-white px-8 py-6 rounded-3xl border border-gray-100 mb-8">

@@ -46,6 +46,18 @@
     }
 }
 
+@keyframes scale-in-view {
+    from {
+        transform: scale(0.9);
+        opacity: 0.8;
+    }
+
+    to {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
 #social .twitter {
     color: #fff;
     background: #1DA1F2;

@@ -71,7 +71,7 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
                     description: 'Contact support concerning this'
                 })
                 break;
-        }
+        };
 
         return redirect(`/my-events/${params.slug}`)
     } catch (error: any) {
@@ -92,9 +92,19 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
         return sum + ticket.quantityAvailable;
     }, 0);
 
-    const TOTAL_TICKETS_SALES: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
+    const TOTAL_TICKET_SOLD: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
         return sum + ticket.ticketPurchases;
     }, 0);
+
+     function sumPrices(purchases: TicketPurchase[]) {
+        return purchases.reduce((total, item) => {
+            const amount = parseFloat(item.amount) || 0;
+            return total + amount;
+        }, 0);
+    }
+
+    // const PURCHASES = getPurchases(event.tickets);
+    const SUM_AMOUNT = sumPrices(event.tickets.flatMap(ticket => ticket.purchases || []));
 
     return (
         <div>
@@ -146,14 +156,14 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                 <section className="flex flex-col gap-4 flex-1 border-t py-5">
                     <p className="text-sm">Total revenue</p>
                     <p className="font-bold text-2xl">
-                        <span className="text-xs text-muted-foreground">NGN</span> 0
+                        <span className="text-xs text-muted-foreground">NGN</span> {SUM_AMOUNT.toFixed(2)}
                     </p>
                 </section>
                 <section className="flex flex-col gap-4 flex-1 border-t py-5">
                     <p className="text-sm">Tickets sold</p>
                     <div className="flex justify-between">
                         <p className="font-bold text-2xl">
-                            {TOTAL_TICKETS_SALES}/{TOTAL_TICKETS}
+                            {TOTAL_TICKET_SOLD}/{TOTAL_TICKETS}
                         </p>
                         <Button variant={"secondary"} size={"sm"} className="text-xs p-0">
                             <span>{event.tickets.length} categories</span>

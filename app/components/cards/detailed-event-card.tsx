@@ -39,7 +39,7 @@ export default function DetailedEventCard({ event }: { event: OrganiserEvent }) 
         <div className="flex items-center justify-between py-5 border-b">
             {/* Left side */}
             <div className="flex gap-3 items-start w-full relative">
-                <div className="bg-gray-100 rounded-md group-hover:opacity-85 aspect-video h-20 overflow-hidden transition">
+                <div className="bg-gray-100 rounded-md group-hover:opacity-85 aspect-video h-20 min-w-25 max-w-25 md:max-w-full overflow-hidden transition">
                     {event.bannerUrl && (
                         <img
                             src={event.bannerUrl && `${STORAGE_URL}/${event.bannerUrl}`}

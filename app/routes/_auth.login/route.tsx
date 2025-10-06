@@ -12,6 +12,7 @@ import DefaultButton from "~/components/buttons/default-button";
 import GoogleAuthButton from "~/components/buttons/google-auth-button";
 import type { Route } from "../_auth.login/+types/route";
 import { defaultMeta } from '~/lib/meta';
+import HrWithText from "~/components/utility/hr-with-text";
 
 export const meta: MetaFunction = (args) => {
   return [
@@ -67,17 +68,13 @@ export default function Login({ actionData }: Route.ComponentProps) {
 
             <GoogleAuthButton text="Log in" />
 
-            <div className="flex items-center py-5 mt-3">
-              <div className="flex-1 border-t" />
-              <div className="text-gray-700 text-xs font-bold mx-4">Or Continue with</div>
-              <div className="flex-1 border-t" />
-            </div>
+            <HrWithText text="Or continue with" />
 
             <Form method="POST">
               <div className="mb-5">
                 <Label className="text-xs pb-1">Email address</Label>
                 <Input
-                  className="bg-white/10 backdrop-blur-3xl py-5 rounded-full border border-gray-200"
+                  className="bg-white/10 backdrop-blur-3xl py-5 rounded-xl text-sm placeholder:text-sm border border-gray-200"
                   id="email"
                   type="email"
                   name="email"
@@ -95,7 +92,7 @@ export default function Login({ actionData }: Route.ComponentProps) {
                 </div>
                 <div className="relative">
                   <Input
-                    className="bg-white/10 backdrop-blur-3xl py-5 rounded-full border border-gray-200 pr-12"
+                    className="bg-white/10 backdrop-blur-3xl py-5 rounded-xl text-sm placeholder:text-sm border border-gray-200 pr-12"
                     id="password"
                     type={showPassword ? "text" : "password"}
                     name="password"

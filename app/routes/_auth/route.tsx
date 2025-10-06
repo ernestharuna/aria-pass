@@ -18,10 +18,9 @@ export default function AuthLayout() {
         <div>
             <header className="container flex justify-center pt-6">
                 <Link to="/" className="z-10 flex gap-2 items-center cursor-pointer">
-                    {/* <img width="30" className="inline-block" src="/images/logos/logo.png" title="OwenaHub" /> */}
+                    <img width="30" className="inline-block" src="/images/logos/app_logo.png" title="OwenaHub" />
                     <div className="text-popover-foreground">
-                        <span className="font-medium mr-">AriaPass </span>
-                        <span className="font-light text-sm">For Musicians</span>
+                        <span className="font-semibold tracking-tighter text-indigo-900">AriaPass</span>
                     </div>
                 </Link>
             </header>

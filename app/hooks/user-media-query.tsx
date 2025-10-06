@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 /**
  * A custom React hook that tracks the state of a CSS media query.
@@ -14,7 +14,7 @@ export const useMediaQuery = (query: string) => {
     useEffect(() => {
         // We only want to run this logic in the browser.
         if (typeof window === 'undefined') {
-            return;
+            return;2
         }
 
         // The 'window.matchMedia' API is the core of this hook.

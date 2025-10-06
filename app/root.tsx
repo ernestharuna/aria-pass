@@ -89,7 +89,7 @@ export default function App() {
   let busy: boolean = state === "submitting" || state === "loading";
 
   return (
-    <div className={`${busy && "opacity-35"} transition overflow-x-hidden`}>
+    <div className={`${busy && "opacity-35"} transition`}>
       <Outlet />
     </div>
   )

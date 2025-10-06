@@ -38,7 +38,7 @@ export default function CustomAvatar({ name = "New User", styles }: { name?: str
             {/* <AvatarImage src="https://github.com/shadcn.png" alt='...' className={`rounded-full`} /> */}
             <AvatarFallback
                 style={{ backgroundColor: stringToColor(name) }}
-                className="font-bold uppercase text-black"
+                className="font-bold uppercase text-black text-[80%]"
             >
                 {stringAvatar(name)}
             </AvatarFallback>
