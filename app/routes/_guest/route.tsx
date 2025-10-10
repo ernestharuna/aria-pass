@@ -56,9 +56,9 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
 
                     </div>
 
-                    <ul className='hidden md:flex gap-8 text-sm'>
+                    <ul className='hidden md:flex gap-8'>
                         {NAV.map((item) => (
-                            <li key={item} className='hover:text-gray-400 text-sm font-normal tracking-tight transition-all'>
+                            <li key={item} className='hover:text-gray-400 text-xs font-normal tracking-tight transition-all'>
                                 <Link to={item.toLowerCase()}>{item}</Link>
                             </li>
                         ))}

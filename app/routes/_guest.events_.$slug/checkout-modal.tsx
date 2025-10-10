@@ -10,7 +10,7 @@ import PaystackPurchaseButton from "./paystack-purchase-button";
 export default function CheckoutModal({ event, user }: { event: OrganiserEvent, user: User }) {
     const [ticket, setTicket] = useState<Ticket>(event.tickets[0]);
     const [next, setNext] = useState(false);
-    
+
     return (
         <>
             {(event.tickets.length < 2 && event.tickets[0].price === '0.00') ? (
@@ -36,7 +36,7 @@ export default function CheckoutModal({ event, user }: { event: OrganiserEvent, 
                             disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
                         >
                             <Button
-                                className="bg-primary-theme w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter"
+                                className="bg-primary-theme border border-indigo-800 w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter"
                             >
                                 {event.status === 'completed'
                                     ? (
@@ -45,8 +45,8 @@ export default function CheckoutModal({ event, user }: { event: OrganiserEvent, 
                                         </span>
                                     )
                                     : (
-                                        <span>
-                                            Get a Ticket
+                                        <span className="text-sm md:text-lg tracking-tighter uppercase font-semibold">
+                                            Buy Ticket
                                         </span>
                                     )
                                 }
@@ -71,6 +71,7 @@ export default function CheckoutModal({ event, user }: { event: OrganiserEvent, 
                                 <>
                                     {event.tickets.map((item: Ticket) => (
                                         <div
+                                            key={item.id}
                                             onClick={() => setTicket(item)}
                                             className={`border p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
                                         >

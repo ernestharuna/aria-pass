@@ -32,10 +32,10 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
 
                 {/* Upperside of the card */}
                 <div className="absolute flex items-start justify-between top-2 w-[100%] left-0 right-0 py-0.5 px-2.5">
-                    <div className='bg-white/60 w-max py-1 px-2 rounded'>
+                    <div className='bg-white w-max py-1 px-2 rounded'>
                         <div className='flex flex-col justify-start items-center'>
-                            <p className="text-2xl tracking-tighter font-bold">{formattedDate.split(' ')[1]}</p>
-                            <p className="-mt-1.5 tracking-tighter text-sm font-light uppercase">{formattedDate.split(' ')[0]}</p>
+                            <p className="text-xl md:text-2xl tracking-tighter font-bold">{formattedDate.split(' ')[1]}</p>
+                            <p className="-mt-1.5 tracking-tighter text-sm md:text-sm font-light uppercase">{formattedDate.split(' ')[0]}</p>
                         </div>
                     </div>
                     <div className='z-10'>
@@ -59,12 +59,12 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                     )}
                     <div className="flex items-center gap-1 mb-1">
                         <MapPin strokeWidth={2} size={14} />
-                        <span className='font-light text-sm capitalize'>
+                        <span className='font-light text-xs md:text-sm capitalize'>
                             {event.city}, {event.country}
                         </span>
                     </div>
 
-                    <div className="text-xl leading-6 font-semibold tracking-tighter mb-1">
+                    <div className="text-sm md:text-xl font-semibold leading-4 tracking-tighter mb-1 truncate max-w-full">
                         {event.title}
                     </div>
                 </div>
@@ -76,13 +76,13 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                         name={event.organiser.organiserName || ""}
                         styles='size-8'
                     />
-                    <span className='font-medium tracking-tight text-nowrap truncate max-w-[8rem]'>
+                    <span className='font-medium text-[8px] md:text-xs tracking-tight text-nowrap truncate max-w-[8rem]'>
                         {event.organiser.organiserName}
                     </span>
                     <span title='Verified Partner' className='mx-0.5'>
                         <Crown className='text-amber-500 fill-current size-3.5' />
                     </span>
-                    <span className='font-bold tracking-tight bg-gray-300 text-gray-800 uppercase px-1 py-0.5 rounded text-[10px] ms-2'>
+                    <span className='hidden md:inline-block font-bold tracking-tight bg-gray-300 text-gray-800 uppercase px-1 py-0.5 rounded text-[10px] ms-2'>
                         {event.eventType}
                     </span>
                 </div>

@@ -67,9 +67,9 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
                 </div>
 
                 {(filteredData && filteredData.length) ? (
-                    <div className="grid grid-cols-1 gap-6 pt-8 items-stretch justify-start">
+                    <div className="grid grid-cols-1 gap-3 pt-8 items-stretch justify-start">
                         {filteredData.map((purchase) => (
-                            <div className='p-4 rounded-lg bg-gray-50' key={purchase.id}>
+                            <div className='px-3 py-2 rounded-lg bg-gray-50 border' key={purchase.id}>
                                 <small>{purchase.ticket.name}</small>
                                 <div className="flex items-start justify-between mb-2">
                                     <div className="font-bold">

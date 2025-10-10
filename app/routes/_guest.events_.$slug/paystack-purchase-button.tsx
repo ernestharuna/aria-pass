@@ -6,23 +6,34 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { PAYSTACK_PUBK } from "~/config/defaults";
 import client from "~/http/client";
+import { MinusIcon, PlusIcon } from "lucide-react"
+import { Button } from "~/components/ui/button"
+import { ButtonGroup } from "~/components/ui/button-group"
 
 export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticket, user?: User | undefined }) {
     const publicKey = PAYSTACK_PUBK;
 
-    const amount = parseInt(ticket.price) * 100; // Paystack expects amount in kobo
-
     const [form, setForm] = useState({
         name: user?.name || "",
         email: user?.email || "",
-        phone: ""
-    })
+        phone: "",
+        quantity: 1,
+        tickets: [{
+            id: ticket.id,
+            quantity: 1
+        }]
+    });
+
+    const UNIT_PRICE = parseInt(ticket.price);
+
+    const PROCESSING_FEE = (UNIT_PRICE * form.quantity) * 0.030;
+    const TOTAL_AMOUNT = (UNIT_PRICE * form.quantity) + PROCESSING_FEE;
 
     const navigate = useNavigate();
 
     const componentProps = {
         email: form.email,
-        amount,
+        amount: TOTAL_AMOUNT * 100,
         metadata: {
             custom_fields: [
                 {
@@ -34,7 +45,12 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                     display_name: "Phone",
                     variable_name: "phone",
                     value: form.phone,
-                }
+                },
+                {
+                    display_name: "Quantity",
+                    variable_name: "quantity",
+                    value: form.quantity,
+                },
             ]
         },
         publicKey,
@@ -51,7 +67,7 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
         // }
 
         onSuccess: async (e: any) => {
-            // console.log(e);
+            console.log(e);
             const promise = new Promise(async (resolve, reject) => {
                 try {
                     if (e.status !== "success") {
@@ -63,11 +79,13 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
 
                     await client.post(`/api/tickets/purchases/${ticket.id}`, {
                         reference: e.reference,
-                        amount: amount / 100,
+                        // amount: TOTAL_AMOUNT / 100,
                         currency: "NGN",
                         payment_method: "paystack",
                         purchaser_name: form.name,
                         purchaser_email: form.email,
+                        quantity: form.quantity,
+                        tickets: form.tickets,
                     });
 
                     resolve('Congratulations! Ticket purchased');
@@ -99,18 +117,90 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
         <div className="animated fadeIn">
             <div className="mt-0">
                 <form className="mb-5">
-                    <div className="bg-muted rounded-md p-3 mb-4">
-                        <div className="text-xs uppercase text-primary">
-                            {ticket.name} ticket
-                        </div>
-                        <div className="text-lg font-bold tracking-tighter">
-                            ₦{(amount / 100).toLocaleString()}
+                    <div className="bg-indigo-100 rounded-lg mb-6 flex items-stretch border border-primary-theme shadow">
+                        <div className="flex-1 p-3">
+                            <div className="text-xs uppercase text-primary mb-1">
+                                {ticket.name} ticket @ <span className="font-bold">₦{(UNIT_PRICE).toLocaleString()}</span>
+                            </div>
+
+                            <hr className="my-3 border-t border-primary-theme" />
+
+                            <div className="">
+                                <div className="flex flex-row items-end gap-1 mb-5">
+                                    {/* Ticket Qunatity */}
+                                    <div className="flex-1 text-xs items-center bg-white border border-gray-300 text-primary p-2 rounded">
+                                        <div className="text-[8px] text-gray-500 uppercase">quantity</div>
+                                        <div className="font-medium">
+                                            {/* Covers for Paystack's fees */}
+                                            {form.quantity} ticket{form.quantity > 1 && 's'}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex-1 text-xs items-center bg-white border border-gray-300 text-primary p-2 rounded">
+                                        {/* Processing Fee */}
+                                        <div className="text-[8px] text-gray-500 uppercase">processing fee</div>
+                                        <div className="font-medium">
+                                            {/* Covers for Paystack's fees */}
+                                            ₦{PROCESSING_FEE.toLocaleString()}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <div className="leading-2">
+                                        <div className="text-[10px] uppercase font-light">Total</div>
+                                        <div className='text-lg font-bold tracking-tighter'>
+                                            ₦{TOTAL_AMOUNT.toLocaleString()}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <ButtonGroup
+                                            orientation="horizontal"
+                                            aria-label="Media controls"
+                                            className="h-fit"
+                                        >
+                                            <Button
+                                                onClick={() => {
+                                                    if (form.quantity === 1) return;
+                                                    setForm((i) => (
+                                                        {
+                                                            ...i,
+                                                            quantity: i.quantity - 1,
+                                                            tickets: i.tickets.map(t => ({ ...t, quantity: t.quantity - 1 }))
+                                                            // tickets: i.tickets.map(t => ({ ...t, quantity: t.quantity - 1 }))
+                                                        }
+                                                    ))
+                                                }}
+                                                type='button'
+                                                variant="outline" size="icon"
+                                            >
+                                                <MinusIcon />
+                                            </Button>
+                                            <Button
+                                                onClick={() => {
+                                                    setForm((i) => (
+                                                        {
+                                                            ...i,
+                                                            quantity: i.quantity + 1,
+                                                            tickets: i.tickets.map(t => ({ ...t, quantity: t.quantity + 1 }))
+                                                        }
+                                                    ))
+                                                }}
+                                                type="button"
+                                                variant="outline" size="icon"
+                                            >
+                                                <PlusIcon />
+                                            </Button>
+                                        </ButtonGroup>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-3 mb-5">
                         <div className="flex-1">
-                            <Label className="mb-1" htmlFor="name">Name</Label>
+                            <Label className="mb-1 text-xs" htmlFor="name">Name</Label>
                             <Input
                                 className="py-5 rounded-xl"
                                 type="text"
@@ -124,7 +214,7 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                             />
                         </div>
                         <div className="flex-1">
-                            <Label className="mb-1" htmlFor="email">Email</Label>
+                            <Label className="mb-1 text-xs" htmlFor="email">Email</Label>
                             <Input
                                 className="py-5 rounded-xl"
                                 type="text"
@@ -138,8 +228,10 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                             />
                         </div>
                     </div>
-                    
-                    <Label className="mb-1">Phone</Label>
+
+                    <Label className="mb-1 text-xs">
+                        Phone <small className="text-[10px] font-light">(11 digit phone)</small>
+                    </Label>
                     <Input
                         className="py-5 border border-gray-400 rounded-xl"
                         type="text"

@@ -11,6 +11,8 @@ import FormatPrice from "~/components/utility/format-price";
 import { FormatLineBreak } from "~/components/utility/format-line-break";
 import { isPastEventDate, to12HourFormat } from "~/lib/utils";
 import CheckoutModal from "./checkout-modal";
+import { TERMS_AND_CONDITIONS } from "./terms-and-conditions";
+import Countdown from "~/components/utility/countdown";
 
 export default function DesktopView({ event }: { event: OrganiserEvent }) {
     const user: User = useOutletContext();
@@ -52,14 +54,14 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             )}
                         </div>
                         <div className='px-8 py-8'>
-                            <div className='text-sm mb-2'>
+                            <div className='text-sm'>
                                 Curated by {" "}
                                 <Link to="#creator" className="font-bold text-primary-theme underline underline-offset-2">
                                     {event.organiser.organiserName}
                                 </Link>
                             </div>
-                            <div className="flex items-center gap-10  justify-between mb-6">
-                                <h1 className="text-xl md:text-3xl font-semibold tracking-tighter leading-10">
+                            <div className="flex items-center gap-10 justify-between mb-6">
+                                <h1 className="text-xl md:text-3xl font-medium tracking-tighter leading-10">
                                     {event.title}
                                 </h1>
 
@@ -160,7 +162,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                     <section className="rounded-3xl border border-gray-100 bg-white px-8 py-6">
                         <div className="flex items-center justify-between">
                             <h3 className="font-semibold text-xl">
-                                Seat Plan
+                                Comments <span className="font-light text-sm">(0)</span>
                             </h3>
                             <Ellipsis />
                         </div>
@@ -192,7 +194,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
 
                         <hr className="my-10" />
 
-                        <div className="text-sm relative mb-10">
+                        <div className="text-sm relative mb-10 pb-8 border-b">
                             <div className="flex items-center justify-between mb-5">
                                 <h3 className="font-semibold text-xl">Notes</h3>
                                 <Ellipsis />
@@ -200,17 +202,20 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             <p>{event.extraInfo || <Placeholder text="No notes created by organiser" />}</p>
                         </div>
 
+                        <fieldset className="p-2 mb-6 text-center shadow border mx-auto rounded-lg bg-white">
+                            <legend className="rounded text-xs font-light px-1 py-0.5 bg-amber-400 text-white">
+                                Event count down
+                            </legend>
+                            <Countdown
+                                eventDate={event.date}
+                                startTime={event.startTime}
+                                onComplete={() => console.log("Event has started!")}
+                                className="text-gray-500 flex items-start gap-1 mx-auto"
+                            />
+                        </fieldset>
+
                         <CheckoutModal event={event} user={user} />
                     </aside>
-
-                    <div className="bg-white px-8 py-6 rounded-3xl border border-gray-100 mb-8">
-                        <div className="flex items-center justify-between">
-                            <h3 className="font-semibold text-xl">
-                                Comments <span className="font-light text-sm">(0)</span>
-                            </h3>
-                            <Ellipsis />
-                        </div>
-                    </div>
 
                     <div className="bg-white px-8 py-6 rounded-3xl border border-gray-100 mb-8">
                         <div className="flex items-center justify-between">
@@ -219,6 +224,20 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             </h3>
                             <Ellipsis />
                         </div>
+
+                        <div className="my-6">
+                            {TERMS_AND_CONDITIONS.map(term => (
+                                <div key={term.id} className="term-section">
+                                    <h4 className="text-xs font-semibold mt-4 mb-2">{term.title}</h4>
+                                    <ul className="list-disc list-inside text-xs text-gray-600">
+                                        {term.details.map((item, index) => (
+                                            <li key={index}>{item}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+
                     </div>
                 </div>
             </div>

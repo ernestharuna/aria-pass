@@ -10,6 +10,8 @@ import FormatPrice from "~/components/utility/format-price";
 import { isPastEventDate, to12HourFormat } from "~/lib/utils";
 import { FormatLineBreak } from "~/components/utility/format-line-break";
 import CheckoutModal from "./checkout-modal";
+import { TERMS_AND_CONDITIONS } from "./terms-and-conditions";
+import Countdown from "~/components/utility/countdown";
 
 export default function MobileView({ event }: { event: OrganiserEvent }) {
     const user: User = useOutletContext();
@@ -29,12 +31,15 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
     }, 0);
 
     return (
-        <section>
-            <div className="bg-slate-100 col-span-1 md:col-span-4 h-80 w-full aspect-video group-hover:opacity-75 lg:h-auto relative overflow-hidden">
+        <section className="relative">
+            <div className="z-10 fixed w-full bg-linear-to-t from-gray-400 to-transparent bottom-0 right-0 left-0 h-20 p-4 pb-20">
+                <CheckoutModal event={event} user={user} />
+            </div>
+            <div className="bg-slate-100 h-120 w-full aspect-square group-hover:opacity-75 relative overflow-hidden">
                 <img
                     src={banner}
                     alt={event.title}
-                    className="h-80 w-full object-cover"
+                    className="h-full w-full object-cover"
                 />
                 <div className="bg-white/60 border px-3 py-1.5 text-xs font-semibold rounded-lg absolute top-5 left-5">
                     {event.eventType}
@@ -45,17 +50,19 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                         {isPastEventDate(event.date, event.startTime) ? 'EVENT ENDED' : 'SOLD OUT'}
                     </div>
                 )}
+
+                <div className="h-8 rounded-t-4xl absolute -bottom-0.5 left-0 right-0 w-full bg-linear-to-t from-gray-50 to-gray-50/60  border-0" />
             </div>
 
-            <div className='container mt-5'>
-                <div className='text-sm mb-2'>
+            <div className='container'>
+                <div className='text-sm mt-2'>
                     Curated by {" "}
                     <Link to="#creator" className="font-bold text-primary-theme underline underline-offset-2">
                         {event.organiser.organiserName}
                     </Link>
                 </div>
-                <div className="flex flex-col gap-3 items-start pb-10">
-                    <h1 className="text-2xl md:text-3xl font-semibold tracking-tighter">
+                <div className="flex flex-col gap-5 items-start pb-10">
+                    <h1 className="text-2xl md:text-3xl font-medium tracking-tighter">
                         {event.title}
                     </h1>
 
@@ -115,6 +122,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                                     </span>
                                 </span>
                             </div>
+
                             {event.engagementVisible ? (
                                 <div className='text-gray-500 flex flex-col items-start gap-1'>
                                     <span className="text-sm">Tickets Sold</span>
@@ -129,6 +137,18 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                         </div>
                     </div>
 
+                    <fieldset className="p-2 border mx-auto mt-6 rounded-lg bg-white">
+                        <legend className="rounded text-xs font-light px-1 py-0.5 bg-amber-500 text-white">
+                            Event count down
+                        </legend>
+                        <Countdown
+                            eventDate={event.date}
+                            startTime={event.startTime}
+                            onComplete={() => console.log("Event has started!")}
+                            className="text-gray-500 flex items-start gap-1 mx-auto"
+                        />
+                    </fieldset>
+
                     <div className="bg-white border border-gray-100 p-4 rounded-2xl mt-5 w-full relative">
                         <h2 className="font-semibold tracking-tighter text-lg text-primary mb-2">About Event</h2>
                         <div className="text-sm">
@@ -140,8 +160,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                         <div>
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="font-semibold tracking-tighter text-lg text-primary">Venue & Address</h2>
-                                <div className="p-2 rounded-full text-primary-theme border border-primary-bg tracking-tighter"
-                                >
+                                <div className="p-2 rounded-full text-primary-theme border border-primary-bg tracking-tighter">
                                     <MapPin size={20} />
                                 </div>
                             </div>
@@ -182,7 +201,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                             )}
                         </div>
 
-                        <CheckoutModal event={event} user={user} />
+
                     </div>
 
                     <div className="bg-white border border-gray-100 p-4 rounded-2xl  w-full">
@@ -209,6 +228,18 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                                 Terms & Conditions
                             </h3>
                             <Ellipsis />
+                        </div>
+                        <div className="my-6">
+                            {TERMS_AND_CONDITIONS.map(term => (
+                                <div key={term.id} className="term-section">
+                                    <h4 className="text-xs font-semibold mt-4 mb-2">{term.title}</h4>
+                                    <ul className="list-disc list-inside text-xs text-gray-600">
+                                        {term.details.map((item, index) => (
+                                            <li key={index}>{item}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
