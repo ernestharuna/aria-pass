@@ -2,11 +2,12 @@ import client from '~/http/client';
 import type { Route } from '../_user.purchases/+types/route';
 import { redirect, useSearchParams, type MetaFunction } from 'react-router';
 import { useEffect, useState } from 'react';
-import { Ticket, UserStar } from 'lucide-react';
+import { Check, Clock, X } from 'lucide-react';
 import RecordFilter from '~/components/utility/record-filter';
 import PurchaseStatus from '~/components/utility/purchase-status';
 import FormatPrice from '~/components/utility/format-price';
 import { defaultMeta } from '~/lib/meta';
+import PaymentStatusModal from './payment-status-modal';
 
 export const meta: MetaFunction = (args) => {
     return [
@@ -34,12 +35,16 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
 
     const FILTERS = [
         {
-            label: "Tickets",
-            icon: <Ticket size={16} strokeWidth={1} />,
+            label: "Completed",
+            icon: <Check size={16} strokeWidth={1} />,
         },
         {
-            label: "Memberships",
-            icon: <UserStar size={16} strokeWidth={1} />,
+            label: "Failed",
+            icon: <X size={16} strokeWidth={1} />,
+        },
+        {
+            label: "Pending",
+            icon: <Clock size={16} strokeWidth={1} />,
         },
     ]
 
@@ -55,6 +60,7 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
 
     return (
         <div>
+            <PaymentStatusModal />
             <section>
                 <div className="flex flex-col lg:flex-row gap-7 justify-between lg:items-end">
                     <div>

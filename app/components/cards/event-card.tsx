@@ -1,4 +1,4 @@
-import { Bookmark, Crown, Eye, Heart, MapPin } from 'lucide-react';
+import { Bookmark, Eye, Heart, MapPin, Verified } from 'lucide-react';
 import dayjs from 'dayjs';
 import { STORAGE_URL } from '~/config/defaults';
 import { Link } from 'react-router';
@@ -79,8 +79,8 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                     <span className='font-medium text-[8px] md:text-xs tracking-tight text-nowrap truncate max-w-[8rem]'>
                         {event.organiser.organiserName}
                     </span>
-                    <span title='Verified Partner' className='mx-0.5'>
-                        <Crown className='text-amber-500 fill-current size-3.5' />
+                    <span title='Verified Partner' className='ms-0.5'>
+                        <Verified className='text-white fill-amber-500 size-4' />
                     </span>
                     <span className='hidden md:inline-block font-bold tracking-tight bg-gray-300 text-gray-800 uppercase px-1 py-0.5 rounded text-[10px] ms-2'>
                         {event.eventType}

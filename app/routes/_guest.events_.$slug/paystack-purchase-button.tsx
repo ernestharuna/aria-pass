@@ -89,7 +89,7 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                     });
 
                     resolve('Congratulations! Ticket purchased');
-                    return navigate(`/purchases`);
+                    return navigate(`/purchases/?reference=${e.reference}&message=${e.message}`);
                 } catch (error: any) {
                     toast.warning('Something went wrong', {
                         description: error.response?.data?.error || "Please try again later"
@@ -167,7 +167,6 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                                                             ...i,
                                                             quantity: i.quantity - 1,
                                                             tickets: i.tickets.map(t => ({ ...t, quantity: t.quantity - 1 }))
-                                                            // tickets: i.tickets.map(t => ({ ...t, quantity: t.quantity - 1 }))
                                                         }
                                                     ))
                                                 }}
