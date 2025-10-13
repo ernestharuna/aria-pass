@@ -14,7 +14,7 @@ export const useMediaQuery = (query: string) => {
     useEffect(() => {
         // We only want to run this logic in the browser.
         if (typeof window === 'undefined') {
-            return;2
+            return;
         }
 
         // The 'window.matchMedia' API is the core of this hook.

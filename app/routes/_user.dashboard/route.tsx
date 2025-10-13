@@ -1,12 +1,12 @@
-import EventCard from '~/components/cards/event-card'
 import client from '~/http/client'
 import type { Route } from '../_user.dashboard/+types/route';
-import { ArrowRight, ChevronRight, SquareDashedMousePointer } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { Link, redirect, useOutletContext, type MetaFunction } from 'react-router';
 import DetailedEventCard from '~/components/cards/detailed-event-card';
 import useSession from '~/hooks/use-session';
 import { defaultMeta } from '~/lib/meta';
+import CustomAvatar from '~/components/custom/custom-avatar';
 
 export const meta: MetaFunction = (args) => {
     return [
@@ -57,21 +57,14 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
     return (
         <div>
             <section className="mb-10">
-                <div className="flex flex-col gap-4 mb-8">
+                <div className="flex flex-row items-center gap-1 mb-8">
+                    <CustomAvatar name={user.name} styles='h-14 w-14 text-2xl '/>
                     <p className="text-3xl md:text-4xl font-bold tracking-tighter">Hello, {user.name.split(' ')[0]}!</p>
-                    <h1 className='text-primary text-2xl font-medium tracking-tight'>Dashboard</h1>
                 </div>
 
-                <div>
-                    <h2 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
-                        <span>Upcoming Events</span>
-                        <Link to={"/events"} className='hover:bg-gray-100 rounded-lg p-2'>
-                            <ChevronRight size={16} />
-                        </Link>
-                    </h2>
-                </div>
 
-                {(events && events.length) ? (
+
+                {/* {(events && events.length) ? (
                     <div
                         className="flex overflow-x-auto gap-5 pt-5 items-stretch snap-x snap-mandatory scroll-smooth px-[10vw] md:px-5 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300"
                     >
@@ -91,65 +84,64 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                             Nothing coming up at the moment
                         </p>
                     </div>
-                )}
+                )} */}
             </section>
 
-            {true && (
-                <section className='mb-10'>
-                    <h2 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
-                        <span>Your Events</span>
-                        <Link to={"/my-events"} className='hover:bg-gray-100 rounded-lg p-2'>
-                            <ChevronRight size={16} />
-                        </Link>
-                    </h2>
 
-                    <p className='text-sm text-muted-foreground mb-2'>
-                        Manage your events, tickets, and attendees {" "}
-                        <Link to={"/my-events"} className='text-blue-500 underline underline-offset-2'>here</Link>
-                    </p>
+            <section className='mb-10'>
+                <h2 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
+                    <span>Your Events</span>
+                    <Link to={"/my-events"} className='hover:bg-gray-100 rounded-lg p-2'>
+                        <ChevronRight size={16} />
+                    </Link>
+                </h2>
 
-                    {(myEvents && myEvents.length) ? (
-                        <div className="grid grid-cols-1 items-stretch justify-start">
-                            {myEvents.map((event) => (
-                                <DetailedEventCard key={event.id} event={event} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className='pt-10 flex flex-col items-center gap-5'>
-                            <p className="font-medium tracking-tight text-md text-primary">
-                                You have no events yet.
-                            </p>
-                            {user.organiserProfile ? (
-                                <>
-                                    <Button disabled={user.organiserProfile?.status !== 'active'}
-                                        className='rounded-full bg-primary px-22 py-6'
-                                    >
-                                        <Link to={"/my-events/new"}>
-                                            Create an Event
-                                        </Link>
-                                    </Button>
-                                    {user.organiserProfile.status === 'pending' && (
-                                        <small className="text-xs text-amber-600">
-                                            Request under review
-                                        </small>
-                                    )}
-                                    {user.organiserProfile.status === 'suspended' && (
-                                        <small className="text-xs text-destructive">
-                                            Account suspended
-                                        </small>
-                                    )}
-                                </>
-                            ) : (
-                                <Link to={"/organiser-request"}>
-                                    <Button className='rounded-full bg-primary-theme px-22 py-6'>
-                                        Become an Organiser <ArrowRight />
-                                    </Button>
-                                </Link>
-                            )}
-                        </div>
-                    )}
-                </section>
-            )}
+                <p className='text-sm text-muted-foreground mb-2'>
+                    Manage your events, tickets, and attendees {" "}
+                    <Link to={"/my-events"} className='text-blue-500 underline underline-offset-2'>here</Link>
+                </p>
+
+                {(myEvents && myEvents.length) ? (
+                    <div className="grid grid-cols-1 items-stretch justify-start">
+                        {myEvents.slice(0, 30).map((event) => (
+                            <DetailedEventCard key={event.id} event={event} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className='pt-10 flex flex-col items-center gap-5'>
+                        <p className="font-medium tracking-tight text-md text-primary">
+                            You have no events yet.
+                        </p>
+                        {user.organiserProfile ? (
+                            <>
+                                <Button disabled={user.organiserProfile?.status !== 'active'}
+                                    className='rounded-full bg-primary px-22 py-6'
+                                >
+                                    <Link to={"/my-events/new"}>
+                                        Create an Event
+                                    </Link>
+                                </Button>
+                                {user.organiserProfile.status === 'pending' && (
+                                    <small className="text-xs text-amber-600">
+                                        Request under review
+                                    </small>
+                                )}
+                                {user.organiserProfile.status === 'suspended' && (
+                                    <small className="text-xs text-destructive">
+                                        Account suspended
+                                    </small>
+                                )}
+                            </>
+                        ) : (
+                            <Link to={"/organiser-request"}>
+                                <Button className='rounded-full bg-primary-theme px-22 py-6'>
+                                    Become an Organiser <ArrowRight />
+                                </Button>
+                            </Link>
+                        )}
+                    </div>
+                )}
+            </section>
         </div>
     )
 }

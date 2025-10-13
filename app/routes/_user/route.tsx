@@ -1,4 +1,4 @@
-import { Outlet, redirect } from "react-router";
+import { NavLink, Outlet, redirect } from "react-router";
 import { toast } from "sonner";
 import useRoute from "~/hooks/use-route";
 import useSession from "~/hooks/use-session";
@@ -13,6 +13,8 @@ import {
 import type { Route } from "../_user/+types/route";
 import Breadcrumb from "~/components/navigation/breadcrumb";
 import client from "~/http/client";
+import { Ban, CalendarCheck, Heart, Home, ShoppingCart, Square, User } from "lucide-react";
+import React from "react";
 
 export async function clientLoader() {
     const { getUser, validateSession } = useSession();
@@ -57,6 +59,34 @@ export async function clientLoader() {
     }
 }
 
+const app_menu = [
+    {
+        icon: <Home size={20} strokeWidth={1} />,
+        label: "Dashboard",
+        href: "dashboard"
+    },
+    {
+        icon: <CalendarCheck size={20} strokeWidth={1} />,
+        label: "My Events",
+        href: "my-events"
+    },
+    {
+        icon: <Heart size={20} strokeWidth={1} />,
+        label: "Favourites",
+        href: "favourites"
+    },
+    {
+        icon: <ShoppingCart size={20} strokeWidth={1} />,
+        label: "Purchases",
+        href: "purchases"
+    },
+    {
+        icon: <User size={20} strokeWidth={1} />,
+        label: "Account",
+        href: "account"
+    },
+];
+
 export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
     const { user, spaces, invitedSpaces }: { user: User, spaces: Promise<OrganiserEvent[]>, invitedSpaces: Promise<OrganiserEvent[]> } = loaderData;
 
@@ -74,6 +104,55 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                 </header>
                 <div className="flex flex-1 flex-col gap-4 px-6 py-10 max-w-[94rem] w-full b mx-auto">
                     <Outlet context={user} />
+                    
+                    <div className="h-20 w-full" />
+
+                    <div className="border px-2 py-2 border-gray-100 shadow bg-white/35 backdrop-blur-xs rounded-3xl w-max fixed bottom-10 z-50 left-1/2 -translate-x-1/2">
+                        <section className="flex items-center gap-2">
+                            {app_menu.map((menu, index) => (
+                                <NavLink
+                                    key={index + menu.href}
+                                    to={menu.href}
+                                    className={({ isActive, isPending }) =>
+                                        isActive
+                                            ? "block rounded-xl p-1 mb-0.5 bg-indigo-100/50 backdrop-blur-sm transition-all text-primary-theme "
+                                            : isPending
+                                                ? "block rounded-xl p-1 mb-0.5  hover:bg-gray-100 transition-all text-primary"
+                                                : "block rounded-xl p-1 mb-0.5 hover:bg-gray-100 transition-all text-primary"
+                                    }
+                                >
+                                    {({ isActive }) => (
+                                        <div className="flex items-center justify-between gap-1">
+                                            <div className="flex items-center">
+                                                <span className={`inline-block p-1.5 ${isActive ? "text-primary-theme rounded" : ""}`}>
+                                                    {menu.icon ? (React.cloneElement(menu.icon))
+                                                        : (<span>
+                                                            <Square size={16} />
+                                                        </span>)
+                                                    }
+                                                </span>
+                                                {/* MODIFICATION START: Animated label container */}
+                                                <div
+                                                    className={`grid transition-all duration-300 ease-in-out ${isActive ? 'grid-cols-[1fr] opacity-100 pe-2' : 'grid-cols-[0fr] opacity-0'}`}
+                                                >
+                                                    <span className="capitalize text-sm font-medium tracking-tighter whitespace-nowrap overflow-hidden">
+                                                        {menu.label}
+                                                    </span>
+                                                </div>
+                                                {/* MODIFICATION END */}
+                                            </div>
+                                            {(menu.href === 'my-events' && !user.organiserProfile?.id) && (
+                                                <div className="bg-amber-50 border border-amber-200 p-1 rounded-md text-amber-500">
+                                                    <Ban size={14} strokeWidth={3} />
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </NavLink>
+                            ))
+                            }
+                        </section>
+                    </div>
                 </div>
             </SidebarInset>
         </SidebarProvider>

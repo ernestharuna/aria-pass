@@ -22,36 +22,6 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   invitedSpaces: Promise<OrganiserEvent[]>;
 };
 
-const app_menu = [
-  {
-    icon: <Home size={20} strokeWidth={2.5} />,
-    label: "Dashboard",
-    href: "dashboard"
-  },
-  {
-    icon: <CalendarCheck size={20} strokeWidth={2.5} />,
-    label: "My Events",
-    href: "my-events"
-  },
-  {
-    icon: <Heart size={20} strokeWidth={2.5} />,
-    label: "Favourites",
-    href: "favourites"
-  },
-  {
-    icon: <ShoppingCart size={20} strokeWidth={2.5} />,
-    label: "Purchases",
-    href: "purchases"
-  },
-  {
-    icon: <User size={20} strokeWidth={2.5} />,
-    label: "Account",
-    href: "account"
-  },
-];
-
-
-
 export function AppSidebar({ user, spaces, invitedSpaces, ...props }: AppSidebarProps) {
 
   return (
@@ -159,49 +129,6 @@ export function AppSidebar({ user, spaces, invitedSpaces, ...props }: AppSidebar
             </Suspense>
           </div>
         </section>
-
-        <SidebarSeparator className="mx-0" />
-
-        {/* Navigation */}
-        <section className="px-2 mb-2">
-          {app_menu.map((menu, index) => (
-            <NavLink
-              key={index + menu.href}
-              to={menu.href}
-              className={({ isActive, isPending }) =>
-                isActive
-                  ? "block rounded-xl p-1 mb-0.5 bg-primary-bg text-primary-theme "
-                  : isPending
-                    ? "block rounded-xl p-1 mb-0.5  hover:bg-gray-100 text-primary"
-                    : "block rounded-xl p-1 mb-0.5 hover:bg-gray-100 text-primary"
-              }
-            >
-              {({ isActive }) => (
-                <div className="flex items-center justify-between gap-1">
-                  <div className="flex items-center gap-1">
-                    <span className={`inline-block p-2 ${isActive ? "text-primary-theme rounded" : ""}`}>
-                      {menu.icon ? (React.cloneElement(menu.icon))
-                        : (<span>
-                          <Square size={16} />
-                        </span>)
-                      }
-                    </span>
-                    <span className={`capitalize text-[15px] font-bold tracking-tight`}>
-                      {menu.label}
-                    </span>
-                  </div>
-                  {(menu.href === 'my-events' && !user.organiserProfile?.id) && (
-                    <div className="bg-amber-50 border border-amber-200 p-1 rounded-md text-amber-500">
-                      <Ban size={14} strokeWidth={3} />
-                    </div>
-                  )}
-                </div>
-              )}
-            </NavLink>
-          ))
-          }
-        </section>
-
         <SidebarSeparator className="mx-0" />
       </SidebarContent>
 
