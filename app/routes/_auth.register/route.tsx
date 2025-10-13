@@ -101,7 +101,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                         <Form method="POST" className="mt-5">
                             <div className="mb-5">
                                 <Input
-                                    className="bg-white/10 backdrop-blur-3xl py-5 rounded-xl text-sm placeholder:text-sm  border border-gray-200"
+                                    className="bg-white/10 backdrop-blur-3xl py-6 rounded-xl text-sm placeholder:text-sm  border border-gray-200"
                                     type="text"
                                     name="name"
                                     placeholder="Full name"
@@ -111,7 +111,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             </div>
                             <div className="mb-5">
                                 <Input
-                                    className="bg-white/10 backdrop-blur-3xl py-5 rounded-xl text-sm placeholder:text-sm  border border-gray-200"
+                                    className="bg-white/10 backdrop-blur-3xl py-6 rounded-xl text-sm placeholder:text-sm  border border-gray-200"
                                     type="email"
                                     name="email"
                                     placeholder="Email address"
@@ -122,7 +122,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             <div className="mb-5">
                                 <div className="relative">
                                     <Input
-                                        className="bg-white/10 backdrop-blur-3xl py-5 rounded-xl text-sm placeholder:text-sm  border border-gray-200 pr-12"
+                                        className="bg-white/10 backdrop-blur-3xl py-6 rounded-xl text-sm placeholder:text-sm  border border-gray-200 pr-12"
                                         id="password"
                                         type={showPassword ? "text" : "password"}
                                         name="password"
@@ -147,7 +147,7 @@ export default function Register({ actionData }: Route.ComponentProps) {
                             <div className="mb-5">
                                 <div className="relative">
                                     <Input
-                                        className="bg-white/10 backdrop-blur-3xl py-5 rounded-xl text-sm placeholder:text-sm  border border-gray-200"
+                                        className="bg-white/10 backdrop-blur-3xl py-6 rounded-xl text-sm placeholder:text-sm  border border-gray-200"
                                         id="password_confirmation"
                                         type={showPassword ? "text" : "password"}
                                         name="password_confirmation"

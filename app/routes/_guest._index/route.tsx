@@ -62,7 +62,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                             </span>
                         </div>
 
-                        <h1 className="text-3xl md:text-5xl font-normal md:leading-13 text-primary tracking-tighter">
+                        <h1 className="text-4xl md:text-6xl font-medium md:leading-16 text-primary tracking-[-0.07em]">
                             Experience the Community <BrMd /> Behind the Concerts
                         </h1>
                         <p className="tracking-tight  font-medium text-gray-500 text-md md:text-base mt-5 leading-6">

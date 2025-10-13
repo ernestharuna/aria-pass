@@ -76,23 +76,23 @@ export default function EventCard({ event, index }: { event: OrganiserEvent, ind
                         name={event.organiser.organiserName || ""}
                         styles='size-8'
                     />
-                    <span className='font-medium text-[8px] md:text-xs tracking-tight text-nowrap truncate max-w-[8rem]'>
+                    <span className='font-medium text-xs tracking-tight text-nowrap truncate max-w-[8rem]'>
                         {event.organiser.organiserName}
                     </span>
                     <span title='Verified Partner' className='ms-0.5'>
                         <Verified className='text-white fill-amber-500 size-4' />
                     </span>
-                    <span className='hidden md:inline-block font-bold tracking-tight bg-gray-300 text-gray-800 uppercase px-1 py-0.5 rounded text-[10px] ms-2'>
+                    <span className='hidden md:inline-block font-bold tracking-tight bg-gray-200 text-gray-600 uppercase px-1 py-0.5 rounded text-[9px] mx-1 outline'>
                         {event.eventType}
                     </span>
                 </div>
 
                 <div className='flex items-center gap-3 shrink-0'>
-                    <div className="flex items-center gap-1 text-xs">
+                    <div className="flex items-center gap-0.5 text-xs">
                         <Heart className='size-4 fill-gray-400 text-gray-400' />
                         <span className='text-gray-700'>{event.likes}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-xs">
+                    <div className="flex items-center gap-0.5 text-xs">
                         <Eye className='size-4 text-gray-400' />
                         <span className='text-gray-700'>{event.views}</span>
                     </div>

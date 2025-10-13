@@ -50,7 +50,7 @@ export default function Artists() {
             </div>
 
             <div>
-                <EmptyState resource="organisers" />
+                <EmptyState resource="artists" />
             </div>
         </main>
     )
