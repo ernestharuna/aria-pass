@@ -8,6 +8,7 @@ import { ChevronRight } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { FeedFilter } from '~/components/utility/feed-filter';
 import { defaultMeta } from '~/lib/meta';
+import DefaultError from '~/components/errors/default-error';
 
 export const meta: MetaFunction = (args) => {
     return [
@@ -105,4 +106,8 @@ export default function Events({ loaderData }: Route.ComponentProps) {
             </div>
         </main>
     )
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  return <DefaultError error={error} />
 }

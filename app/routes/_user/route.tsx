@@ -13,8 +13,9 @@ import {
 import type { Route } from "../_user/+types/route";
 import Breadcrumb from "~/components/navigation/breadcrumb";
 import client from "~/http/client";
-import { Ban, CalendarCheck, Heart, Home, ShoppingCart, Square, User } from "lucide-react";
+import { CalendarCheck, Heart, Home, ShoppingCart, Square, User } from "lucide-react";
 import React from "react";
+import DefaultError from "~/components/errors/default-error";
 
 export async function clientLoader() {
     const { getUser, validateSession } = useSession();
@@ -159,4 +160,8 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
             </SidebarInset>
         </SidebarProvider>
     )
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  return <DefaultError error={error} />
 }

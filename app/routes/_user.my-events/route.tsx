@@ -11,6 +11,7 @@ import RecordFilter from '~/components/utility/record-filter';
 import { useEffect, useState } from 'react';
 import { defaultMeta } from '~/lib/meta';
 import NewTeammate from './new-teammate';
+import DefaultError from '~/components/errors/default-error';
 
 export const meta: MetaFunction = (args) => {
     return [
@@ -126,4 +127,9 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
             </section>
         </div>
     )
+}
+
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  return <DefaultError error={error} />
 }

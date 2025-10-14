@@ -11,6 +11,7 @@ import EventCardSkeleton from "~/components/skeletons/events-card-skeleton";
 import client from "~/http/client";
 import EventsMapper from "~/components/mappers/event-mapper";
 import { STORAGE_URL } from "~/config/defaults";
+import DefaultError from "~/components/errors/default-error";
 
 export async function clientLoader(_: Route.ClientLoaderArgs) {
     try {
@@ -255,3 +256,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     );
 }
 
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  return <DefaultError error={error} />
+}

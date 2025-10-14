@@ -6,6 +6,7 @@ import AnnouncementBanner from '~/components/cards/announcement-banner';
 import type { Route } from '../_guest/+types/route';
 import useSession from '~/hooks/use-session';
 import CustomAvatar from '~/components/custom/custom-avatar';
+import DefaultError from '~/components/errors/default-error';
 
 export async function clientLoader(_: Route.ClientLoaderArgs) {
     const { getUser } = useSession();
