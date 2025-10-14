@@ -18,15 +18,17 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
         email: user?.email || "",
         phone: "",
         quantity: 1,
-        tickets: [{
-            id: ticket.id,
-            quantity: 1
-        }]
+        tickets: [
+            {
+                id: ticket.id,
+                quantity: 1
+            },
+        ]
     });
 
     const UNIT_PRICE = parseInt(ticket.price);
 
-    const PROCESSING_FEE = (UNIT_PRICE * form.quantity) * 0.030;
+    const PROCESSING_FEE = (UNIT_PRICE * form.quantity) * 0.026;
     const TOTAL_AMOUNT = (UNIT_PRICE * form.quantity) + PROCESSING_FEE;
 
     const navigate = useNavigate();

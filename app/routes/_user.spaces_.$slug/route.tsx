@@ -58,6 +58,7 @@ export default function EventSpaces({ loaderData }: Route.ComponentProps) {
                                         {space.members?.length} <span className=""> member{space?.members.length > 1 && 's'}</span>
                                     </span>
                                 </DialogTrigger>
+                                
                                 <DialogContent className="sm:max-w-[425px]">
                                     <DialogHeader>
                                         <DialogTitle>Members in this space</DialogTitle>

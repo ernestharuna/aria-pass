@@ -58,10 +58,10 @@ export default function PurchasesTable({ event }: { event: OrganiserEvent }) {
                     {PURCHASES.length ? (
                         PURCHASES.map((purchase) => (
                             <TableRow key={purchase.id}>
-                                <TableCell>{purchase.user.email}</TableCell>
-                                <TableCell>{purchase.user.name}</TableCell>
+                                <TableCell className="py-3">{purchase.user.email}</TableCell>
+                                <TableCell className="py-3">{purchase.user.name}</TableCell>
                                 <TableCell className="font-mono">{purchase.code}</TableCell>
-                                <TableCell>
+                                <TableCell className="py-3">
                                     <span
                                         style={{ background: purchase.ticket.theme }}
                                         className="font-semibold px-2 py-1 rounded text-white text-sm"
@@ -69,17 +69,17 @@ export default function PurchasesTable({ event }: { event: OrganiserEvent }) {
                                         {purchase.ticket.name}
                                     </span>
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className="py-3">
                                     <TransactionStatus status={purchase.status} />
                                 </TableCell>
-                                <TableCell className="text-right">
+                                <TableCell className="py-3 text-right">
                                     <FormatPrice price={purchase.amount} />
                                 </TableCell>
                             </TableRow>
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={4} className="text-center text-gray-400">
+                            <TableCell colSpan={6} className="text-center text-gray-400 py-3">
                                 No recorded sales yet
                             </TableCell>
                         </TableRow>

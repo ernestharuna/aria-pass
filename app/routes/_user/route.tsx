@@ -88,7 +88,9 @@ const app_menu = [
 ];
 
 export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
-    const { user, spaces, invitedSpaces }: { user: User, spaces: Promise<OrganiserEvent[]>, invitedSpaces: Promise<OrganiserEvent[]> } = loaderData;
+    const { user, spaces, invitedSpaces }: {
+        user: User, spaces: Promise<OrganiserEvent[]>, invitedSpaces: Promise<OrganiserEvent[]>
+    } = loaderData;
 
     return (
         <SidebarProvider>
@@ -104,10 +106,10 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                 </header>
                 <div className="flex flex-1 flex-col gap-4 px-6 py-10 max-w-[94rem] w-full b mx-auto">
                     <Outlet context={user} />
-                    
+
                     <div className="h-20 w-full" />
 
-                    <div className="border px-2 py-2 border-gray-100 shadow bg-white/35 backdrop-blur-xs rounded-3xl w-max fixed bottom-10 z-50 left-1/2 -translate-x-1/2">
+                    <div className="border p-1 border-gray-100 shadow bg-white/35 backdrop-blur-xs rounded-full w-max fixed bottom-10 z-50 left-1/2 -translate-x-1/2">
                         <section className="flex items-center gap-2">
                             {app_menu.map((menu, index) => (
                                 <NavLink
@@ -115,16 +117,19 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                                     to={menu.href}
                                     className={({ isActive, isPending }) =>
                                         isActive
-                                            ? "block rounded-xl p-1 mb-0.5 bg-indigo-100/50 backdrop-blur-sm transition-all text-primary-theme "
+                                            ? "block rounded-full p-1 bg-indigo-100/50 border border-primary-theme backdrop-blur-sm transition-all text-primary-theme "
                                             : isPending
-                                                ? "block rounded-xl p-1 mb-0.5  hover:bg-gray-100 transition-all text-primary"
-                                                : "block rounded-xl p-1 mb-0.5 hover:bg-gray-100 transition-all text-primary"
+                                                ? "block rounded-full p-1  hover:bg-gray-100 transition-all text-primary"
+                                                : "block rounded-full p-1 hover:bg-gray-100 transition-all text-primary"
                                     }
                                 >
                                     {({ isActive }) => (
                                         <div className="flex items-center justify-between gap-1">
                                             <div className="flex items-center">
-                                                <span className={`inline-block p-1.5 ${isActive ? "text-primary-theme rounded" : ""}`}>
+                                                <span className={`
+                                                    inline-block p-1.5 ${isActive ? "text-primary-theme rounded" : ""}
+                                                    ${menu.href === 'my-events' && !user.organiserProfile?.id ? ' opacity-30' : ''}
+                                                    `}>
                                                     {menu.icon ? (React.cloneElement(menu.icon))
                                                         : (<span>
                                                             <Square size={16} />
@@ -133,19 +138,16 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                                                 </span>
                                                 {/* MODIFICATION START: Animated label container */}
                                                 <div
-                                                    className={`grid transition-all duration-300 ease-in-out ${isActive ? 'grid-cols-[1fr] opacity-100 pe-2' : 'grid-cols-[0fr] opacity-0'}`}
-                                                >
+                                                    className={`
+                                                        grid transition-all duration-300 ease-in-out
+                                                        ${isActive ? 'grid-cols-[1fr] opacity-100 pe-2' : 'grid-cols-[0fr] opacity-0'}
+                                                        `}>
                                                     <span className="capitalize text-sm font-medium tracking-tighter whitespace-nowrap overflow-hidden">
                                                         {menu.label}
                                                     </span>
                                                 </div>
                                                 {/* MODIFICATION END */}
                                             </div>
-                                            {(menu.href === 'my-events' && !user.organiserProfile?.id) && (
-                                                <div className="bg-amber-50 border border-amber-200 p-1 rounded-md text-amber-500">
-                                                    <Ban size={14} strokeWidth={3} />
-                                                </div>
-                                            )}
                                         </div>
                                     )}
                                 </NavLink>

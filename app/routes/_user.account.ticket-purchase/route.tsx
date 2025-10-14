@@ -24,7 +24,7 @@ export default function TicketPurchase({ loaderData }: Route.ComponentProps) {
         <div>
             <section>
                 {(tickets && tickets.length) ? (
-                    <div className="grid grid-cols-1 gap-6 items-stretch justify-start">
+                    <div className="grid grid-cols-1 gap-3 items-stretch justify-start">
                         {tickets.map((purchase) => (
                             <div className='p-4 rounded-lg bg-gray-50' key={purchase.id}>
                                 <small>{purchase.ticket.name}</small>
