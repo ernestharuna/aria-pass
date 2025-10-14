@@ -69,7 +69,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                     <div className="flex items-center gap-4 mb-3">
                         {/* /api/events/${params.slug}/interested */}
                         <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
-                            <button className="relative flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
+                            <button className="relative flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border bg-white shadow rounded-full hover:bg-gray-100 cursor-pointer transition">
                                 <span className="absolute -top-2 -right-2 bg-muted text-muted-foreground border text-xs w-6 h-6 rounded-full flex items-center justify-center">
                                     {(event.likes ?? 0) > 0 && "+"}{event.likes === 0 ? '👀' : event.likes}
                                 </span>
@@ -86,7 +86,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                             </button>
                         </RedirectOrFetcher>
                         <SharePage>
-                            <div className="flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border border-gray-200 rounded-full hover:bg-gray-100 cursor-pointer transition">
+                            <div className="flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border bg-white shadow rounded-full hover:bg-gray-100 cursor-pointer transition">
                                 <div>
                                     <Share size={18} />
                                 </div>
@@ -137,15 +137,17 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                         </div>
                     </div>
 
-                    <fieldset className="p-2 border mx-auto mt-6 rounded-lg bg-white">
-                        <legend className="rounded text-xs font-light px-1 py-0.5 bg-amber-500 text-white">
-                            Event count down
+                    <fieldset className="p-2 border text-center mx-auto mt-6 w-full rounded-lg bg-white">
+                        <legend className="rounded-full text-xs font-serif font-semibold tracking-tighter px-2 py-1 bg-primary-bg text-primary-theme">
+                            Count Down
                         </legend>
                         <Countdown
                             eventDate={event.date}
                             startTime={event.startTime}
+                            // separator=':'
+                            // showLabels={false}
                             onComplete={() => console.log("Event has started!")}
-                            className="text-gray-500 flex items-start gap-1 mx-auto"
+                            className="text-gray-600 flex items-start gap-1 mx-auto"
                         />
                     </fieldset>
 

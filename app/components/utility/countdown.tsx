@@ -52,10 +52,9 @@ export default function Countdown({
 
     return (
         <div
-            className={className}
+            className={className + ' min-w-full flex gap-6'}
             role="timer"
             aria-live="polite"
-            style={{ display: "inline-flex", gap: showLabels ? "0.75rem" : "0.25rem" }}
         >
             {units.map((u, i) => (
                 <Unit
@@ -88,7 +87,7 @@ function diffParts(target: any) {
 
 /** Build the units list to render according to the display mode */
 function selectUnits(parts: any, display: any, pad: any) {
-    
+
     const fmt = (n: any, width = 2) => (pad ? String(n).padStart(width, "0") : String(n));
 
     const base = [
@@ -114,32 +113,19 @@ function selectUnits(parts: any, display: any, pad: any) {
 /** Small presentational unit */
 function Unit({ value, label, showLabel, separator }: any) {
     return (
-        <div
-            style={{
-                display: "inline-flex",
-                alignItems: "baseline",
-                gap: "0.35rem",
-                fontVariantNumeric: "tabular-nums",
-            }}
-        >
+        <div className="flex flex-col gap-1 flex-1">
+            {showLabel
+                ? <span className="text-xs md:text-sm font-light">{label}</span>
+                : separator
+                    ? <span aria-hidden="true" className="text-2xl md:text-2xl">{separator}</span>
+                    : null
+            }
             <span
-                style={{
-                    fontSize: "1.35rem",
-                    letterSpacing: 0,
-                    fontWeight: 700,
-                    lineHeight: 1,
-                    minWidth: "2ch",
-                    textAlign: "right",
-                }}
+                className="tracking-tight font-semibold text-5xl animated fadeIn"
                 aria-label={showLabel ? `${value} ${label}` : undefined}
             >
-                {value}
+                {String(value).padStart(2, '0')}
             </span>
-            {showLabel ? (
-                <span style={{ opacity: 0.75, fontSize: "0.8rem" }}>{label}</span>
-            ) : separator ? (
-                <span aria-hidden="true">{separator}</span>
-            ) : null}
         </div>
     );
 }

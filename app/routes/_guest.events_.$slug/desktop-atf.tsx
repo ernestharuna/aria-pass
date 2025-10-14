@@ -203,8 +203,8 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                         </div>
 
                         <fieldset className="p-2 mb-6 text-center shadow border mx-auto rounded-lg bg-white">
-                            <legend className="rounded text-xs font-light px-1 py-0.5 bg-amber-400 text-white">
-                                Event count down
+                            <legend className="rounded-full text-xs font-serif font-semibold px-2 py-1 bg-primary-bg text-primary-theme">
+                                Count Down
                             </legend>
                             <Countdown
                                 eventDate={event.date}

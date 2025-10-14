@@ -17,7 +17,7 @@ export default function CheckoutModal({ event, user }: { event: OrganiserEvent, 
                 <RedirectOrFetcher route={`/events/toggle-like/${event.slug}`}>
                     <Button
                         disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
-                        className="bg-primary w-full py-7 text-lg font-light rounded-2xl tracking-tighter"
+                        className="bg-primary w-full py-6 text-lg font-light rounded-lg tracking-tighter"
                     >
                         <span>I will attend</span>
                         <div>
@@ -36,7 +36,7 @@ export default function CheckoutModal({ event, user }: { event: OrganiserEvent, 
                             disabled={isPastEventDate(event.date, event.startTime) || (event.status === 'completed')}
                         >
                             <Button
-                                className="bg-primary-theme border border-indigo-800 w-full py-7 rounded-2xl font-semibold text-xl tracking-tighter"
+                                className="bg-primary-theme border border-b-3 border-indigo-800 w-full py-6 rounded-lg font-semibold text-xl tracking-tighter"
                             >
                                 {event.status === 'completed'
                                     ? (
