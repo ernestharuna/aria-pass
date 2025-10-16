@@ -152,7 +152,10 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                                 </div>
                                 <div className="mb-5">
                                     <h3 className="font-semibold">Address</h3>
-                                    {event.venueAddress}
+                                    {event.venueAddress}, {" "}
+                                    <span className="capitalize">
+                                        {event.city}
+                                    </span>
                                 </div>
                             </div>
 

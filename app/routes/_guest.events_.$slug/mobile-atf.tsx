@@ -55,7 +55,7 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
             </div>
 
             <div className='container'>
-                <div className='text-sm mt-2'>
+                <div className='text-sm my-2'>
                     Curated by {" "}
                     <Link to="#creator" className="font-bold text-primary-theme underline underline-offset-2">
                         {event.organiser.organiserName}
@@ -168,11 +168,19 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                             </div>
                             <div className="mb-3">
                                 <h3 className="text-sm text-gray-400">Venue & Hall name</h3>
-                                {event.venueName}
+                                <span className="leading-5">
+                                    {event.venueName}
+                                </span>
                             </div>
+
                             <div className="mb-5">
                                 <h3 className="text-sm text-gray-400">Address</h3>
-                                {event.venueAddress}
+                                <div className="leading-5">
+                                    {event.venueAddress}, {" "}
+                                    <span className="capitalize">
+                                        {event.city}
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
@@ -202,8 +210,6 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                                 </div>
                             )}
                         </div>
-
-
                     </div>
 
                     <div className="bg-white border border-gray-100 p-4 rounded-2xl  w-full">
