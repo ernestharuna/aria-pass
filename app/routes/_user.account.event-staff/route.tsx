@@ -16,8 +16,7 @@ export async function clientLoader() {
 
 export default function EventStaff({ loaderData }: Route.ComponentProps) {
     const { eventMembers }: { eventMembers: EventMember[] } = loaderData;
-    console.log(eventMembers);
-
+    
     const [searchParams] = useSearchParams();
 
     return (
