@@ -135,7 +135,7 @@ export function AppSidebar({ user, spaces, invitedSpaces, ...props }: AppSidebar
       <SidebarFooter className="bg-white !shadow-[0px_0px_25px_#80808020]">
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link to={"/my-events"}>
+            <Link to={"/my-events/new"}>
               <SidebarMenuButton className="flex items-center justify-between bg-primary-theme hover:bg-primary-theme/80 hover:text-white text-white py-5 rounded-xl curosr-pointer">
                 <span className="font-semibold tracking-tight text-sm">Create an Event</span>
                 <Plus strokeWidth={3} />

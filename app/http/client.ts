@@ -26,6 +26,21 @@ client.interceptors.response.use((response) => response,
                 })
             }
 
+            if (error.response?.status === 404) {
+                // Try named-route navigation if a global router is exposed, otherwise fall back to full reload
+                try {
+                    // @ts-ignore
+                    const router = (window as any).router;
+                    if (router?.push) {
+                        router.push({ name: 'page-not-found' });
+                    } else {
+                        window.location.replace('/page-not-found');
+                    }
+                } catch {
+                    window.location.replace('/page-not-found');
+                }
+            }
+
             if (error.response?.status === 419) {
                 toast.warning("Page expired", {
                     description: "Session timed out due to inactivity",

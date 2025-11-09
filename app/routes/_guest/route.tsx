@@ -1,4 +1,4 @@
-import { ChevronRight, Facebook, Instagram, Menu, Twitter, X } from 'lucide-react'
+import { ChevronRight, Facebook, Menu, X } from 'lucide-react'
 import { Suspense, useEffect, useState } from 'react';
 import { Await, Link, NavLink, Outlet } from 'react-router'
 import { Button } from '~/components/ui/button'
@@ -6,7 +6,6 @@ import AnnouncementBanner from '~/components/cards/announcement-banner';
 import type { Route } from '../_guest/+types/route';
 import useSession from '~/hooks/use-session';
 import CustomAvatar from '~/components/custom/custom-avatar';
-import DefaultError from '~/components/errors/default-error';
 
 export async function clientLoader(_: Route.ClientLoaderArgs) {
     const { getUser } = useSession();
@@ -184,10 +183,9 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                     <div>
                         <h5 className="font-medium text-foreground mb-5 text-md">Quick Links</h5>
                         <div className="flex flex-col space-y-3 text-xs">
-                            <Link to="/events" className="hover:text-foreground">Graded Exams</Link>
-                            <Link to="/events" className="hover:text-foreground">Concerts</Link>
-                            <Link to="/forums" className="hover:text-foreground">Recitals & Halls</Link>
-                            <Link to="/explore" className="hover:text-foreground">Verified Organisers</Link>
+                            <Link to="/events" className="hover:text-foreground">Events</Link>
+                            <Link to="/organisers" className="hover:text-foreground">Organisers</Link>
+                            <Link to="/artists" className="hover:text-foreground">Artists</Link>
                         </div>
                     </div>
 
@@ -197,12 +195,6 @@ export default function GuestLayout({ loaderData }: Route.ComponentProps) {
                         <h5 className="font-medium text-foreground mb-5 text-md">Follow our updates</h5>
                         <div className="flex flex-col justify-between text-xs">
                             <div className="flex flex-col items-start space-y-3 mb-8">
-                                <a href="#" aria-label="Twitter" className="hover:text-foreground flex gap-2 items-center">
-                                    <Twitter className="h-4 w-4" /> <span>Twitter</span>
-                                </a>
-                                <a href="#" aria-label="Instagram" className="hover:text-foreground flex gap-2 items-center">
-                                    <Instagram className="h-4 w-4" /> <span>Instagram</span>
-                                </a>
                                 <a href="#" aria-label="Facebook" className="hover:text-foreground flex gap-2 items-center">
                                     <Facebook className="h-4 w-4" /> <span>Facebook</span>
                                 </a>

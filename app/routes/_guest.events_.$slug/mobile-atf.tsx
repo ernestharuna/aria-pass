@@ -85,14 +85,22 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
                                 }
                             </button>
                         </RedirectOrFetcher>
-                        <SharePage>
-                            <div className="flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border bg-white shadow rounded-full hover:bg-gray-100 cursor-pointer transition">
-                                <div>
-                                    <Share size={18} />
-                                </div>
-                                <span>Share</span>
+                        <div
+                            className="flex items-center gap-2 px-3 py-3 text-xs text-primary font-medium border bg-white shadow rounded-full hover:bg-gray-100 cursor-pointer transition"
+                            onClick={() => {
+                                const shareData = {
+                                    title: event.title,
+                                    text: event.description,
+                                    url: window.location.href
+                                };
+                                navigator.share(shareData);
+                            }}
+                        >
+                            <div>
+                                <Share size={18} />
                             </div>
-                        </SharePage>
+                            <span>Share</span>
+                        </div>
                     </div>
 
                     <div className="flex flex-col gap-10 w-full">

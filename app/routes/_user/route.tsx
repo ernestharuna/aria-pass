@@ -62,27 +62,27 @@ export async function clientLoader() {
 
 const app_menu = [
     {
-        icon: <Home size={20} strokeWidth={1} />,
+        icon: <Home size={20} strokeWidth={2.2} />,
         label: "Dashboard",
         href: "dashboard"
     },
     {
-        icon: <CalendarCheck size={20} strokeWidth={1} />,
+        icon: <CalendarCheck size={20} strokeWidth={2.2} />,
         label: "My Events",
         href: "my-events"
     },
     {
-        icon: <Heart size={20} strokeWidth={1} />,
+        icon: <Heart size={20} strokeWidth={2.2} />,
         label: "Favourites",
         href: "favourites"
     },
     {
-        icon: <ShoppingCart size={20} strokeWidth={1} />,
+        icon: <ShoppingCart size={20} strokeWidth={2.2} />,
         label: "Purchases",
         href: "purchases"
     },
     {
-        icon: <User size={20} strokeWidth={1} />,
+        icon: <User size={20} strokeWidth={2.2} />,
         label: "Account",
         href: "account"
     },
@@ -137,7 +137,7 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                                                         </span>)
                                                     }
                                                 </span>
-                                                {/* MODIFICATION START: Animated label container */}
+                                                
                                                 <div
                                                     className={`
                                                         grid transition-all duration-300 ease-in-out
@@ -147,7 +147,6 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
                                                         {menu.label}
                                                     </span>
                                                 </div>
-                                                {/* MODIFICATION END */}
                                             </div>
                                         </div>
                                     )}

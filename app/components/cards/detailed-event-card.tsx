@@ -94,6 +94,17 @@ function Actions({ event }: { event: OrganiserEvent }) {
                     </DropdownMenuItem>
                 </Link>
 
+                <DropdownMenuItem className='cursor-pointer' onClick={() => {
+                    const shareData = {
+                        title: event.title,
+                        text: event.description,
+                        url: window.location.href
+                    };
+                    navigator.share(shareData);
+                }}>
+                    Share
+                </DropdownMenuItem>
+
                 <Link to={`${event.slug}/edit`}>
                     <DropdownMenuItem>
                         Edit
