@@ -16,7 +16,6 @@ export async function clientLoader() {
         return { profiles: data }
     } catch ({ response }: any) {
         toast.error("Something went wrong");
-        console.log(response);
         throw new Error("Something went wrong");
     }
 }

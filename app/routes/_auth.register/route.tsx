@@ -21,8 +21,6 @@ export const meta: MetaFunction = (args) => {
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);
-    // console.log(credentials);
-    // return
     try {
         await authRequest(credentials, 'register');
         toast("Congratulations! ✨", {

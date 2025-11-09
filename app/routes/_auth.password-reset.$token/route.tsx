@@ -21,8 +21,6 @@ export const meta: MetaFunction = (args) => {
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);
 
-    console.log(credentials);
-
     try {
         const {data} = await authRequest(credentials, 'reset-password');
         toast.success("Password updated", {

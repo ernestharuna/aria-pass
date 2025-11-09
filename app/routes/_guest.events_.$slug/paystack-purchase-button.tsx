@@ -69,7 +69,6 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
         // }
 
         onSuccess: async (e: any) => {
-            console.log(e);
             const promise = new Promise(async (resolve, reject) => {
                 try {
                     if (e.status !== "success") {

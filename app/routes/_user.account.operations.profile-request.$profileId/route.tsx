@@ -5,7 +5,6 @@ import { parseForm } from "~/lib/utils";
 
 export async function clientAction({ params, request }: Route.ClientActionArgs) {
     const data = await parseForm(request);
-    console.log(data);
 
     const promise = new Promise(async (resolve, reject) => {
         try {

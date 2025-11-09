@@ -22,7 +22,6 @@ export async function clientLoader() {
 
         return { tickets: data }
     } catch ({ response }: any) {
-        console.error(response);
         return redirect('/dashboard')
     }
 }

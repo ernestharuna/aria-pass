@@ -3,9 +3,9 @@ import { ChevronRight, Ticket } from "lucide-react";
 export default function PageNotFound() {
     return (
         <div className='container'>
-            <div className="flex items-center gap-10 max-w-3xl mx-auto my-20">
+            <div className="flex items-center gap-18 max-w-3xl mx-auto my-20">
                 <div className="hidden md:block text-primary-bg">
-                    <Ticket strokeWidth={0.1} className="size-80 -rotate-[45deg]" />
+                    <Ticket strokeWidth={0.5} className="size-80 -rotate-[45deg]" />
                 </div>
                 <div className="flex flex-col gap-4">
                     <h1 className="text-5xl text-primary-theme font-bold tracking-tighter">
