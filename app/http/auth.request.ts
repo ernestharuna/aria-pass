@@ -2,7 +2,7 @@ import client from "./client";
 
 export default async function authRequest(
     credentials: Record<string, FormDataEntryValue>,
-    url: 'login' | 'register'
+    url: 'login' | 'register' | 'forgot-password' | 'reset-password'
 ) {
     await client.get('sanctum/csrf-cookie');
 

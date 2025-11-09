@@ -17,6 +17,7 @@ export async function clientLoader(_: Route.ClientLoaderArgs) {
     try {
         const getEvents = async (): Promise<OrganiserEvent[]> => {
             const response = await client.get('/api/events');
+            console.log(response.data)
             return response.data
         }
 
