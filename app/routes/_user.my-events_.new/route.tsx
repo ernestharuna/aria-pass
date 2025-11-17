@@ -294,6 +294,8 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
                                         <SelectLabel>Cities we support</SelectLabel>
                                         <SelectItem value="abuja">Abuja</SelectItem>
                                         <SelectItem value="lagos">Lagos</SelectItem>
+                                        <SelectItem value="imo">Imo</SelectItem>
+                                        <SelectItem value="kaduna">Kaduna</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
