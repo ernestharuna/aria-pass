@@ -54,6 +54,7 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
             }
             return true;
         });
+        
         setFilteredData(filtered);
     }, [searchParams, tickets]);
 
@@ -75,7 +76,7 @@ export default function MyEvents({ loaderData }: Route.ComponentProps) {
                     <div className="grid grid-cols-1 gap-3 pt-8 items-stretch justify-start">
                         {filteredData.map((purchase) => (
                             <div className='px-3 py-2 rounded-lg bg-gray-50 border' key={purchase.id}>
-                                <small>{purchase.ticket.name}</small>
+                                {/* <small>{purchase.ticket.name}</small> */}
                                 <div className="flex items-start justify-between mb-2">
                                     <div className="font-bold">
                                         <FormatPrice price={purchase.ticket.price} />

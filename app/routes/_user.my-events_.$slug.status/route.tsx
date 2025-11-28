@@ -6,8 +6,6 @@ import { parseForm } from '~/lib/utils';
 
 export async function clientAction({ params, request }: Route.ClientActionArgs) {
     const data = await parseForm(request)
-    // console.log(data);
-    // return;
 
     const promise = client.patch(`/api/organiser/events/${params.slug}/status`, data);
 

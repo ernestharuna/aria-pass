@@ -6,8 +6,6 @@ import { parseForm } from "~/lib/utils";
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
     const credentials = await parseForm(request);
-    console.log(credentials);
-    // return
 
     const promise = client.post(
         `/api/organiser/events/${credentials.event_slug}/members`, {

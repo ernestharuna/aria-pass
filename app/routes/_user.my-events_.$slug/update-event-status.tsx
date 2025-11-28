@@ -13,7 +13,6 @@ import { isPastEventDate } from "~/lib/utils";
 
 export default function UpdateEventStatus({ event }: { event: OrganiserEvent }) {
     const fetcher = useFetcher();
-    console.log({ event });
 
     return (
         <DropdownMenu>

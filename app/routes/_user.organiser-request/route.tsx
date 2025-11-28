@@ -58,7 +58,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
         return redirect('/dashboard')
     } catch ({ response }: any) {
-        console.log(response);
         toast.error('Oops, something went wrong');
         return response?.data?.errors;
     }

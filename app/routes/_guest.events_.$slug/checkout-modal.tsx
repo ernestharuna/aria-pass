@@ -73,10 +73,16 @@ export default function CheckoutModal({ event, user }: { event: OrganiserEvent, 
                                         <div
                                             key={item.id}
                                             onClick={() => setTicket(item)}
-                                            className={`border p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
+                                            className={`border relative p-2 flex items-center justify-between rounded-xl ${item.id === ticket?.id && 'outline-2 outline-primary-theme outline-offset-2 text-primary-theme'}`}
                                         >
                                             <div>
-                                                <small>{item.name}</small>
+                                                <small className="flex gap-1 items-center font-semibold">
+                                                    <span>{item.name}</span>
+                                                    {item.quantityAvailable - item.ticketPurchases <= 0 && (
+                                                        <span className="bg-amber-400 text-white px-2 py-0.5 tracking-tighter text-xs rounded-lg">SOLD OUT</span>
+                                                    )}
+                                                </small>
+
                                                 <p className="font-semibold">
                                                     <FormatPrice price={item.price} />
                                                 </p>
@@ -87,9 +93,13 @@ export default function CheckoutModal({ event, user }: { event: OrganiserEvent, 
                                         </div>
                                     ))}
 
-                                    <Button className="py-6 rounded-xl" disabled={!ticket} onClick={() => setNext(!next)}>
+                                    <Button
+                                        className="py-6 rounded-xl"
+                                        disabled={!ticket || (ticket.quantityAvailable - ticket.ticketPurchases <= 0)}
+                                        onClick={() => setNext(!next)}
+                                    >
                                         Continue
-                                    </Button>
+                                    </Button>   
                                 </>
                             )}
 

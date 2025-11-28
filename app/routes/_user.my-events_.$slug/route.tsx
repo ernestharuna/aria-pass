@@ -75,7 +75,6 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 
         return redirect(`/my-events/${params.slug}`)
     } catch (error: any) {
-        console.log(error)
         toast.warning('Something went wrong', {
             description: error
         });

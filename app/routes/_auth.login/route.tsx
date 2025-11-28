@@ -34,8 +34,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     });
     return redirect(route);
   } catch ({ response }: any) {
-    console.log(response);
-
     const error: any = response?.data?.errors;
     return error;
   }

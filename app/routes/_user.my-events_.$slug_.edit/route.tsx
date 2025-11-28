@@ -32,7 +32,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
         const res = await client.get(`api/organiser/events/${params.slug}`);
         return { event: res.data }
     } catch ({ response }: any) {
-        console.log(response);
         toast.warning("Something broke", {
             description: response.data.message || ""
         })
