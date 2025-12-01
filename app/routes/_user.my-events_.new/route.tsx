@@ -1,4 +1,4 @@
-import { Eye, MapPinHouse, MapPlus, Save, Scroll } from "lucide-react";
+import { Eye, MapPinHouse, MapPlus, Scroll } from "lucide-react";
 import { Form, redirect, type MetaFunction } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -166,10 +166,7 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
         <Form className="relative flex flex-col lg:flex-row items-stretch gap-20 justify-between" method="post" encType="multipart/form-data">
             <section className="basis-4/6">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-2xl font-medium tracking-tighter ">New Event</h1>
-                    <Button type="button" className="rounded-full font-normal" variant={"secondary"} size={"sm"}>
-                        <span className="text-xs"> Save as draft</span> <Save size={18} />
-                    </Button>
+                    <h1 className="text-2xl font-semibold tracking-tighter ">New Event</h1>
                 </div>
 
                 <div className="flex flex-col gap-5">
@@ -436,7 +433,7 @@ export default function CreateEvent({ actionData }: Route.ComponentProps) {
                     </div>
                 </section>
 
-                <DefaultButton text="Publish" />
+                <DefaultButton text="Save event" />
             </aside>
         </Form>
     )

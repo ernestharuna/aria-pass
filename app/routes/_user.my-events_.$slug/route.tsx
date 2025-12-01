@@ -9,12 +9,13 @@ import type { Route } from "../_user.my-events_.$slug/+types/route";
 import { Link, redirect, type MetaFunction } from "react-router";
 import { parseForm } from "~/lib/utils";
 import formRequest from "~/http/form.request";
-import { ArrowLeft, ArrowRight, ChevronDown, Laptop, Smartphone } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Laptop, Share, Smartphone } from "lucide-react";
 import TicketCard from "~/components/cards/ticket-card";
 import UpdateEventStatus from "./update-event-status";
 import { categorizeDevices } from "./analytics";
 import { defaultMeta } from '~/lib/meta';
 import MembersTable from "./members-table";
+import FormatPrice from "~/components/utility/format-price";
 
 export const meta: MetaFunction = (args: any) => {
     if (!args.data.event) {
@@ -84,7 +85,7 @@ export async function clientAction({ request, params }: Route.ClientActionArgs) 
 
 export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
     const { event }: { event: OrganiserEvent } = loaderData;
-    
+
     const FORMATTED_DATE = dayjs(event.date).format('MMMM D, YYYY');
 
     const TOTAL_TICKETS: number = event.tickets.reduce((sum: number, ticket: Ticket) => {
@@ -95,7 +96,7 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
         return sum + ticket.ticketPurchases;
     }, 0);
 
-     function sumPrices(purchases: TicketPurchase[]) {
+    function sumPrices(purchases: TicketPurchase[]) {
         return purchases.reduce((total, item) => {
             const amount = parseFloat(item.amount) || 0;
             return total + amount;
@@ -114,7 +115,7 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
 
             <div className="flex flex-col lg:flex-row lg:items-center gap-5 justify-between pt-5 pb-10">
                 {/* Left side */}
-                <div className="flex gap-6 flex-col lg:flex-row lg:items-center w-full">
+                <div className="flex gap-6 flex-col lg:flex-row lg:items-center w-full lg:border-e">
                     <div className="bg-gray-100 border rounded-md group-hover:opacity-85 aspect-video h:50 lg:h-25 overflow-hidden transition">
                         {event.bannerUrl && (
                             <img
@@ -125,13 +126,24 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                             />
                         )}
                     </div>
-                    <div className='flex flex-col gap-2'>
-
-                        <EventStatus
-                            date={event.date}
-                            status={event.status}
-                            startTime={event.startTime}
-                        />
+                    <div className='flex  flex-col gap-2'>
+                        <div className="flex justify-between  gap-2 items-center">
+                            <EventStatus
+                                date={event.date}
+                                status={event.status}
+                                startTime={event.startTime}
+                            />
+                            <Button variant={"outline"} size={"icon-sm"} onClick={() => {
+                                const shareData = {
+                                    title: event.title,
+                                    text: event.description,
+                                    url: window.location.href
+                                };
+                                navigator.share(shareData);
+                            }}>
+                                <Share />
+                            </Button>
+                        </div>
                         <h4 className='text-xl font-semibold'>{event.title}</h4>
                         <p className='text-gray-700 text-sm'>
                             {FORMATTED_DATE} at {event.startTime.split(":")[0]}:{event.startTime.split(":")[1]} ∙ {event.venueName}, <span className="capitalize">{event.city}, {event.country}</span>
@@ -155,7 +167,8 @@ export default function OrganiserEvent({ loaderData }: Route.ComponentProps) {
                 <section className="flex flex-col gap-4 flex-1 border-t py-5">
                     <p className="text-sm">Total revenue</p>
                     <p className="font-bold text-2xl">
-                        <span className="text-xs text-muted-foreground">NGN</span> {SUM_AMOUNT.toFixed(2)}
+                        <span className="text-xs text-muted-foreground">NGN</span>{' '}
+                        <FormatPrice withSymbol={false} price={SUM_AMOUNT.toFixed(2)} />
                     </p>
                 </section>
                 <section className="flex flex-col gap-4 flex-1 border-t py-5">

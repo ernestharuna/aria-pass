@@ -1,9 +1,13 @@
-export default function FormatPrice({ price }: { price: any }) {
+export default function FormatPrice({ price, withSymbol = true }: { price: any, withSymbol?: boolean }) {
     return (
         <>
             {parseFloat(price) === 0
                 ? (<span className='px-2 py-1 bg-primary-theme text-white font-bold font-mono uppercase text-xs rounded inline-block'>Free</span>)
-                : (<>₦{parseInt(price).toLocaleString()}</>)
+                : (
+                    <>
+                        {withSymbol && '₦'}{parseInt(price).toLocaleString()}
+                    </>
+                )
             }
         </>
     )
