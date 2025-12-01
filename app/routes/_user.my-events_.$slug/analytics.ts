@@ -12,8 +12,6 @@ export function categorizeDevices(data: any[]) {
         phone: 0,
     };
 
-    // A regular expression to test for common mobile keywords in a user agent string.
-    // It's case-insensitive (the 'i' flag).
     const mobileRegex = /Mobi|Android|iPhone|iPad|iPod/i;
 
     for (const record of data) {
