@@ -1,5 +1,5 @@
 import React, { Suspense } from "react"
-import { Ban, CalendarCheck, Heart, Home, Info, Plus, ShoppingCart, Square, User, UserPlus } from "lucide-react"
+import { Info, Plus, UserPlus } from "lucide-react"
 
 import { DatePicker } from "~/components/date-picker"
 import { NavUser } from "~/components/nav-user"

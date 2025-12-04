@@ -202,7 +202,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
                 {/* Events ---------------------------------------------- */}
                 <div className="container block">
-                    <Suspense fallback={<EventCardSkeleton type='user' />}>
+                    <Suspense fallback={<EventCardSkeleton />}>
                         <Await resolve={events}>
                             {(events) => <EventsMapper events={events} />}
                         </Await>

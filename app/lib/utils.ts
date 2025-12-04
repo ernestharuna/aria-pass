@@ -40,3 +40,8 @@ export function isPastEventDate(date: string, startTime: string | null): boolean
 
   return eventDateTime.getTime() < now.getTime();
 }
+
+export function extractNames(members: OrganiserEvent['members']) {
+  if (!Array.isArray(members)) return [];
+  return members.map(member => member.name);
+}

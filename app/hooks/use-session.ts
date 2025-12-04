@@ -30,7 +30,7 @@ export default function useSession() {
     async function storeUser(user: User) {
         try {
             const data = JSON.stringify(user);
-            Cookies.set(storageKeys.user, data, { expires: 1 });
+            Cookies.set(storageKeys.user, data, { expires: 2 }); // 2 days (in sync with session expiry)
         } catch (error) {
             throw error;
         }

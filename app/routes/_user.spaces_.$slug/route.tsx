@@ -16,6 +16,7 @@ import {
 } from "~/components/ui/dialog"
 import CustomAvatar from "~/components/custom/custom-avatar";
 import { Printer } from "lucide-react";
+import { extractNames } from "~/lib/utils";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     try {
@@ -32,11 +33,6 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 export default function EventSpaces({ loaderData }: Route.ComponentProps) {
     const { space }: { space: OrganiserEvent } = loaderData;
-
-    function extractNames(members: any) {
-        if (!Array.isArray(members)) return [];
-        return members.map(member => member.name);
-    }
 
     return (
         <div>

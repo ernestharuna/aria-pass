@@ -1,109 +1,174 @@
-import client from '~/http/client'
+import { Suspense } from 'react';
+import { Await, Link, redirect, useOutletContext, type MetaFunction } from 'react-router';
+import { ArrowRight, Calendar, ChevronRight, Send, ShoppingBag, Users } from 'lucide-react';
 import type { Route } from '../_user.dashboard/+types/route';
-import { ArrowRight, ChevronRight } from 'lucide-react';
-import { Button } from '~/components/ui/button';
-import { Link, redirect, useOutletContext, type MetaFunction } from 'react-router';
-import DetailedEventCard from '~/components/cards/detailed-event-card';
+
+import client from '~/http/client';
 import useSession from '~/hooks/use-session';
 import { defaultMeta } from '~/lib/meta';
-import CustomAvatar from '~/components/custom/custom-avatar';
+import { extractNames } from '~/lib/utils';
 
-export const meta: MetaFunction = (args) => {
-    return [
-        ...defaultMeta(args) || [],
-        { title: "Dashboard | AriaPass" },
-    ];
+import { Button } from '~/components/ui/button';
+import DetailedEventCard from '~/components/cards/detailed-event-card';
+import CustomAvatar from '~/components/custom/custom-avatar';
+import AvatarGroup from '~/components/custom/avatar-group';
+import LoaderWithText from '~/components/skeletons/loader-with-text';
+
+// --- Reusable Sub-Components ---
+
+const QuickAction = ({ to, icon: Icon, label }: { to: string, icon: any, label: string }) => (
+    <Link to={to} className='bg-white border border-primary-theme hover:shadow-md rounded-full px-3 py-2 flex items-center gap-1.5 transition-shadow'>
+        <Icon strokeWidth={1} className='size-3 md:size-4' />
+        <span className='text-xs font-light'>{label}</span>
+    </Link>
+);
+
+const SpaceCard = ({ space, user, type }: { space: any, user: User, type: 'invited' | 'owned' }) => {
+    const isInvited = type === 'invited';
+    const userRole = isInvited ? space.members.find((mem: any) => mem.email === user.email) : null;
+
+    return (
+        <div className="border p-2.5 rounded-lg hover:bg-gray-50 transition relative h-full flex flex-col overflow-hidden">
+            <p className='text-xs text-gray-500 tracking-tight'>
+                {isInvited ? 'You were invited to' : 'Your Space'}
+            </p>
+            <p className="tracking-tighter text-sm font-medium flex-grow">
+                {space.title}
+            </p>
+
+            {/* Role Badge or Spacer */}
+            <div className={`rounded-full w-max my-2.5 px-2 py-1 text-[10px] italic capitalize bg-gray-100 ${!isInvited ? 'opacity-0' : ''}`}>
+                {isInvited ? `as ${userRole?.role || 'member'}` : 'owner'}
+            </div>
+
+            <div className='flex items-center justify-between mt-auto'>
+                <AvatarGroup names={extractNames(space.members)} max={3} />
+            </div>
+            <Link to={`/spaces/${space.slug}`} className="absolute inset-0" />
+
+            <div className={`rounded -rotate-[30deg] h-20 w-12 absolute -right-2 -bottom-10 ${isInvited ? 'bg-green-500' : 'bg-pink-500'} opacity-50`} />
+        </div>
+    );
 };
+
+// --- Meta & Loader ---
+
+export const meta: MetaFunction = (args) => [
+    ...defaultMeta(args) || [],
+    { title: "Dashboard | AriaPass" },
+];
 
 export async function clientLoader() {
     const { getUser, validateSession } = useSession();
 
     try {
-        const user = getUser();
-        const isOrganiser = user && (await user).organiserProfile
+        const user = await getUser(); // Ensure we have the user
+        const isOrganiser = user && user.organiserProfile;
 
-        const promises = [
-            client.get('/api/events'),
-        ];
+        // 1. Critical Data (Blocking): Fetch Events
+        const eventsPromise = client.get('/api/events');
+        const organiserEventsPromise = isOrganiser ? client.get('/api/organiser/events') : Promise.resolve({ data: [] });
 
-        if (isOrganiser) {
-            promises.push(client.get('/api/organiser/events'));
-        }
+        // 2. Deferred Data (Streaming): Fetch Spaces
+        // We combine these into one promise array to simplify the UI Await
+        const collaborationsPromise = Promise.all([
+            client.get('api/spaces/invited').then(res => res.data).catch(() => []),
+            isOrganiser ? client.get('api/spaces').then(res => res.data).catch(() => []) : Promise.resolve([])
+        ]);
 
-        const responses = await Promise.all(promises);
-
-        const allEvents = responses[0].data;
-        const myEvents = responses[1] ? responses[1].data : [];
+        // Await critical data immediately
+        const [eventsRes, myEventsRes] = await Promise.all([eventsPromise, organiserEventsPromise]);
 
         return {
-            events: allEvents,
-            myEvents: myEvents,
+            events: eventsRes.data,
+            myEvents: myEventsRes.data,
+            collaborations: collaborationsPromise, // Pass the combined promise
         };
 
-    } catch ({ response }: any) {
-        if (response.status === 409) {
+    } catch (error: any) {
+        if (error.response?.status === 409) {
             await validateSession();
         }
-
-        console.error("Failed to fetch events:", response);
-        return redirect('')
+        console.error("Failed to fetch dashboard data:", error);
+        return redirect('');
     }
 }
 
+// --- Main Component ---
+
 export default function Dashboard({ loaderData }: Route.ComponentProps) {
-    const { events, myEvents }: { events: OrganiserEvent[], myEvents: OrganiserEvent[] } = loaderData;
+    const { events, myEvents, collaborations } = loaderData;
     const user: User = useOutletContext();
 
     return (
         <div>
-            <section className="mb-10">
+            {/* Header Section */}
+            <section className="mb-5">
                 <div className="flex flex-row items-center gap-1 mb-8">
-                    <CustomAvatar name={user.name} styles='h-14 w-14 text-2xl '/>
-                    <p className="text-3xl md:text-4xl font-bold tracking-tighter">Hello, {user.name.split(' ')[0]}!</p>
+                    <CustomAvatar name={user.name} styles='size-10 md:size-14 md:text-2xl rounded-lg' />
+                    <p className="text-2xl md:text-4xl font-medium md:font-bold tracking-tighter">
+                        Hello, {user.name.split(' ')[0]}!
+                    </p>
                 </div>
 
-
-
-                {/* {(events && events.length) ? (
-                    <div
-                        className="flex overflow-x-auto gap-5 pt-5 items-stretch snap-x snap-mandatory scroll-smooth px-[10vw] md:px-5 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300"
-                    >
-                        {events.map((event, index) => (
-                            <div
-                                key={event.id + index}
-                                className="flex-shrink-0 snap-start max-w-xs md:w-auto [animation-name:scale-in-view] [animation-timeline:view()] [animation-range:entry_25%_cover_50%_exit_25%]">
-                                <EventCard event={event} />
-                            </div>
-                        ))}
+                <div className="bg-primary-bg px-4 py-10 rounded-2xl">
+                    <h1 className="tracking-tighter text-xl md:text-3xl font-light text-center text-primary-theme mb-8">
+                        What would you like to do today?
+                    </h1>
+                    <div className='w-full overflow-x-auto'>
+                        <div className='flex flex-wrap gap-3 items-center pb-3 w-max mx-auto'>
+                            <QuickAction to='/my-events/new' icon={Calendar} label='Create event' />
+                            <QuickAction to='/' icon={Users} label='See spaces' />
+                            <QuickAction to='/purchases' icon={ShoppingBag} label='Your purchases' />
+                            <QuickAction to='/' icon={Send} label='Email fans' />
+                        </div>
                     </div>
-                ) : (
-                    <div className='pt-10 flex flex-col items-center gap-5'>
-                        <SquareDashedMousePointer strokeWidth={0.2} className='w-50 h-50 text-gray-500' />
-                        <h2 className='font-semibold text-lg tracking-tighter'>No Events</h2>
-                        <p className="text-light text-sm text-muted-foreground text-center">
-                            Nothing coming up at the moment
-                        </p>
-                    </div>
-                )} */}
+                </div>
             </section>
 
+            {/* Collaborations Grid (Unified) */}
+            <Suspense fallback={<LoaderWithText text='Fetching your collaborations...' />}>
+                <Await resolve={collaborations}>
+                    {([invitedSpaces, ownedSpaces]) => (
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 pb-5 my-8">
+                            {/* Render Invited Spaces */}
+                            {invitedSpaces?.map((space: any) => (
+                                <SpaceCard key={`invited-${space.id}`} space={space} user={user} type="invited" />
+                            ))}
 
+                            {/* Render Owned Spaces */}
+                            {ownedSpaces?.map((space: any) => (
+                                <SpaceCard key={`owned-${space.id}`} space={space} user={user} type="owned" />
+                            ))}
+
+                            {/* Empty State for Spaces */}
+                            {(!invitedSpaces?.length && !ownedSpaces?.length) && (
+                                <div className="col-span-full text-center py-10 text-gray-500 text-sm">
+                                    No spaces found. Join or create one to get started!
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </Await>
+            </Suspense>
+
+            {/* Recent Events Section */}
             <section className='mb-10'>
                 <h2 className='text-primary text-lg font-medium tracking-tight flex items-center gap-3'>
-                    <span>Your Events</span>
-                    <Link to={"/my-events"} className='hover:bg-gray-100 rounded-lg p-2'>
+                    <span>Recently posted</span>
+                    <Link to={"/my-events"} className='hover:bg-gray-100 rounded-lg p-2 transition-colors'>
                         <ChevronRight size={16} />
                     </Link>
                 </h2>
 
-                <p className='text-sm text-muted-foreground mb-2'>
-                    Manage your events, tickets, and attendees {" "}
+                <p className='text-sm text-muted-foreground mb-4'>
+                    Manage your events and tickets {" "}
                     <Link to={"/my-events"} className='text-blue-500 underline underline-offset-2'>here</Link>
                 </p>
 
-                {(myEvents && myEvents.length) ? (
-                    <div className="grid grid-cols-1 items-stretch justify-start">
-                        {myEvents.slice(0, 30).map((event) => (
+                {(myEvents && myEvents.length > 0) ? (
+                    <div className="grid grid-cols-1 gap-4">
+                        {myEvents.slice(0, 2).map((event: any) => (
                             <DetailedEventCard key={event.id} event={event} />
                         ))}
                     </div>
@@ -114,28 +179,25 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                         </p>
                         {user.organiserProfile ? (
                             <>
-                                <Button disabled={user.organiserProfile?.status !== 'active'}
-                                    className='rounded-full bg-primary px-22 py-6'
-                                >
-                                    <Link to={"/my-events/new"}>
+                                <Link to={"/my-events/new"}>
+                                    <Button
+                                        disabled={user.organiserProfile?.status !== 'active'}
+                                        className='rounded-full bg-primary px-8 py-6'
+                                    >
                                         Create an Event
-                                    </Link>
-                                </Button>
+                                    </Button>
+                                </Link>
                                 {user.organiserProfile.status === 'pending' && (
-                                    <small className="text-xs text-amber-600">
-                                        Request under review
-                                    </small>
+                                    <small className="text-xs text-amber-600 font-medium">Request under review</small>
                                 )}
                                 {user.organiserProfile.status === 'suspended' && (
-                                    <small className="text-xs text-destructive">
-                                        Account suspended
-                                    </small>
+                                    <small className="text-xs text-destructive font-medium">Account suspended</small>
                                 )}
                             </>
                         ) : (
                             <Link to={"/organiser-request"}>
-                                <Button className='rounded-full bg-primary-theme px-22 py-6'>
-                                    Become an Organiser <ArrowRight />
+                                <Button className='rounded-full bg-primary-theme px-8 py-6 flex items-center gap-2'>
+                                    Become an Organiser <ArrowRight className="size-4" />
                                 </Button>
                             </Link>
                         )}
@@ -143,5 +205,5 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                 )}
             </section>
         </div>
-    )
+    );
 }

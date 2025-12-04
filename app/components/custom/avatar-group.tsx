@@ -12,7 +12,7 @@ export default function AvatarGroup({ names, max = names.length }: AvatarGroupPr
     return (
         <div className="flex items-center -space-x-3.5">
             {visibleNames.map((name, index) => (
-                <CustomAvatar key={index} name={name} styles="md:h-12 md:w-12 h-10 w-10" />
+                <CustomAvatar key={index} name={name} styles="md:size-9 size-10 text-sm" />
             ))}
 
             {extraCount > 0 && (
