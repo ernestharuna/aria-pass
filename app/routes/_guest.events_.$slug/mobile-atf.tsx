@@ -5,11 +5,10 @@ import { Link, useOutletContext } from 'react-router';
 import TicketCard from "~/components/cards/ticket-card";
 import Placeholder from "~/components/utility/placeholder";
 import RedirectOrFetcher from "~/components/navigation/like-event";
-import SharePage from "~/components/utility/share-page";
 import FormatPrice from "~/components/utility/format-price";
 import { isPastEventDate, to12HourFormat } from "~/lib/utils";
 import { FormatLineBreak } from "~/components/utility/format-line-break";
-import CheckoutModal from "./checkout-modal";
+import CheckoutModal from "./checkout-button";
 import { TERMS_AND_CONDITIONS } from "./terms-and-conditions";
 import Countdown from "~/components/utility/countdown";
 
@@ -32,9 +31,11 @@ export default function MobileView({ event }: { event: OrganiserEvent }) {
 
     return (
         <section className="relative">
+            {/* Floating Button */}
             <div className="z-10 fixed w-full bg-linear-to-t from-gray-400 to-transparent bottom-0 right-0 left-0 h-20 p-4 pb-20">
                 <CheckoutModal event={event} user={user} />
             </div>
+            
             <div className="bg-slate-100 h-120 w-full aspect-square group-hover:opacity-75 relative overflow-hidden">
                 <img
                     src={banner}

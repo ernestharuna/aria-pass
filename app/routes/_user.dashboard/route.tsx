@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Await, Link, redirect, useOutletContext, type MetaFunction } from 'react-router';
-import { ArrowRight, Calendar, ChevronRight, Send, ShoppingBag, Users } from 'lucide-react';
+import { ArrowRight, Calendar, ChevronRight, ShoppingBag, UserCog } from 'lucide-react';
 import type { Route } from '../_user.dashboard/+types/route';
 
 import client from '~/http/client';
@@ -65,24 +65,29 @@ export async function clientLoader() {
         const user = await getUser(); // Ensure we have the user
         const isOrganiser = user && user.organiserProfile;
 
-        // 1. Critical Data (Blocking): Fetch Events
-        const eventsPromise = client.get('/api/events');
+        //* Critical Data
+        // const eventsPromise = client.get('/api/events');
         const organiserEventsPromise = isOrganiser ? client.get('/api/organiser/events') : Promise.resolve({ data: [] });
 
-        // 2. Deferred Data (Streaming): Fetch Spaces
+        //* Deferred Data (Streaming)
         // We combine these into one promise array to simplify the UI Await
         const collaborationsPromise = Promise.all([
             client.get('api/spaces/invited').then(res => res.data).catch(() => []),
             isOrganiser ? client.get('api/spaces').then(res => res.data).catch(() => []) : Promise.resolve([])
         ]);
 
-        // Await critical data immediately
-        const [eventsRes, myEventsRes] = await Promise.all([eventsPromise, organiserEventsPromise]);
+        const [
+            // eventsRes,
+            myEventsRes
+        ] = await Promise.all([
+            // eventsPromise,
+            organiserEventsPromise
+        ]);
 
         return {
-            events: eventsRes.data,
+            // events: eventsRes.data,
             myEvents: myEventsRes.data,
-            collaborations: collaborationsPromise, // Pass the combined promise
+            collaborations: collaborationsPromise,
         };
 
     } catch (error: any) {
@@ -94,10 +99,12 @@ export async function clientLoader() {
     }
 }
 
-// --- Main Component ---
-
 export default function Dashboard({ loaderData }: Route.ComponentProps) {
-    const { events, myEvents, collaborations } = loaderData;
+    const {
+        // events,
+        myEvents,
+        collaborations
+    } = loaderData;
     const user: User = useOutletContext();
 
     return (
@@ -118,9 +125,8 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                     <div className='w-full overflow-x-auto'>
                         <div className='flex flex-wrap gap-3 items-center pb-3 w-max mx-auto'>
                             <QuickAction to='/my-events/new' icon={Calendar} label='Create event' />
-                            <QuickAction to='/' icon={Users} label='See spaces' />
-                            <QuickAction to='/purchases' icon={ShoppingBag} label='Your purchases' />
-                            <QuickAction to='/' icon={Send} label='Email fans' />
+                            <QuickAction to='/purchases' icon={ShoppingBag} label='See purchases' />
+                            <QuickAction to='/purchases' icon={UserCog} label='Add Teammember' />
                         </div>
                     </div>
                 </div>

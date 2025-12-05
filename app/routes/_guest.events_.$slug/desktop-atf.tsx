@@ -10,7 +10,7 @@ import SharePage from "~/components/utility/share-page";
 import FormatPrice from "~/components/utility/format-price";
 import { FormatLineBreak } from "~/components/utility/format-line-break";
 import { isPastEventDate, to12HourFormat } from "~/lib/utils";
-import CheckoutModal from "./checkout-modal";
+import CheckoutButton from "./checkout-button";
 import { TERMS_AND_CONDITIONS } from "./terms-and-conditions";
 import Countdown from "~/components/utility/countdown";
 
@@ -217,7 +217,7 @@ export default function DesktopView({ event }: { event: OrganiserEvent }) {
                             />
                         </fieldset>
 
-                        <CheckoutModal event={event} user={user} />
+                        <CheckoutButton event={event} />
                     </aside>
 
                     <div className="bg-white px-8 py-6 rounded-3xl border border-gray-100 mb-8">

@@ -202,7 +202,7 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                         <div className="flex-1">
                             <Label className="mb-1 text-xs" htmlFor="name">Name</Label>
                             <Input
-                                className="py-5 rounded-xl"
+                                className="py-5 rounded-xl bg-white"
                                 type="text"
                                 id="name"
                                 placeholder="First Last"
@@ -216,7 +216,7 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                         <div className="flex-1">
                             <Label className="mb-1 text-xs" htmlFor="email">Email</Label>
                             <Input
-                                className="py-5 rounded-xl"
+                                className="py-5 rounded-xl bg-white"
                                 type="text"
                                 id="email"
                                 placeholder="your@email.com"
@@ -233,7 +233,7 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                         Phone <small className="text-[10px] font-light">(11 digit phone)</small>
                     </Label>
                     <Input
-                        className="py-5 border border-gray-400 rounded-xl"
+                        className="py-5 border border-gray-400 rounded-xl bg-white"
                         type="text"
                         id="phone"
                         placeholder="0800 000 0000"
@@ -242,11 +242,11 @@ export default function PaystackPurchaseButton({ ticket, user }: { ticket: Ticke
                         ))}
                     />
                 </form>
-
+                <hr className="my-7" />
                 <PaystackButton
                     {...componentProps}
                     disabled={form.email.length < 5 || form.phone.length < 11}
-                    className="w-full py-3 rounded-xl bg-primary font-bold text-sm text-white cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed hover:bg-muted-foreground transition"
+                    className="w-full py-3 rounded-lg bg-primary font-light text-sm text-white cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed hover:bg-muted-foreground transition"
                 />
             </div>
         </div>

@@ -95,7 +95,7 @@ export default function ProtectedLayout({ loaderData }: Route.ComponentProps) {
 
     return (
         <SidebarProvider>
-            <AppSidebar user={user} spaces={spaces} invitedSpaces={invitedSpaces} />
+            <AppSidebar user={user} />
             <SidebarInset>
                 <header className="z-50 bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-y px-4">
                     <SidebarTrigger className="-ml-1" />
